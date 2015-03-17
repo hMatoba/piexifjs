@@ -41,15 +41,15 @@ var piexif = (function () {
             throw ("Given data is not jpeg.");
         }
 
-        var exif = "\xff\xe1" + pack(">H", [exif.length + 2]) + exif;
+        var exifStr = "\xff\xe1" + pack(">H", [exif.length + 2]) + exif;
         var segments = splitIntoSegments(jpeg);
-        var new_data = mergeSegments(segments, exif);
+        var new_data = mergeSegments(segments, exifStr);
         if (b64) {
             new_data = "data:image/jpeg;base64," + btoa(new_data);
         }
 
         return new_data;
-    }
+    };
 
 
     that.load = function (data) {
@@ -78,7 +78,7 @@ var piexif = (function () {
             "thumbnail": null
         };
         var exifReader = new ExifReader(input_data);
-        if (exifReader.tiftag == null) {
+        if (exifReader.tiftag === null) {
             return exif_dict;
         }
 
@@ -132,26 +132,31 @@ var piexif = (function () {
         var interop_is = false;
         var first_is = false;
 
+        var zeroth_ifd,
+            exif_ifd,
+            interop_ifd,
+            gps_ifd,
+            first_ifd;
         if ("0th" in exif_dict) {
-            var zeroth_ifd = exif_dict["0th"];
+            zeroth_ifd = exif_dict["0th"];
         } else {
-            var zeroth_ifd = {};
+            zeroth_ifd = {};
         }
         if ((("Exif" in exif_dict) && (Object.keys(exif_dict["Exif"]).length)) ||
             (("Interop" in exif_dict) && (Object.keys(exif_dict["Interop"]).length))) {
             zeroth_ifd[34665] = 1;
             exif_is = true;
-            var exif_ifd = exif_dict["Exif"];
+            exif_ifd = exif_dict["Exif"];
             if (("Interop" in exif_dict) && Object.keys(exif_dict["Interop"]).length) {
                 exif_ifd[40965] = 1;
                 interop_is = true;
-                var interop_ifd = exif_dict["Interop"];
+                interop_ifd = exif_dict["Interop"];
             }
         }
         if (("GPS" in exif_dict) && (Object.keys(exif_dict["GPS"]).length)) {
             zeroth_ifd[34853] = 1;
             gps_is = true;
-            var gps_ifd = exif_dict["GPS"];
+            gps_ifd = exif_dict["GPS"];
         }
         if (("1st" in exif_dict) &&
             ("thumbnail" in exif_dict) &&
@@ -159,7 +164,7 @@ var piexif = (function () {
             first_is = true;
             exif_dict["1st"][513] = 1;
             exif_dict["1st"][514] = 1;
-            var first_ifd = exif_dict["1st"];
+            first_ifd = exif_dict["1st"];
         }
 
         var zeroth_set = _dict_to_bytes(zeroth_ifd, "0th", 0);
@@ -176,7 +181,8 @@ var piexif = (function () {
             interop_bytes = "",
             interop_length = 0,
             first_set,
-            first_bytes = "";
+            first_bytes = "",
+            thumbnail;
         if (exif_is) {
             exif_set = _dict_to_bytes(exif_ifd, "Exif", zeroth_length);
             exif_length = exif_set[0].length + interop_is * 12 + exif_set[1].length;
@@ -195,7 +201,7 @@ var piexif = (function () {
         if (first_is) {
             var offset = zeroth_length + exif_length + gps_length + interop_length;
             first_set = _dict_to_bytes(first_ifd, "1st", offset);
-            var thumbnail = _get_thumbnail(exif_dict["thumbnail"]);
+            thumbnail = _get_thumbnail(exif_dict["thumbnail"]);
             if (thumbnail.length > 64000) {
                 throw ("Given thumbnail is too large. max 64kB");
             }
@@ -256,7 +262,7 @@ var piexif = (function () {
 
         return (header + zeroth_bytes + exif_bytes + gps_bytes +
             interop_bytes + first_bytes);
-    }
+    };
 
 
     function copy(obj) {
@@ -386,10 +392,11 @@ var piexif = (function () {
         var TIFF_HEADER_LENGTH = 8;
         var tag_count = Object.keys(ifd_dict).length;
         var entry_header = pack(">H", [tag_count]);
+        var entries_length;
         if (["0th", "1st"].indexOf(ifd) > -1) {
-            var entries_length = 2 + tag_count * 12 + 4;
+            entries_length = 2 + tag_count * 12 + 4;
         } else {
-            var entries_length = 2 + tag_count * 12;
+            entries_length = 2 + tag_count * 12;
         }
         var entries = "";
         var values = "";
@@ -456,10 +463,11 @@ var piexif = (function () {
             var tag_count = unpack(this.endian_mark + "H",
                 this.tiftag.slice(pointer, pointer + 2))[0];
             var offset = pointer + 2;
+            var t;
             if (["0th", "1st"].indexOf(ifd_name) > -1) {
-                var t = "Image";
+                t = "Image";
             } else {
-                var t = ifd_name;
+                t = ifd_name;
             }
 
             for (var x = 0; x < tag_count; x++) {
@@ -583,7 +591,7 @@ var piexif = (function () {
     };
 
     that.encode64 = function (input) {
-        var binStr = ""
+        var binStr = "";
         for (var p = 0; p < input.length; p++) {
             binStr += String.fromCharCode(input[p]);
         }
@@ -617,7 +625,7 @@ var piexif = (function () {
             }
         }
         return [width, height];
-    };
+    }
 
 
     function pack(mark, array) {
@@ -628,10 +636,11 @@ var piexif = (function () {
             throw ("'pack' error. " + (mark.length - 1) + " marks, " + array.length + " elements.");
         }
 
+        var littleEndian;
         if (mark[0] == "<") {
-            var littleEndian = true;
+            littleEndian = true;
         } else if (mark[0] == ">") {
-            var littleEndian = false;
+            littleEndian = false;
         } else {
             throw ("");
         }
@@ -711,10 +720,11 @@ var piexif = (function () {
             throw ("'unpack' error. Mismatch between symbol and string length. " + l + ":" + str.length);
         }
 
+        var littleEndian;
         if (mark[0] == "<") {
-            var littleEndian = true;
+            littleEndian = true;
         } else if (mark[0] == ">") {
-            var littleEndian = false;
+            littleEndian = false;
         } else {
             throw ("'unpack' error.");
         }
