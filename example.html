@@ -6,6 +6,18 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
   <script src="piexif.js"></script>
   <script>
+    if (typeof window.navigator.msSaveBlob === "undefined") {
+        var saveJpeg = null;
+    } else {
+        $("#up").append("IE 10 and 11, left-click on image to save.<br>");
+        var n = 0;
+        var saveJpeg = function (blob) {
+            return function () {
+                window.navigator.msSaveBlob(blob, "PiexifjsDemo" + (n++) + ".jpg");
+            };
+        };
+    }
+      
     function handleFileSelect(evt) {
         var files = evt.target.files; // FileList object
 
@@ -26,10 +38,20 @@
                     console.log(exifDict2);
 
                     var exifBytes = piexif.dump({"0th":{272:"abc123456789"}, "Exif":{34850:3, 36867:"1234567890"}});
-                    var j = piexif.insert(exifBytes, e.target.result);
+                    var jpeg = piexif.insert(exifBytes, e.target.result);
                     var image = new Image();
-                    image.src = j;
+                    image.src = jpeg;
                     image.width = 200;
+                    if (saveJpeg) {
+                        var str = atob(jpeg.split(",")[1]);
+                        var data = [];
+                        for (var p=0; p<str.length; p++) {
+                            data[p] = str.charCodeAt(p);
+                        }
+                        var ua = new Uint8Array(data);
+                        var blob = new Blob([ua], {type: "image/jpeg"});
+                        image.onclick = saveJpeg(blob);
+                    }
                     var el = $("<div></div>").append(image);
                     $("#resized").prepend(el);
                 };

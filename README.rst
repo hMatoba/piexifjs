@@ -34,7 +34,26 @@ Example
         };
     })(f);
     reader.readAsDataURL(f);
-    
+
+::
+
+    var reader = new FileReader();
+    reader.onloadend = (function(theFile) {
+        return function(e) {
+            var exifObj = piexif.load(e.target.result);
+            for (var ifd in exifObj) {
+                if (ifd == "thumbnail") {
+                    continue;
+                }
+                console.log("-" + ifd);
+                    for (var tag in exifObj[ifd]) {
+                        console.log("  " + piexif.TAGS[ifd][tag]["name"] + ":" + exifObj[ifd][tag]);
+                    }
+            }
+        };
+    })(f);
+    reader.readAsDataURL(f);
+
 License
 -------
 
