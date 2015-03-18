@@ -346,9 +346,9 @@ var piexif = (function () {
             } else {
                 length = raw_value.length;
                 new_value = "";
-                for (var n = 0; n < raw_value; n++) {
-                    num = raw_value[0][0];
-                    den = raw_value[0][1];
+                for (var n = 0; n < length; n++) {
+                    num = raw_value[n][0];
+                    den = raw_value[n][1];
                     new_value += (pack(">L", [num]) +
                         pack(">L", [den]));
                 }
@@ -364,9 +364,9 @@ var piexif = (function () {
             } else {
                 length = raw_value.length;
                 new_value = "";
-                for (var n = 0; n < raw_value; n++) {
-                    num = raw_value[0][0];
-                    den = raw_value[0][1];
+                for (var n = 0; n < length; n++) {
+                    num = raw_value[n][0];
+                    den = raw_value[n][1];
                     new_value += (pack(">l", [num]) +
                         pack(">l", [den]));
                 }
