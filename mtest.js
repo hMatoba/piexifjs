@@ -1,3 +1,5 @@
+// phantomjs.exe mtest.js
+
 var fs = require("fs");
 eval(fs.read("piexif.js"));
 
@@ -78,7 +80,7 @@ console.log("\n\n\n*******************************");
 console.log("Passed: " + passed);
 console.log("Failed: " + failed);
 if (failed) {
-    phantom.exit();
-} else {
     phantom.exit(1);
+} else {
+    phantom.exit();
 }
