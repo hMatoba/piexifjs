@@ -1,6 +1,9 @@
 Piexifjs
 ========
 
+.. image:: https://travis-ci.org/hMatoba/piexifjs.svg?branch=master
+    :target: https://travis-ci.org/hMatoba/piexifjs
+
 Ported library from Python. Read and modify exif.
 
 How to Use
