@@ -10,6 +10,9 @@ var failed = 0;
 
 function checkEqual(a, b) {
     if (a instanceof Array) {
+        if (a.length !== b.length) {
+            return false;
+        }
         for (var p=0; p<a.length; p++) {
             if (!checkEqual(a[p], b[p])){
                 return false;
