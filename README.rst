@@ -46,9 +46,9 @@ Example
                     continue;
                 }
                 console.log("-" + ifd);
-                    for (var tag in exifObj[ifd]) {
-                        console.log("  " + piexif.TAGS[ifd][tag]["name"] + ":" + exifObj[ifd][tag]);
-                    }
+                for (var tag in exifObj[ifd]) {
+                    console.log("  " + piexif.TAGS[ifd][tag]["name"] + ":" + exifObj[ifd][tag]);
+                }
             }
         };
     })(f);
