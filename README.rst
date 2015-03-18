@@ -9,7 +9,7 @@ Ported library from Python. Read and modify exif.
 How to Use
 ----------
 
-- *load(jpegData)* - Get exif data as *object*. *jpegData* must be a *string* that starts with "data:image/jpeg;base64," or "\\xff\\xd8".
+- *load(jpegData)* - Get exif data as *object*. *jpegData* must be a *string* that starts with "data:image/jpeg;base64,", "\\xff\\xd8", or "Exif".
 - *dump(exifObj)* - Get exif as *string* to insert into JPEG.
 - *insert(exifStr, jpegData)* - Insert exif into JPEG.
 
