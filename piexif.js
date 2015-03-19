@@ -29,12 +29,41 @@ var piexif = (function () {
     var that = {};
 
 
+    that.remove = function (jpeg) {
+        var b64 = false;
+        if (jpeg.slice(0, 2) == "\xff\xd8") {
+        } else if (jpeg.slice(0, 23) == "data:image/jpeg;base64,") {
+            jpeg = atob(jpeg.split(",")[1]);
+            b64 = true;
+        } else {
+            throw ("Given data is not jpeg.");
+        }
+        
+        var segments = splitIntoSegments(jpeg);
+        if (segments[1].slice(0, 2) == "\xff\xe1") {
+            segments = [segments[0]].concat(segments.slice(2));
+        } else if (segments[2].slice(0, 2) == "\xff\xe1") {
+            segments = segments.slice(0, 2).concat(segments.slice(3));
+        } else {
+            throw("Exif not found.");
+        }
+        
+        var new_data = segments.join("");
+        if (b64) {
+            new_data = "data:image/jpeg;base64," + btoa(new_data);
+        }
+
+        return new_data;
+    };
+
+
     that.insert = function (exif, jpeg) {
         var b64 = false;
         if (exif.slice(0, 6) != "\x45\x78\x69\x66\x00\x00") {
             throw ("Given data is not exif.");
         }
-        if (jpeg.slice(0, 2) == "\xff\xd8") {} else if (jpeg.slice(0, 23) == "data:image/jpeg;base64,") {
+        if (jpeg.slice(0, 2) == "\xff\xd8") {
+        } else if (jpeg.slice(0, 23) == "data:image/jpeg;base64,") {
             jpeg = atob(jpeg.split(",")[1]);
             b64 = true;
         } else {
