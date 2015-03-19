@@ -9,9 +9,9 @@ Ported library from Python. Read and modify exif.
 How to Use
 ----------
 
-- *load(jpegData)* - Get exif data as *object*. *jpegData* must be a *string* that starts with "data:image/jpeg;base64,", "\\xff\\xd8", or "Exif".
-- *dump(exifObj)* - Get exif as *string* to insert into JPEG.
-- *insert(exifStr, jpegData)* - Insert exif into JPEG.
+- *var exifObj = load(jpegData)* - Get exif data as *object*. *jpegData* must be a *string* that starts with "data:image/jpeg;base64,"(DataURL), "\\xff\\xd8", or "Exif".
+- *var exifStr = dump(exifObj)* - Get exif as *string* to insert into JPEG.
+- *insert(exifStr, jpegData)* - Insert exif into JPEG. If *jpegData* is DataURL, *insert* returns JPEG as DataURL. Else if *jpegData* is binary as *string*, *insert* returns JPEG as binary as *string*.
 
 Use with File API or Canvas API.
 
