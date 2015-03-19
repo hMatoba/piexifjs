@@ -36,7 +36,7 @@ var files = ["images/r_canon.jpg",
              "images/r_sigma.jpg",
              "images/r_sony.jpg"];
 
-console.log("Roundtrip Test: Get exif data from file as object. Convert exif object into binary. Get exif data as object again from the binary. Compare values between two exif objects.");
+console.log("Roundtrip Test: Get exif data as object from jpeg data. Convert exif object into binary. Get exif data as object again from the binary. Compare values between two exif objects.");
 
 for (var p=0; p<files.length; p++) {
     var mismatched = 0;
