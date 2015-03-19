@@ -27,34 +27,32 @@
                 continue;
             }
             var reader = new FileReader();
-            reader.onloadend = (function(theFile) {
-                return function(e) {
-                    var origin = piexif.load(e.target.result);
-                    console.log("original:");
-                    console.log(origin);
+            reader.onloadend = function(e) {
+                var origin = piexif.load(e.target.result);
+                console.log("original:");
+                console.log(origin);
 
-                    var exifObj = {"0th":{272:"piexifjs demo"},
-                                   "Exif":{34850:3, 36867:"piexifjs"},
-                                  };
-                    var exifBytes = piexif.dump(exifObj);
-                    var jpeg = piexif.insert(exifBytes, e.target.result);
-                    var image = new Image();
-                    image.src = jpeg;
-                    image.width = 200;
-                    if (saveJpeg) {
-                        var str = atob(jpeg.split(",")[1]);
-                        var data = [];
-                        for (var p=0; p<str.length; p++) {
-                            data[p] = str.charCodeAt(p);
-                        }
-                        var ua = new Uint8Array(data);
-                        var blob = new Blob([ua], {type: "image/jpeg"});
-                        image.onclick = saveJpeg(blob);
+                var exifObj = {"0th":{272:"piexifjs demo"},
+                               "Exif":{34850:3, 36867:"piexifjs"},
+                              };
+                var exifBytes = piexif.dump(exifObj);
+                var jpeg = piexif.insert(exifBytes, e.target.result);
+                var image = new Image();
+                image.src = jpeg;
+                image.width = 200;
+                if (saveJpeg) {
+                    var str = atob(jpeg.split(",")[1]);
+                    var data = [];
+                    for (var p=0; p<str.length; p++) {
+                        data[p] = str.charCodeAt(p);
                     }
-                    var el = $("<div></div>").append(image);
-                    $("#resized").prepend(el);
-                };
-            })(f);
+                    var ua = new Uint8Array(data);
+                    var blob = new Blob([ua], {type: "image/jpeg"});
+                    image.onclick = saveJpeg(blob);
+                }
+                var el = $("<div></div>").append(image);
+                $("#resized").prepend(el);
+            };
             reader.readAsDataURL(f);
         }
     }
