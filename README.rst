@@ -21,7 +21,24 @@ Example
 
 ::
 
-    var exifStr = piexif.dump({"0th":{282:[100, 1], 283:[100, 1]}});
+    var zeroth = {};
+    var exif = {};
+    var gps = {};
+
+    zeroth[piexif.ImageIFD.Make] = "Make";
+    zeroth[piexif.ImageIFD.XResolution] = [777, 1];
+    zeroth[piexif.ImageIFD.YResolution] = [777, 1];
+    zeroth[piexif.ImageIFD.Software] = "Piexifjs";
+    exif[piexif.ExifIFD.DateTimeOriginal] = "2010:10:10 10:10:10";
+    exif[piexif.ExifIFD.LensMake] = "LensMake";
+    exif[piexif.ExifIFD.Sharpness] = 777;
+    exif[piexif.ExifIFD.LensSpecification] = [[1, 1], [1, 1], [1, 1], [1, 1]];
+    gps[piexif.GPSIFD.GPSVersionID] = [7, 7, 7, 7];
+    gps[piexif.GPSIFD.GPSDateStamp] = "1999:99:99 99:99:99";
+
+    //var exifObj = {"0th":{282:[100, 1], 283:[100, 1]}};
+    var exifObj = {"0th":zeroth, "Exif":exif, "GPS":gps};
+    var exifStr = piexif.dump(exifObj);
     var reader = new FileReader();
     reader.onloadend = function(e) {
         var inserted = piexif.insert(exifStr, e.target.result);
@@ -51,6 +68,16 @@ Example
         }
     };
     reader.readAsDataURL(f);
+
+Dependency
+----------
+
+Doesn't need other libraries.
+
+Environment
+-----------
+
+Tested on IE11, Opera28, and PhantomJS1.9.8.
 
 License
 -------

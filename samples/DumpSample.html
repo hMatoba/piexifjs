@@ -21,6 +21,23 @@
     function handleFileSelect(evt) {
         var files = evt.target.files; // FileList object
 
+        var zeroth = {};
+        var exif = {};
+        var gps = {};
+
+        zeroth[piexif.ImageIFD.Make] = "Make";
+        zeroth[piexif.ImageIFD.XResolution] = [777, 1];
+        zeroth[piexif.ImageIFD.YResolution] = [777, 1];
+        zeroth[piexif.ImageIFD.Software] = "Piexifjs";
+        exif[piexif.ExifIFD.DateTimeOriginal] = "2010:10:10 10:10:10";
+        exif[piexif.ExifIFD.LensMake] = "LensMake";
+        exif[piexif.ExifIFD.Sharpness] = 777;
+        exif[piexif.ExifIFD.LensSpecification] = [[1, 1], [1, 1], [1, 1], [1, 1]];
+        gps[piexif.GPSIFD.GPSVersionID] = [7, 7, 7, 7];
+        gps[piexif.GPSIFD.GPSDateStamp] = "1999:99:99 99:99:99";
+        
+        var exifObj = {"0th":zeroth, "Exif":exif, "GPS":gps};
+    
         for (var n=0; n<files.length; n++) {
             var f = files[n];
             if (!f.type.match('image/jpeg.*')) {
@@ -32,9 +49,6 @@
                 console.log("original:");
                 console.log(origin);
 
-                var exifObj = {"0th":{272:"piexifjs demo"},
-                               "Exif":{34850:3, 36867:"piexifjs"},
-                              };
                 var exifBytes = piexif.dump(exifObj);
                 var jpeg = piexif.insert(exifBytes, e.target.result);
                 var image = new Image();
