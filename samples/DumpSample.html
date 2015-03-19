@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Piexifjs Demo</title>
+  <title>Piexifjs Sample</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-  <script src="piexif.js"></script>
+  <script src="../piexif.js"></script>
   <script>
     if (typeof window.navigator.msSaveBlob === "undefined") {
         var saveJpeg = null;
@@ -27,17 +27,16 @@
                 continue;
             }
             var reader = new FileReader();
-
-            // Jpeg processing
             reader.onloadend = (function(theFile) {
                 return function(e) {
-                    var exifDict1 = piexif.load(e.target.result);
-                    console.log(exifDict1);
-                    var exifBytes = piexif.dump(exifDict1);
-                    var exifDict2 = piexif.load(exifBytes);
-                    console.log(exifDict2);
+                    var origin = piexif.load(e.target.result);
+                    console.log("original:");
+                    console.log(origin);
 
-                    var exifBytes = piexif.dump({"0th":{272:"abc123456789"}, "Exif":{34850:3, 36867:"1234567890"}});
+                    var exifObj = {"0th":{272:"piexifjs demo"},
+                                   "Exif":{34850:3, 36867:"piexifjs"},
+                                  };
+                    var exifBytes = piexif.dump(exifObj);
                     var jpeg = piexif.insert(exifBytes, e.target.result);
                     var image = new Image();
                     image.src = jpeg;
