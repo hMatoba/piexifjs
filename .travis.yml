@@ -1,3 +1,3 @@
 sudo: false
 
-script: phantomjs tests/mtest.js
+script: phantomjs.exe phestum.js piexif.js
