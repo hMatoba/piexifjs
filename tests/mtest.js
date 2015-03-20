@@ -1,5 +1,5 @@
 // roundtrip(load, dump, insert)
-Tests.RoundtripTest = function(){
+Tests.RoundtripTest = function () {
     console.log("Roundtrip Test: Get exif data as object from jpeg data. " +
                 "Convert exif object into binary. " +
                 "Get exif data as object again from the binary. " +
@@ -71,7 +71,7 @@ Tests.removeTest = function () {
         for (var ifd in exifObj) {
             for (var tag in exifObj[ifd]) {
                 tag = parseInt(tag);
-                keyNum += 1
+                keyNum += 1;
             }
         }
 
@@ -85,4 +85,7 @@ Tests.removeTest = function () {
     console.log("\n");
     console.log("Passed file: " + passedFile + " file(s)");
     console.log("Failed file: " + failedFile + " file(s)");
+    if (failedFile) {
+        throw("");
+    }
 };
