@@ -1,6 +1,10 @@
+var system = require("system");
+var fs = require("fs");
+
+var phestumLib = (function() {/*
+var Tests = {};
+
 var phestum = {
-    version : "0.2.0a",
-    
     _isEqual : function (a, b) {
         if (typeof(a) !== typeof(b)) {
             return false;
@@ -66,55 +70,28 @@ var phestum = {
             throw("! " + JSON.stringify(a) + " == " + JSON.stringify(b));
         }
     },
-};
-
-
-var Tests = {
-    _exec: function () {
-        var pass = 0;
-        var fail = 0;
-        var keys = Object.keys(Tests);
-        var tests = keys.filter(function (item) {
-            return (item[0] !== "_" &&
-                    typeof(Tests[item]) === "function" &&
-                    item.indexOf("Test") > -1);
-        });
-        console.log("tests: " + JSON.stringify(tests));
-
-        for (var p=0; p<tests.length; p++) {
-            console.log("\n*************\n" + tests[p]);
-            try {
-                console.log("=============");
-                Tests[tests[p]]();
-                console.log("=============");
-                console.log("passed.");
-                pass += 1;
-            } catch (e) {
-                console.log("=============");
-                console.log(e);
-                console.log("failed.");
-                fail += 1;
-            }
+    
+    assertFail : function (func) {
+        var failed = false;
+        try {
+            func();
+        } catch (e) {
+            failed = true;
         }
-
-        console.log("\n\nPassed: " + pass);
-        console.log("Failed: " + fail);
-        if (fail) {
-            return false;
-        } else {
-            return true;
+        
+        if (!failed) {
+            throw("'phestum.assertFail' error. Given function didn't failed.")
         }
     },
 };
+*/}).toString().match(/\/\*([^]*)\*\//)[1];
 
+eval(phestumLib);
 
-// test process ++++++++++++++++++++++++++++++++++++
-var system = require("system");
-var fs = require("fs");
 
 // tests/files
 if (fs.isDirectory("tests/files")) {
-    Tests.files = {};
+    Tests._files = {};
     var optionFiles = fs.list("tests/files/")
             .filter(function(item) {
                 return [".", ".."].indexOf(item) == -1;
@@ -125,19 +102,19 @@ if (fs.isDirectory("tests/files")) {
 
     console.log("files: " + JSON.stringify(optionFiles));
     for (var p=0; p<optionFiles.length; p++) {
-        Tests.files[optionFiles[p]] = fs.read("tests/files/" + optionFiles[p], {charset: "LATIN-1"});
+        Tests._files[optionFiles[p]] = fs.read("tests/files/" + optionFiles[p], {charset: "LATIN-1"});
     }
 }
 
 // prepare libraries
-Tests._libs = [];
-if (system.args.length > 1) {
-    var libFiles = system.args.slice(1);
-    console.log("lib: " + JSON.stringify(libFiles));
-    Tests._libs = libFiles.map(function (i) {
-        return fs.read(i);
-    });
-}
+Tests._lib = fs.list("lib/")
+        .filter(function(item) {
+            return item.indexOf(".js") !== -1;
+        })
+        .map(function (item) {
+            return 'lib/' + item;
+        });
+console.log("lib: " + JSON.stringify(Tests._lib));
 
 // prepare tests
 Tests._tests = fs.list("tests/")
@@ -148,17 +125,77 @@ Tests._tests = fs.list("tests/")
             return 'tests/' + item;
         });
 
-// load libs and tests
-for (var p=0; p<Tests._libs.length; p++) {
-    eval(Tests._libs[p]);
+// load tests
+for (Tests._counter=0; Tests._counter<Tests._tests.length; Tests._counter++) {
+    eval(fs.read(Tests._tests[Tests._counter]));
 }
-for (var p=0; p<Tests._tests.length; p++) {
-    eval(fs.read(Tests._tests[p]));
+Tests._testNames = Object.keys(Tests).filter(function (item) {
+    return (item[0] !== "_" &&
+            typeof(Tests[item]) === "function" &&
+            item.indexOf("Test") > -1);
+});
+console.log("test: " + JSON.stringify(Tests._testNames));
+
+// prepare test environment
+var jsScripts = Tests._lib.concat(Tests._tests);
+var page = require('webpage').create();
+page.onError = function (msg, trace) {
+    var msgStack = ['ERROR: ' + msg];
+    if (trace && trace.length) {
+        msgStack.push('**TRACE:');
+        trace.forEach(function(t) {
+          msgStack.push(' -> ' + t.file + ': ' + t.line + (t.function ? ' (in function "' + t.function +'")' : ''));
+        });
+    }
+    console.error("**" + msgStack.join('\n'));
+    gotError = true;
+};
+
+page.onConsoleMessage = function(msg, lineNum, sourceId) {
+    console.log('' + msg);
+};
+
+page.evaluate(function (script) {
+    var scrEl = document.createElement("script");
+    scrEl.text = script;
+    document.body.appendChild(scrEl);
+}, phestumLib);
+
+for (var p=0; p<jsScripts.length; p++) {
+    page.injectJs(jsScripts[p]);
 }
 
-// run tests
-if (Tests._exec()) {
-    phantom.exit();
-} else {
+page.evaluate(function (files) {Tests.files = files;}, Tests._files);
+
+// do tests
+var pass = 0;
+var fail = 0;
+for (var p=0; p<Tests._testNames.length; p++) {
+    var testName = Tests._testNames[p];
+    var gotError = false;
+    console.log("\n\n" + testName);
+    console.log("=============");
+
+    page.evaluate(function (testName) {
+        var scrEl = document.createElement("script");
+        scrEl.text = "Tests." + testName + "();";
+        document.body.appendChild(scrEl);
+    }, testName);
+
+    console.log("=============");
+    if (gotError) {
+        fail += 1;
+        console.log("fail");
+    } else {
+        pass += 1;
+        console.log("pass");
+    }
+}
+
+console.log("\n\nPassed: " + pass);
+console.log("Failed: " + fail);
+if (fail) {
     phantom.exit(1);
+} else {
+    phantom.exit();
 }
