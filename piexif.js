@@ -23,7 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-var piexif = (function () {
+(function () {
     "use strict";
     var that = {};
 
@@ -2425,5 +2425,13 @@ var piexif = (function () {
     };
     
     
-    return that;
+    if (typeof exports !== 'undefined') {
+        if (typeof module !== 'undefined' && module.exports) {
+            exports = module.exports = that;
+        }
+        exports.piexif = that;
+    } else {
+        window.piexif = that;
+    }
+
 })();
