@@ -4,7 +4,7 @@ Piexifjs
 .. image:: https://travis-ci.org/hMatoba/piexifjs.svg?branch=master
     :target: https://travis-ci.org/hMatoba/piexifjs
 
-Read and modify exif. First library to modify exif in JS(both client-side and Node.js).
+Read and modify exif. Library to modify exif in JS(both client-side and Node.js).
 
 How to Use
 ----------
