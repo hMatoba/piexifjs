@@ -72,6 +72,8 @@ Example
 Node.js
 -------
 
+::
+
     var piexif = require("piexif.js");
     var fs = require("fs");
 
