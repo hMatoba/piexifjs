@@ -4,7 +4,7 @@ Piexifjs
 .. image:: https://travis-ci.org/hMatoba/piexifjs.svg?branch=master
     :target: https://travis-ci.org/hMatoba/piexifjs
 
-Ported library from Python. Read and modify exif. First library to modify exif in client-side JS.
+Read and modify exif. First library to modify exif in JS(both client-side and Node.js).
 
 How to Use
 ----------
@@ -69,6 +69,25 @@ Example
     };
     reader.readAsDataURL(f);
 
+Node.js
+-------
+
+    var piexif = require("piexif.js");
+    var fs = require("fs");
+
+    var filename1 = "in.jpg";
+    var filename2 = "out.jpg";
+
+    var jpeg = fs.readFileSync(filename1);
+    var data = jpeg.toString("binary");
+    var exifObj = piexif.load(data);
+    exifObj["GPS"][piexif.GPSIFD.GPSVersionID] = [7, 7, 7, 7];
+    exifObj["GPS"][piexif.GPSIFD.GPSDateStamp] = "1999:99:99 99:99:99";
+    var exifbytes = piexif.dump(exifObj);
+    var newData = piexif.insert(exifbytes, data);
+    var newJpeg = new Buffer(newData, "binary");
+    fs.writeFileSync(filename2, newJpeg);
+
 Dependency
 ----------
 
@@ -77,7 +96,7 @@ Doesn't need other libraries.
 Environment
 -----------
 
-Tested on IE11, Opera28, and PhantomJS1.9.8.
+Tested on IE11, Opera28, and PhantomJS 1.9.8. It runs on even Node.js.
 
 License
 -------
