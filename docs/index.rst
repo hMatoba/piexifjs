@@ -10,6 +10,7 @@ Welcome to Piexifjs's documentation!
    :target: https://travis-ci.org/hMatoba/piexifjs
 
 Exif manipulations with JavaScript. Writing, reading, and more... For client-side and Node.js.
+https://github.com/hMatoba/piexifjs
 
 .. toctree::
    :maxdepth: 2
