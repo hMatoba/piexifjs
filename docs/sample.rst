@@ -1,23 +1,9 @@
-Piexifjs
-========
+=======
+Samples
+=======
 
-.. image:: https://travis-ci.org/hMatoba/piexifjs.svg?branch=master
-    :target: https://travis-ci.org/hMatoba/piexifjs
-
-Read and modify exif. Library to modify exif in JS(both client-side and Node.js).
-
-How to Use
-----------
-
-- *var exifObj = load(jpegData)* - Get exif data as *object*. *jpegData* must be a *string* that starts with "\data:image/jpeg;base64,"(DataURL), "\\xff\\xd8", or "Exif".
-- *var exifStr = dump(exifObj)* - Get exif as *string* to insert into JPEG.
-- *insert(exifStr, jpegData)* - Insert exif into JPEG. If *jpegData* is DataURL, returns JPEG as DataURL. Else if *jpegData* is binary as *string*, returns JPEG as binary as *string*.
-- *remove(jpegData)* - Remove exif from JPEG. If *jpegData* is DataURL, returns JPEG as DataURL. Else if *jpegData* is binary as *string*, returns JPEG as binary as *string*.
-
-Use with File API or Canvas API.
-
-Example
--------
+Client-Side
+-----------
 
 ::
 
@@ -75,7 +61,7 @@ Example
             }
         }
     };
-    reader.readAsDataURL(f);
+    reader.readAsDataURL(file);
 
 Node.js
 -------
@@ -97,18 +83,3 @@ Node.js
     var newData = piexif.insert(exifbytes, data);
     var newJpeg = new Buffer(newData, "binary");
     fs.writeFileSync(filename2, newJpeg);
-
-Dependency
-----------
-
-Doesn't need other libraries.
-
-Environment
------------
-
-Tested on IE11, Opera28, and PhantomJS 1.9.8. It runs on even Node.js.
-
-License
--------
-
-This software is released under the MIT License, see LICENSE.txt.
