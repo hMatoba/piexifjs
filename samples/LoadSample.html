@@ -93,12 +93,12 @@ function printExif(dataURL) {
 }
 
 function handleFileSelect(evt) {
-    var files = evt.target.files;
+    var file = evt.target.files[0];
     var reader = new FileReader();
     reader.onloadend = function(e){
         printExif(e.target.result);
     };
-    reader.readAsDataURL(files[0]);
+    reader.readAsDataURL(file);
 }
 
 document.getElementById('f').addEventListener('change', handleFileSelect, false);

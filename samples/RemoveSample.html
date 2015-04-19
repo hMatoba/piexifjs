@@ -20,10 +20,10 @@
       
     function handleFileSelect(evt) {
         var f = evt.target.files[0]; // FileList object
-
         if (!f.type.match('image/jpeg.*')) {
             return;
         }
+        
         var reader = new FileReader();
         reader.onloadend = function(e) {
             var jpeg = piexif.remove(e.target.result);
