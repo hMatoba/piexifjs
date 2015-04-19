@@ -5,6 +5,7 @@ Piexifjs
     :target: https://travis-ci.org/hMatoba/piexifjs
 
 Read and modify exif. Library to modify exif in JS(both client-side and Node.js).
+http://piexifjs.readthedocs.org/en/latest/index.html
 
 How to Use
 ----------
@@ -59,44 +60,6 @@ Example
     
     document.getElementById('files').addEventListener('change', handleFileSelect, false);
     </script>
-
-::
-
-    var reader = new FileReader();
-    reader.onloadend = function(e) {
-        var exifObj = piexif.load(e.target.result);
-        for (var ifd in exifObj) {
-            if (ifd == "thumbnail") {
-                continue;
-            }
-            console.log("-" + ifd);
-            for (var tag in exifObj[ifd]) {
-                console.log("  " + piexif.TAGS[ifd][tag]["name"] + ":" + exifObj[ifd][tag]);
-            }
-        }
-    };
-    reader.readAsDataURL(f);
-
-Node.js
--------
-
-::
-
-    var piexif = require("piexif.js");
-    var fs = require("fs");
-
-    var filename1 = "in.jpg";
-    var filename2 = "out.jpg";
-
-    var jpeg = fs.readFileSync(filename1);
-    var data = jpeg.toString("binary");
-    var exifObj = piexif.load(data);
-    exifObj["GPS"][piexif.GPSIFD.GPSVersionID] = [7, 7, 7, 7];
-    exifObj["GPS"][piexif.GPSIFD.GPSDateStamp] = "1999:99:99 99:99:99";
-    var exifbytes = piexif.dump(exifObj);
-    var newData = piexif.insert(exifbytes, data);
-    var newJpeg = new Buffer(newData, "binary");
-    fs.writeFileSync(filename2, newJpeg);
 
 Dependency
 ----------
