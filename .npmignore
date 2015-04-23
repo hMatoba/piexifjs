@@ -1,0 +1,6 @@
+docs
+samples
+tests
+phestum.js
+.travis.yml
+*.bat
