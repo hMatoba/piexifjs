@@ -179,7 +179,7 @@ Node.js
 
 ::
 
-    var piexif = require("piexif.js");
+    var piexif = require("piexifjs");
     var fs = require("fs");
 
     var filename1 = "in.jpg";
