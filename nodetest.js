@@ -108,10 +108,16 @@ var newData = piexif.insert(exifbytes, data);
 var exifObj2 = piexif.load(newData);
 
 try {
+    delete exifObj2["0th"][34665];
+    delete exifObj2["0th"][34853];
+    delete exifObj2["Interop"];
+    delete exifObj2["1st"];
+    delete exifObj2["thumbnail"];
     phestum.assertEqual(exifObj, exifObj2);
     console.log("Successed Nodejs test.");
     process.exit();
 } catch (e){
+    console.log(e);
     console.log("Failed Nodejs test.");
     process.exit(1);
 }
