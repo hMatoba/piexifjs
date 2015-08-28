@@ -1,3 +1,7 @@
 sudo: false
 
-script: phantomjs phestum.js piexif.js
+language: node_js
+node_js:
+  - "0.12"
+  
+script: phantomjs phestum.js piexif.js && node nodetest.js
