@@ -109,7 +109,9 @@ var exifObj2 = piexif.load(newData);
 
 try {
     phestum.assertEqual(exifObj, exifObj2);
+    console.log("Successed Nodejs test.");
     process.exit();
 } catch (e){
+    console.log("Failed Nodejs test.");
     process.exit(1);
 }
