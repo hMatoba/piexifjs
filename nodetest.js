@@ -106,11 +106,10 @@ var newData = piexif.insert(exifbytes, data);
 //fs.writeFileSync("out.jpg", newJpeg);
 
 var exifObj2 = piexif.load(newData);
-exifObj2.Exif[piexif.ExifIFD.LensMake] = "foo"
 
 try {
     phestum.assertEqual(exifObj, exifObj2);
-    process.exit(0);
+    process.exit();
 } catch (e){
     process.exit(1);
 }
