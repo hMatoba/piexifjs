@@ -69,7 +69,7 @@ Doesn't need other libraries.
 Environment
 -----------
 
-Tested on IE11, Opera28, and PhantomJS 1.9.8. It runs on even Node.js.
+Tested on IE11, Opera28, and PhantomJS. It runs on even Node.js.
 
 License
 -------
