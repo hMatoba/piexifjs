@@ -24,31 +24,35 @@
             return;
         }
         
-        var zeroth = {};
-        var exif = {};
-        var gps = {};
+        // make exif data
+        var zerothIfd = {};
+        var exifIfd = {};
+        var gpsIfd = {};
+        zerothIfd[piexif.ImageIFD.Make] = "Maker Name";
+        zerothIfd[piexif.ImageIFD.XResolution] = [777, 1];
+        zerothIfd[piexif.ImageIFD.YResolution] = [777, 1];
+        zerothIfd[piexif.ImageIFD.Software] = "Piexifjs";
+        exifIfd[piexif.ExifIFD.DateTimeOriginal] = "2010:10:10 10:10:10";
+        exifIfd[piexif.ExifIFD.LensMake] = "Lens Maker";
+        exifIfd[piexif.ExifIFD.Sharpness] = 777;
+        exifIfd[piexif.ExifIFD.LensSpecification] = [[1, 1], [1, 1], [1, 1], [1, 1]];
+        gpsIfd[piexif.GPSIFD.GPSVersionID] = [7, 7, 7, 7];
+        gpsIfd[piexif.GPSIFD.GPSDateStamp] = "1999:99:99 99:99:99";
+        var exifObj = {"0th":zerothIfd, "Exif":exifIfd, "GPS":gpsIfd};
 
-        zeroth[piexif.ImageIFD.Make] = "Make";
-        zeroth[piexif.ImageIFD.XResolution] = [777, 1];
-        zeroth[piexif.ImageIFD.YResolution] = [777, 1];
-        zeroth[piexif.ImageIFD.Software] = "Piexifjs";
-        exif[piexif.ExifIFD.DateTimeOriginal] = "2010:10:10 10:10:10";
-        exif[piexif.ExifIFD.LensMake] = "LensMake";
-        exif[piexif.ExifIFD.Sharpness] = 777;
-        exif[piexif.ExifIFD.LensSpecification] = [[1, 1], [1, 1], [1, 1], [1, 1]];
-        gps[piexif.GPSIFD.GPSVersionID] = [7, 7, 7, 7];
-        gps[piexif.GPSIFD.GPSDateStamp] = "1999:99:99 99:99:99";
+        // get exif binary as "string" type
+        var exifBytes = piexif.dump(exifObj);
         
-        var exifObj = {"0th":zeroth, "Exif":exif, "GPS":gps};
-
         var reader = new FileReader();
         reader.onloadend = function(e) {
             var origin = piexif.load(e.target.result);
             console.log("original:");
             console.log(origin);
 
-            var exifBytes = piexif.dump(exifObj);
+            // insert exif binary into JPEG binary(DataURL)
             var jpeg = piexif.insert(exifBytes, e.target.result);
+            
+            // show JPEG modified exif
             var image = new Image();
             image.src = jpeg;
             image.width = 200;
