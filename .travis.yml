@@ -2,7 +2,9 @@ sudo: false
 
 language: node_js
 node_js:
-  - "stable"
+  - "5.0"
+  - "4.0"
+  - "0.6"
   - "iojs"
   
 script: phantomjs phestum.js piexif.js && node nodetest.js
