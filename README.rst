@@ -12,10 +12,10 @@ http://piexifjs.readthedocs.org/en/latest/index.html
 How to Use
 ----------
 
-- *var exifObj = load(jpegData)* - Get exif data as *object*. *jpegData* must be a *string* that starts with "\data:image/jpeg;base64,"(DataURL), "\\xff\\xd8", or "Exif".
-- *var exifStr = dump(exifObj)* - Get exif as *string* to insert into JPEG.
-- *insert(exifStr, jpegData)* - Insert exif into JPEG. If *jpegData* is DataURL, returns JPEG as DataURL. Else if *jpegData* is binary as *string*, returns JPEG as binary as *string*.
-- *remove(jpegData)* - Remove exif from JPEG. If *jpegData* is DataURL, returns JPEG as DataURL. Else if *jpegData* is binary as *string*, returns JPEG as binary as *string*.
+- *var exifObj = piexif.load(jpegData)* - Get exif data as *object*. *jpegData* must be a *string* that starts with "\data:image/jpeg;base64,"(DataURL), "\\xff\\xd8", or "Exif".
+- *var exifStr = piexif.dump(exifObj)* - Get exif as *string* to insert into JPEG.
+- *piexif.insert(exifStr, jpegData)* - Insert exif into JPEG. If *jpegData* is DataURL, returns JPEG as DataURL. Else if *jpegData* is binary as *string*, returns JPEG as binary as *string*.
+- *piexif.remove(jpegData)* - Remove exif from JPEG. If *jpegData* is DataURL, returns JPEG as DataURL. Else if *jpegData* is binary as *string*, returns JPEG as binary as *string*.
 
 Use with File API or Canvas API.
 
@@ -66,12 +66,12 @@ Example
 Dependency
 ----------
 
-Doesn't need other libraries.
+No dependency. Piexifjs just needs standard JavaScript environment.
 
 Environment
 -----------
 
-Tested on IE11, Opera28, and PhantomJS. It runs on even Node.js.
+Both client-side and server-side. Standard browsers(Tested on IE11, Opera28, and PhantomJS) and Node.js.
 
 License
 -------
