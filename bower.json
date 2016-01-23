@@ -12,5 +12,9 @@
   ],
   "homepage": "https://github.com/hMatoba/piexifjs",
   "moduleType": [],
-  "ignore": ["./!(piexif.js)"]
+  "ignore": [
+    "**/*",
+    "!piexif.js",
+    "!bower.json"
+  ]
 }
