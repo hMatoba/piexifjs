@@ -39,13 +39,19 @@ SOFTWARE.
         }
         
         var segments = splitIntoSegments(jpeg);
-        if (segments[1].slice(0, 2) == "\xff\xe1") {
-            segments = [segments[0]].concat(segments.slice(2));
-        } else if (segments[2].slice(0, 2) == "\xff\xe1") {
-            segments = segments.slice(0, 2).concat(segments.slice(3));
-        } else {
+        if (segments[1].slice(0, 2) != "\xff\xe1" && segments[2].slice(0, 2) != "\xff\xe1") {
             throw("Exif not found.");
         }
+        
+        var arr = []
+        for (var i = 0; i < segments.length; i++){
+            var item = segments[i];
+            
+            if (item.slice(0, 2) != "\xff\xe1"){
+                arr.push(item)
+            }
+        }
+        segments = arr;
         
         var new_data = segments.join("");
         if (b64) {
