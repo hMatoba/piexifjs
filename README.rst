@@ -1,6 +1,8 @@
 Piexifjs
 ========
 
+I once had a requirement to add some meta data to images which worked fine with dump and insert methods of the library. However when I removed exif after insertion from the image, removal was unsuccessful throwing 'unpack' error. This change is to cater to this issue. Now I am able to add and remove exif info flawlessly for all images.
+
 .. image:: https://travis-ci.org/hMatoba/piexifjs.svg?branch=master
     :target: https://travis-ci.org/hMatoba/piexifjs
 .. image:: https://badge.fury.io/js/piexifjs.svg
