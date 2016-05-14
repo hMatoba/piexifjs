@@ -39,9 +39,11 @@ SOFTWARE.
         }
         
         var segments = splitIntoSegments(jpeg);
-        if (segments[1].slice(0, 2) == "\xff\xe1") {
+        if (segments[1].slice(0, 2) == "\xff\xe1" && 
+               segments[1].slice(4, 10) == "Exif00") {
             segments = [segments[0]].concat(segments.slice(2));
-        } else if (segments[2].slice(0, 2) == "\xff\xe1") {
+        } else if (segments[2].slice(0, 2) == "\xff\xe1" &&
+                   segments[2].slice(4, 10) == "Exif00") {
             segments = segments.slice(0, 2).concat(segments.slice(3));
         } else {
             throw("Exif not found.");
@@ -470,7 +472,7 @@ SOFTWARE.
             app1;
         if (data.slice(0, 2) == "\xff\xd8") { // JPEG
             segments = splitIntoSegments(data);
-            app1 = getApp1(segments);
+            app1 = getExifSeg(segments);
             if (app1) {
                 this.tiftag = app1.slice(10);
             } else {
@@ -892,11 +894,12 @@ SOFTWARE.
     }
 
 
-    function getApp1(segments) {
+    function getExifSeg(segments) {
         var seg;
         for (var i = 0; i < segments.length; i++) {
             seg = segments[i];
-            if (seg.slice(0, 2) == "\xff\xe1") {
+            if (seg.slice(0, 2) == "\xff\xe1" &&
+                   seg.slice(4, 10) == "Exif00") {
                 return seg;
             }
         }
@@ -905,8 +908,9 @@ SOFTWARE.
 
 
     function mergeSegments(segments, exif) {
-        if ((segments[1].slice(0, 2) == "\xff\xe0") &&
-            (segments[2].slice(0, 2) == "\xff\xe1")) {
+        if (segments[1].slice(0, 2) == "\xff\xe0" &&
+            (segments[2].slice(0, 2) == "\xff\xe1" &&
+             segments[2].slice(4, 10) == "Exif00")) {
             if (exif) {
                 segments[2] = exif;
                 segments = ["\xff\xd8", exif].concat(segments.slice(2));
@@ -919,7 +923,8 @@ SOFTWARE.
             if (exif) {
                 segments[1] = exif;
             }
-        } else if (segments[1].slice(0, 2) == "\xff\xe1") {
+        } else if (segments[1].slice(0, 2) == "\xff\xe1" &&
+                   segments[1].slice(4, 10) == "Exif00") {
             if (exif) {
                 segments[1] = exif;
             } else if (exif == null) {
