@@ -908,12 +908,13 @@ SOFTWARE.
 
 
     function mergeSegments(segments, exif) {
+        
         if (segments[1].slice(0, 2) == "\xff\xe0" &&
             (segments[2].slice(0, 2) == "\xff\xe1" &&
              segments[2].slice(4, 10) == "Exif\x00\x00")) {
             if (exif) {
                 segments[2] = exif;
-                segments = ["\xff\xd8", exif].concat(segments.slice(2));
+                segments = ["\xff\xd8"].concat(segments.slice(2));
             } else if (exif == null) {
                 segments = segments.slice(0, 2).concat(segments.slice(3));
             } else {
@@ -935,7 +936,7 @@ SOFTWARE.
                 segments = [segments[0], exif].concat(segments.slice(1));
             }
         }
-
+        
         return segments.join("");
     }
 
