@@ -31,7 +31,7 @@ SOFTWARE.
     that.remove = function (jpeg) {
         var b64 = false;
         if (jpeg.slice(0, 2) == "\xff\xd8") {
-        } else if (jpeg.slice(0, 23) == "data:image/jpeg;base64,") {
+        } else if (jpeg.slice(0, 23) == "data:image/jpeg;base64," || jpeg.slice(0, 22) == "data:image/jpg;base64,") {
             jpeg = atob(jpeg.split(",")[1]);
             b64 = true;
         } else {
@@ -64,7 +64,7 @@ SOFTWARE.
             throw ("Given data is not exif.");
         }
         if (jpeg.slice(0, 2) == "\xff\xd8") {
-        } else if (jpeg.slice(0, 23) == "data:image/jpeg;base64,") {
+        } else if (jpeg.slice(0, 23) == "data:image/jpeg;base64," || jpeg.slice(0, 22) == "data:image/jpg;base64,") {
             jpeg = atob(jpeg.split(",")[1]);
             b64 = true;
         } else {
@@ -87,7 +87,7 @@ SOFTWARE.
         if (typeof (data) == "string") {
             if (data.slice(0, 2) == "\xff\xd8") {
                 input_data = data;
-            } else if (data.slice(0, 23) == "data:image/jpeg;base64,") {
+            } else if (data.slice(0, 23) == "data:image/jpeg;base64," || data.slice(0, 22) == "data:image/jpeg;base64,") {
                 input_data = atob(data.split(",")[1]);
             } else if (data.slice(0, 4) == "Exif") {
                 input_data = data.slice(6);
