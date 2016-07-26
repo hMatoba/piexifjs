@@ -167,11 +167,13 @@ SOFTWARE.
             interop_ifd,
             gps_ifd,
             first_ifd;
+        
         if ("0th" in exif_dict) {
             zeroth_ifd = exif_dict["0th"];
         } else {
             zeroth_ifd = {};
         }
+        
         if ((("Exif" in exif_dict) && (Object.keys(exif_dict["Exif"]).length)) ||
             (("Interop" in exif_dict) && (Object.keys(exif_dict["Interop"]).length))) {
             zeroth_ifd[34665] = 1;
@@ -181,13 +183,21 @@ SOFTWARE.
                 exif_ifd[40965] = 1;
                 interop_is = true;
                 interop_ifd = exif_dict["Interop"];
+            } else if (Object.keys(exif_ifd).indexOf(40965) > -1) {
+                delete exif_ifd[40965];
             }
+        } else if (Object.keys(zeroth_ifd).indexOf(34665) > -1) {
+            delete zeroth_ifd[34665];
         }
+        
         if (("GPS" in exif_dict) && (Object.keys(exif_dict["GPS"]).length)) {
             zeroth_ifd[34853] = 1;
             gps_is = true;
             gps_ifd = exif_dict["GPS"];
+        } else if (Object.keys(zeroth_ifd).indexOf(34665) > -1) {
+            delete zeroth_ifd[34665];
         }
+        
         if (("1st" in exif_dict) &&
             ("thumbnail" in exif_dict) &&
             (exif_dict["thumbnail"] != null)) {
@@ -195,6 +205,8 @@ SOFTWARE.
             exif_dict["1st"][513] = 1;
             exif_dict["1st"][514] = 1;
             first_ifd = exif_dict["1st"];
+        } else if (Object.keys(zeroth_ifd).indexOf(34853) > -1) {
+            delete zeroth_ifd[34853];
         }
 
         var zeroth_set = _dict_to_bytes(zeroth_ifd, "0th", 0);
