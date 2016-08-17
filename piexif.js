@@ -87,7 +87,7 @@ SOFTWARE.
         if (typeof (data) == "string") {
             if (data.slice(0, 2) == "\xff\xd8") {
                 input_data = data;
-            } else if (data.slice(0, 23) == "data:image/jpeg;base64," || data.slice(0, 22) == "data:image/jpeg;base64,") {
+            } else if (data.slice(0, 23) == "data:image/jpeg;base64," || data.slice(0, 22) == "data:image/jpg;base64,") {
                 input_data = atob(data.split(",")[1]);
             } else if (data.slice(0, 4) == "Exif") {
                 input_data = data.slice(6);
