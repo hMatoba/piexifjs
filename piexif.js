@@ -186,7 +186,7 @@ SOFTWARE.
             } else if (Object.keys(exif_ifd).indexOf(that.ExifIFD.InteroperabilityTag.toString()) > -1) {
                 delete exif_ifd[40965];
             }
-        } else if (Object.keys(zeroth_ifd).indexOf(that.ExifIFD.ExifTag.toString()) > -1) {
+        } else if (Object.keys(zeroth_ifd).indexOf(that.ImageIFD.ExifTag.toString()) > -1) {
             delete zeroth_ifd[34665];
         }
 
