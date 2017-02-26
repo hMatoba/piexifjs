@@ -26,7 +26,7 @@ SOFTWARE.
 (function () {
     "use strict";
     var that = {};
-
+    that.version = "1.03";
 
     that.remove = function (jpeg) {
         var b64 = false;
@@ -183,19 +183,19 @@ SOFTWARE.
                 exif_ifd[40965] = 1;
                 interop_is = true;
                 interop_ifd = exif_dict["Interop"];
-            } else if (Object.keys(exif_ifd).indexOf(40965) > -1) {
+            } else if (Object.keys(exif_ifd).indexOf(that.ExifIFD.InteroperabilityTag.toString()) > -1) {
                 delete exif_ifd[40965];
             }
-        } else if (Object.keys(zeroth_ifd).indexOf(34665) > -1) {
+        } else if (Object.keys(zeroth_ifd).indexOf(that.ExifIFD.ExifTag.toString()) > -1) {
             delete zeroth_ifd[34665];
         }
-        
+
         if (("GPS" in exif_dict) && (Object.keys(exif_dict["GPS"]).length)) {
-            zeroth_ifd[34853] = 1;
+            zeroth_ifd[that.ImageIFD.GPSTag] = 1;
             gps_is = true;
             gps_ifd = exif_dict["GPS"];
-        } else if (Object.keys(zeroth_ifd).indexOf(34665) > -1) {
-            delete zeroth_ifd[34665];
+        } else if (Object.keys(zeroth_ifd).indexOf(that.ImageIFD.GPSTag.toString()) > -1) {
+            delete zeroth_ifd[that.ImageIFD.GPSTag];
         }
         
         if (("1st" in exif_dict) &&
@@ -205,10 +205,8 @@ SOFTWARE.
             exif_dict["1st"][513] = 1;
             exif_dict["1st"][514] = 1;
             first_ifd = exif_dict["1st"];
-        } else if (Object.keys(zeroth_ifd).indexOf(34853) > -1) {
-            delete zeroth_ifd[34853];
         }
-
+        
         var zeroth_set = _dict_to_bytes(zeroth_ifd, "0th", 0);
         var zeroth_length = (zeroth_set[0].length + exif_is * 12 + gps_is * 12 + 4 +
             zeroth_set[1].length);
