@@ -631,6 +631,9 @@ SOFTWARE.
     };
 
 
+    if (typeof window !== "undefined" && typeof window.btoa === "function") {
+        var btoa = window.btoa;
+    }
     if (typeof btoa === "undefined") {
         var btoa = function (input) {        var output = "";
             var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
@@ -665,6 +668,9 @@ SOFTWARE.
     }
     
     
+    if (typeof window !== "undefined" && typeof window.atob === "function") {
+        var atob = window.atob;
+    }
     if (typeof atob === "undefined") {
         var atob = function (input) {
             var output = "";
