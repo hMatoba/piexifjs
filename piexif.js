@@ -2445,6 +2445,18 @@ SOFTWARE.
     that.InteropIFD = {
         InteroperabilityIndex:1,
     };
+
+    that.GPSHelper = {
+        degToDmsRational:function (degFloat) {
+            var minFloat = degFloat % 1 * 60;
+            var secFloat = minFloat % 1 * 60;
+            var deg = Math.floor(degFloat);
+            var min = Math.floor(minFloat);
+            var sec = Math.round(secFloat * 100);
+
+            return [[deg, 1], [min, 1], [sec, 100]];
+        }
+    };
     
     
     if (typeof exports !== 'undefined') {

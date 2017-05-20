@@ -62,6 +62,14 @@
             exifIfd[piexif.ExifIFD.LensSpecification] = [[1, 1], [1, 1], [1, 1], [1, 1]];
             gpsIfd[piexif.GPSIFD.GPSVersionID] = [7, 7, 7, 7];
             gpsIfd[piexif.GPSIFD.GPSDateStamp] = "1999:99:99 99:99:99";
+
+            var lat = 59.43553989213321;
+            var lng = 24.73842144012451;
+            gpsIfd[piexif.GPSIFD.GPSLatitudeRef] = lat < 0 ? 'S' : 'N';
+            gpsIfd[piexif.GPSIFD.GPSLatitude] = piexif.GPSHelper.degToDmsRational(lat);
+            gpsIfd[piexif.GPSIFD.GPSLongitudeRef] = lng < 0 ? 'W' : 'E';
+            gpsIfd[piexif.GPSIFD.GPSLongitude] = piexif.GPSHelper.degToDmsRational(lng);
+
             var exifObj = {"0th":zerothIfd, "Exif":exifIfd, "GPS":gpsIfd};
 
             // get exif binary as "string" type

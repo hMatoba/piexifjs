@@ -174,6 +174,19 @@ Generates Rotated JPEG
 
     document.getElementById("files").onchange = previewJpeg;
 
+GPS Coordinates
+---------------
+
+::
+
+    var lat = 59.43553989213321;
+    var lng = 24.73842144012451;
+    gpsIfd[piexif.GPSIFD.GPSLatitudeRef] = lat < 0 ? 'S' : 'N';
+    gpsIfd[piexif.GPSIFD.GPSLatitude] = piexif.GPSHelper.degToDmsRational(lat);
+    gpsIfd[piexif.GPSIFD.GPSLongitudeRef] = lng < 0 ? 'W' : 'E';
+    gpsIfd[piexif.GPSIFD.GPSLongitude] = piexif.GPSHelper.degToDmsRational(lng);
+
+
 Node.js
 -------
 
