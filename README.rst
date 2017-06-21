@@ -73,6 +73,11 @@ Environment
 
 Both client-side and server-side. Standard browsers(Tested on IE11, Opera28, and PhantomJS) and Node.js.
 
+Issues
+------
+
+Give me details. Environment, code, input, output. I can do nothing with abstract.
+
 License
 -------
 
