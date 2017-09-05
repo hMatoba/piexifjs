@@ -2455,6 +2455,15 @@ SOFTWARE.
             var sec = Math.round(secFloat * 100);
 
             return [[deg, 1], [min, 1], [sec, 100]];
+        },
+
+        dmsRationalToDeg:function (dmsArray, ref) {
+          var sign = (ref === 'S' || ref === 'W') ? -1.0 : 1.0;
+          var deg = sign * dmsArray[0][0] / dmsArray[0][1] +
+                    dmsArray[1][0] / dmsArray[1][1] / 60.0 +
+                    dmsArray[2][0] / dmsArray[2][1] / 3600.0;
+
+          return deg;
         }
     };
     
