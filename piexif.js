@@ -26,7 +26,7 @@ SOFTWARE.
 (function () {
     "use strict";
     var that = {};
-    that.version = "1.03";
+    that.version = "1.0.4";
 
     that.remove = function (jpeg) {
         var b64 = false;
