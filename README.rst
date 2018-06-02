@@ -25,7 +25,7 @@ Example
 ::
 
     <input type="file" id="files" />
-    <script source="/js/piexif.js" />
+    <script src="/js/piexif.js" />
     <script>
     function handleFileSelect(evt) {
         var file = evt.target.files[0];
