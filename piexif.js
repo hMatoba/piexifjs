@@ -919,35 +919,32 @@ SOFTWARE.
 
 
     function mergeSegments(segments, exif) {
-        
-        if (segments[1].slice(0, 2) == "\xff\xe0" &&
-            (segments[2].slice(0, 2) == "\xff\xe1" &&
-             segments[2].slice(4, 10) == "Exif\x00\x00")) {
-            if (exif) {
-                segments[2] = exif;
-                segments = ["\xff\xd8"].concat(segments.slice(2));
-            } else if (exif == null) {
-                segments = segments.slice(0, 2).concat(segments.slice(3));
-            } else {
-                segments = segments.slice(0).concat(segments.slice(2));
+        var hasExifSegment = false;
+        var additionalAPP1ExifSegments = [];
+
+        segments.forEach(function(segment, i) {
+            // Replace first occurence of APP1:Exif segment
+            if (segment.slice(0, 2) == "\xff\xe1" &&
+                segment.slice(4, 10) == "Exif\x00\x00"
+            ) {
+                if (!hasExifSegment) {
+                    segments[i] = exif;
+                    hasExifSegment = true
+                } else {
+                    additionalAPP1ExifSegments.push(i);
+                }
             }
-        } else if (segments[1].slice(0, 2) == "\xff\xe0") {
-            if (exif) {
-                segments[1] = exif;
-            }
-        } else if (segments[1].slice(0, 2) == "\xff\xe1" &&
-                   segments[1].slice(4, 10) == "Exif\x00\x00") {
-            if (exif) {
-                segments[1] = exif;
-            } else if (exif == null) {
-                segments = segments.slice(0).concat(segments.slice(2));
-            }
-        } else {
-            if (exif) {
-                segments = [segments[0], exif].concat(segments.slice(1));
-            }
+        });
+
+        // Remove additional occurences of APP1:Exif segment
+        additionalAPP1ExifSegments.forEach(function(segmentIndex) {
+            segments.splice(segmentIndex, 1);
+        });
+
+        if (!hasExifSegment && exif) {
+            segments = [segments[0], exif].concat(segments.slice(1));
         }
-        
+
         return segments.join("");
     }
 
