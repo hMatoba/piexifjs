@@ -931,7 +931,7 @@ SOFTWARE.
                     segments[i] = exif;
                     hasExifSegment = true
                 } else {
-                    additionalAPP1ExifSegments.push(i);
+                    additionalAPP1ExifSegments.unshift(i);
                 }
             }
         });
