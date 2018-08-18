@@ -929,7 +929,7 @@ SOFTWARE.
             ) {
                 if (!hasExifSegment) {
                     segments[i] = exif;
-                    hasExifSegment = true
+                    hasExifSegment = true;
                 } else {
                     additionalAPP1ExifSegments.unshift(i);
                 }
