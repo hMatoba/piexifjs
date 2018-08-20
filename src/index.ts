@@ -1,5 +1,4 @@
-import { Foo } from './foo'
-
+import { Types, Tags, TagValues } from './Constants'
 
 export let foobar = {
     foo: async () => {
@@ -10,8 +9,13 @@ export let foobar = {
         let x = 1 + 1;
         return x;
     },
-    foobar: () => {
-        let foo = new Foo();
-        return foo;
+    getType: () =>  {
+        return Types.Ascii;
+    },
+    getTag: () => {
+        return Tags["0th"];
+    },
+    getTagValue: () => {
+        return TagValues.ExifIFD.ApertureValue;
     }
 };
