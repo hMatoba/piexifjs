@@ -4,3 +4,7 @@ README.md
 _images
 docs/_build/
 *.db
+
+node_modules
+dist
+.rpt2_cache

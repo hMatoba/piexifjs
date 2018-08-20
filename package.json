@@ -16,5 +16,14 @@
   "bugs": {
     "url": "https://github.com/hMatoba/piexifjs/issues"
   },
-  "homepage": "https://github.com/hMatoba/piexifjs"
+  "homepage": "https://github.com/hMatoba/piexifjs",
+  "devDependencies": {
+    "rollup": "^0.64.1",
+    "rollup-plugin-typescript2": "^0.16.1",
+    "ts-loader": "^4.5.0",
+    "typescript": "^3.0.1",
+    "webpack": "^4.16.5",
+    "webpack-cli": "^3.1.0"
+  },
+  "module": "dist/my-library.es.js"
 }
