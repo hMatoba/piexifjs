@@ -1,4 +1,16 @@
-export const Types = {
+interface ITypes {
+    Byte: number;
+    Ascii: number;
+    Short: number;
+    Long: number;
+    Rational: number;
+    Undefined: number;
+    SLong: number;
+    SRational: number;
+    [key: string]:number
+  }
+
+export const Types:ITypes = {
     Byte: 1,
     Ascii: 2,
     Short: 3,
@@ -8,6 +20,8 @@ export const Types = {
     SLong: 9,
     SRational: 10
 };
+
+
 
 export const Tags: any = {
     'Image': {
