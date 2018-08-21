@@ -1,6 +1,6 @@
-import { Types, Tags, TagValues } from './Constants'
+import { Types, Tags, TagValues } from './constants'
 
-export let foobar = {
+export let piexifjs = {
     foo: async () => {
         let x = 1 + 1;
         return x;

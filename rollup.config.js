@@ -4,7 +4,7 @@ export default {
   entry: './src/index.ts',
   dest: './dist/piexif.js',
   format: 'umd',
-  moduleName: 'piexif',
+  moduleName: 'piexifjs',
   plugins: [
     typescript()
   ]
