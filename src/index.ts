@@ -1,5 +1,5 @@
-import * as constants from './constants'
-import * as utils from './utils'
+import * as constants from './constants';
+import * as utils from './utils';
 
 export const version:string = '2.0.0';
 

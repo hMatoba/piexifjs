@@ -1,4 +1,4 @@
-import * as constants from './constants'
+import * as constants from './constants';
 
 export const toHex = (str:string) => {
     var hexStr = "";
@@ -167,7 +167,7 @@ export const unpack = (mark:string, str:string) => {
     return unpacked;
 };
 
-const isBrowser = new Function("try {return this===window;}catch(e){ return false;}");
+const isBrowser = (new Function("try {return this===window;}catch(e){ return false;}"))();
 export const _atob:Function = isBrowser 
                               ? window.atob
                               : (input:string) => {
