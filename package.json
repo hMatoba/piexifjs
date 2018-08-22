@@ -1,6 +1,6 @@
 {
   "name": "piexifjs",
-  "version": "2.0.0",
+  "version": "2.0.0a",
   "description": "Read and write exif.",
   "main": "piexif.js",
   "repository": {
@@ -12,7 +12,8 @@
     "exif"
   ],
   "scripts": {
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "test": "jest"
   },
   "author": "hMatoba",
   "license": "MIT",
@@ -21,11 +22,10 @@
   },
   "homepage": "https://github.com/hMatoba/piexifjs",
   "devDependencies": {
+    "jest": "^23.5.0",
     "rollup": "^0.64.1",
     "rollup-plugin-typescript2": "^0.16.1",
     "ts-loader": "^4.5.0",
-    "typescript": "^3.0.1",
-    "webpack": "^4.16.5",
-    "webpack-cli": "^3.1.0"
+    "typescript": "^3.0.1"
   }
 }
