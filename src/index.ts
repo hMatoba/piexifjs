@@ -1,13 +1,13 @@
 import * as constants from './constants';
 import * as utils from './utils';
 
-export const version:string = '2.0.0';
+export const version:string = '2.0.0a';
 
 export const remove = (jpeg:string) => {
     var b64 = false;
     if (jpeg.slice(0, 2) == "\xff\xd8") {
     } else if (jpeg.slice(0, 23) == "data:image/jpeg;base64," || jpeg.slice(0, 22) == "data:image/jpg;base64,") {
-        jpeg = atob(jpeg.split(",")[1]);
+        jpeg = utils.atob(jpeg.split(",")[1]);
         b64 = true;
     } else {
         throw ("Given data is not jpeg.");
@@ -21,7 +21,7 @@ export const remove = (jpeg:string) => {
     
     var new_data = newSegments.join("");
     if (b64) {
-        new_data = "data:image/jpeg;base64," + btoa(new_data);
+        new_data = "data:image/jpeg;base64," + utils.btoa(new_data);
     }
 
     return new_data;
@@ -35,7 +35,7 @@ export const insert = (exif:string, jpeg:string) => {
     }
     if (jpeg.slice(0, 2) == "\xff\xd8") {
     } else if (jpeg.slice(0, 23) == "data:image/jpeg;base64," || jpeg.slice(0, 22) == "data:image/jpg;base64,") {
-        jpeg = atob(jpeg.split(",")[1]);
+        jpeg = utils.atob(jpeg.split(",")[1]);
         b64 = true;
     } else {
         throw ("Given data is not jpeg.");
@@ -45,7 +45,7 @@ export const insert = (exif:string, jpeg:string) => {
     var segments = utils.splitIntoSegments(jpeg);
     var new_data = utils.mergeSegments(segments, exifStr);
     if (b64) {
-        new_data = "data:image/jpeg;base64," + btoa(new_data);
+        new_data = "data:image/jpeg;base64," + utils.btoa(new_data);
     }
 
     return new_data;
@@ -58,7 +58,7 @@ export const load = (data:string) => {
         if (data.slice(0, 2) == "\xff\xd8") {
             input_data = data;
         } else if (data.slice(0, 23) == "data:image/jpeg;base64," || data.slice(0, 22) == "data:image/jpg;base64,") {
-            input_data = atob(data.split(",")[1]);
+            input_data = utils.atob(data.split(",")[1]);
         } else if (data.slice(0, 4) == "Exif") {
             input_data = data.slice(6);
         } else {

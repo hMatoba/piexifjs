@@ -1,16 +1,6 @@
 import * as constants from './constants';
 
-export const toHex = (str:string) => {
-    var hexStr = "";
-    for (var i = 0; i < str.length; i++) {
-        var h = str.charCodeAt(i);
-        var hex = ((h < 10) ? "0" : "") + h.toString(16);
-        hexStr += hex + " ";
-    }
-    return hexStr;
-};
-
-export const nStr = (ch:string, num:number) => {
+const nStr = (ch:string, num:number) => {
     var str = "";
     for (var i = 0; i < num; i++) {
         str += ch;
@@ -168,13 +158,13 @@ export const unpack = (mark:string, str:string) => {
 };
 
 const isBrowser = (new Function("try {return this===window;}catch(e){ return false;}"))();
-export const _atob:Function = isBrowser 
+export const atob:Function = isBrowser 
                               ? window.atob
                               : (input:string) => {
                                     const decoded = Buffer.from(input,'base64');
                                     return decoded;
                                 };
-export const _btoa:Function = isBrowser
+export const btoa:Function = isBrowser
                             ? window.btoa
                             : (input:string) => {
                                 const buf = Buffer.from(input);
@@ -183,17 +173,17 @@ export const _btoa:Function = isBrowser
                               };
 
 
-export const _pack_byte = (array:Array<number>) => {
+const _pack_byte = (array:Array<number>) => {
     return pack(">" + nStr("B", array.length), array);
 };
 
 
-export const _pack_short = (array:Array<number>) => {
+const _pack_short = (array:Array<number>) => {
     return pack(">" + nStr("H", array.length), array);
 };
 
 
-export const _pack_long = (array:Array<number>) => {
+const _pack_long = (array:Array<number>) => {
     return pack(">" + nStr("L", array.length), array);
 };
 
