@@ -38,16 +38,17 @@ jobs:
       - run:
           name: install
           command: |
-            echo 'bar'
+            apk update
+            apk add --no-cache ca-certificates
       - run: mkdir -p /tmp/workspace
       - attach_workspace:
           at: /tmp/workspace
 
 workflows:
   version: 2
-  build-and-deploy:
+  build_and_deploy:
     jobs:
-      - build:
+      - build
       - deploy:
           requires:
             - build
