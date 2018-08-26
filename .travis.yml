@@ -14,14 +14,14 @@ script:
   - npm run test
 
 before_deploy:
-  - sh set_release.sh
   - mkdir piexifjs
   - ls
   - cp ./dist/piexifjs.js ./piexifjs/
-  - cp ./dist/README.rst ./piexifjs/
-  - cp ./dist/LICENSE.txt ./piexifjs/
+  - cp ./README.rst ./piexifjs/
+  - cp ./LICENSE.txt ./piexifjs/
   - zip -r piexifjs.zip ./piexifjs
-deploy:
+  - sh set_release.sh
+  deploy:
   provider: releases
   api_key: "${GITHUB_OAUTH_TOKEN}"
   file: piexifjs.zip
