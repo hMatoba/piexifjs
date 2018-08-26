@@ -5,15 +5,18 @@ node_js:
   - "10"
   # - "9"
   # - "8"
-  
-script:
+
+before_script:
   - npm install
+
+script:
   - npm run build
   - npm run test
 
 before_deploy:
   - sh set_release.sh
   - mkdir piexifjs
+  - ls
   - cp ./dist/piexifjs.js ./piexifjs/
   - cp ./dist/README.rst ./piexifjs/
   - cp ./dist/LICENSE.txt ./piexifjs/
