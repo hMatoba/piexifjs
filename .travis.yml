@@ -26,4 +26,4 @@ deploy:
   file: piexifjs.zip
   skip_cleanup: true
   on:
-    branch: release-test
+    branch: master
