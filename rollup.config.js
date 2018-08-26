@@ -2,7 +2,7 @@ import typescript from 'rollup-plugin-typescript2';
 
 export default {
   entry: './src/index.ts',
-  dest: './dist/piexif.js',
+  dest: './dist/piexifjs.js',
   format: 'umd',
   moduleName: 'piexifjs',
   plugins: [

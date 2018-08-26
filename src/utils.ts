@@ -370,9 +370,12 @@ export class ExifReader {
     }
 
     get_ifd = (pointer:number, ifd_name:string) => {
-        var ifd_dict:any = {};
         var tag_count = unpack(this.endian_mark + "H",
-            this.tiftag.slice(pointer, pointer + 2))[0];
+                             this.tiftag.slice(pointer, pointer + 2))[0];
+        if (tag_count == 0) {
+            return null;
+        }
+        var ifd_dict:any = {};
         var offset = pointer + 2;
         var t;
         if (["0th", "1st"].indexOf(ifd_name) > -1) {

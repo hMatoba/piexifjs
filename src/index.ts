@@ -68,14 +68,7 @@ export const load = (data:string) => {
         throw ("'load' gots invalid type argument.");
     }
 
-    var exif_dict:any = {
-        "0th": {},
-        "Exif": {},
-        "GPS": {},
-        "Interop": {},
-        "1st": {},
-        "thumbnail": null
-    };
+    var exif_dict:any = {};
     var exifReader:any = new utils.ExifReader(input_data);
     if (exifReader.tiftag === null) {
         return exif_dict;
@@ -87,36 +80,61 @@ export const load = (data:string) => {
         exifReader.endian_mark = ">";
     }
 
+    var zerothObj = null;
+    var firstObj = null;
+    var exifObj = null;
+    var interopObj = null;
+    var gpsObj = null;
+    var thumbnail = null;
     var pointer = utils.unpack(exifReader.endian_mark + "L",
-        exifReader.tiftag.slice(4, 8))[0];
-    exif_dict["0th"] = exifReader.get_ifd(pointer, "0th");
+                               exifReader.tiftag.slice(4, 8))[0];
+    var zerothObj = exifReader.get_ifd(pointer, "0th");
+    //*exif_dict["0th"] = exifReader.get_ifd(pointer, "0th");
 
-    var first_ifd_pointer = exif_dict["0th"]["first_ifd_pointer"];
-    // delete exif_dict["0th"]["first_ifd_pointer"];
+    var first_ifd_pointer = zerothObj["first_ifd_pointer"];
+    delete zerothObj["first_ifd_pointer"];
 
-    if (34665 in exif_dict["0th"]) {
-        pointer = exif_dict["0th"][34665];
-        exif_dict["Exif"] = exifReader.get_ifd(pointer, "Exif");
+    if (zerothObj !== null && 34665 in zerothObj) {
+        pointer = zerothObj[34665];
+        exifObj = exifReader.get_ifd(pointer, "Exif");
     }
-    if (34853 in exif_dict["0th"]) {
-        pointer = exif_dict["0th"][34853];
-        exif_dict["GPS"] = exifReader.get_ifd(pointer, "GPS");
+    if (zerothObj !== null && 34853 in zerothObj) {
+        pointer = zerothObj[34853];
+        gpsObj = exifReader.get_ifd(pointer, "GPS");
     }
-    if (40965 in exif_dict["Exif"]) {
-        pointer = exif_dict["Exif"][40965];
-        exif_dict["Interop"] = exifReader.get_ifd(pointer, "Interop");
+    if (exifObj !== null && 40965 in exifObj) {
+        pointer = exifObj[40965];
+        interopObj = exifReader.get_ifd(pointer, "Interop");
     }
     if (first_ifd_pointer != "\x00\x00\x00\x00") {
         pointer = utils.unpack(exifReader.endian_mark + "L",
-            first_ifd_pointer)[0];
-        exif_dict["1st"] = exifReader.get_ifd(pointer, "1st");
-        if ((513 in exif_dict["1st"]) && (514 in exif_dict["1st"])) {
-            var end = exif_dict["1st"][513] + exif_dict["1st"][514];
-            var thumb = exifReader.tiftag.slice(exif_dict["1st"][513], end);
-            exif_dict["thumbnail"] = thumb;
+                               first_ifd_pointer)[0];
+        firstObj = exifReader.get_ifd(pointer, "1st");
+        if (firstObj !== null && (513 in firstObj) && (514 in firstObj)) {
+            var end = firstObj[513] + firstObj[514];
+            var thumb = exifReader.tiftag.slice(firstObj[513], end);
+            thumbnail = thumb;
         }
     }
 
+    if (zerothObj !== null) {
+        exif_dict['0th'] = zerothObj;
+    }
+    if (firstObj !== null) {
+        exif_dict['1st'] = firstObj;
+    }
+    if (exifObj !== null) {
+        exif_dict['Exif'] = exifObj;
+    }
+    if (gpsObj !== null) {
+        exif_dict['GPS'] = gpsObj;
+    }
+    if (interopObj !== null) {
+        exif_dict['Interop'] = interopObj;
+    }
+    if (thumbnail !== null) {
+        exif_dict['thumbnail'] = thumbnail;
+    }
     return exif_dict;
 };
 
