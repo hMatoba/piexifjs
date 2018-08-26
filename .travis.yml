@@ -26,4 +26,5 @@ deploy:
   file: piexifjs.zip
   skip_cleanup: true
   on:
-    branch: release-test
+    all_branches: true
+    condition: $TRAVIS_BRANCH =~ ^release|release-testd$
