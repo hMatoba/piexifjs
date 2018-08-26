@@ -14,6 +14,8 @@ script:
   - npm run test
 
 before_deploy:
+  - echo "$TRAVIS_COMMIT_MESSAGE"
+  - echo "$TRAVIS_TAG"
   - mkdir piexifjs
   - cp ./dist/piexifjs.js ./piexifjs/
   - cp ./README.rst ./piexifjs/
