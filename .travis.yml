@@ -23,3 +23,5 @@ deploy:
   api_key: "${GITHUB_OAUTH_TOKEN}"
   file: piexifjs.zip
   skip_cleanup: true
+  on:
+    branch: release-test
