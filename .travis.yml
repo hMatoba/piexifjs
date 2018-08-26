@@ -26,6 +26,4 @@ deploy:
   file: piexifjs.zip
   skip_cleanup: true
   on:
-    tags: true
-    all_branches: true
-    condition: "$TRAVIS_TAG =~ ^release.*$"
+    branch: release-test
