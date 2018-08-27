@@ -12,13 +12,13 @@ http://piexifjs.readthedocs.org/en/latest/index.html
 Notice and Warning!
 -------------------
 
- We are implementing v2.0. This version would include a few big changes. If you won't ready to use, don't update this library.
+We are implementing v2.0. This version would include a few big changes. If you won't ready to use, don't update this library.
  
- ```
- npm install piexifjs@1.0.4
- ```
+```
+npm install piexifjs@1.0.4
+```
  
- Thank you for using piexifjs!
+Thank you for using piexifjs!
 
 
 How to Use
