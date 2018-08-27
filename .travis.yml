@@ -5,21 +5,25 @@ node_js:
   - "10"
   # - "9"
   # - "8"
-  
-script:
+
+before_script:
   - npm install
+
+script:
   - npm run build
   - npm run test
 
 before_deploy:
-  - sh set_release.sh
   - mkdir piexifjs
   - cp ./dist/piexifjs.js ./piexifjs/
-  - cp ./dist/README.rst ./piexifjs/
-  - cp ./dist/LICENSE.txt ./piexifjs/
+  - cp ./README.rst ./piexifjs/
+  - cp ./LICENSE.txt ./piexifjs/
   - zip -r piexifjs.zip ./piexifjs
 deploy:
   provider: releases
   api_key: "${GITHUB_OAUTH_TOKEN}"
   file: piexifjs.zip
   skip_cleanup: true
+  on:
+    all_branches: true
+    condition: $TRAVIS_BRANCH = $TRAVIS_TAG
