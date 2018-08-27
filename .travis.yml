@@ -25,5 +25,4 @@ deploy:
   file: piexifjs.zip
   skip_cleanup: true
   on:
-    all_branches: true
-    condition: $TRAVIS_BRANCH = $TRAVIS_TAG
+    tags: true
