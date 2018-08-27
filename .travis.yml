@@ -14,16 +14,18 @@ script:
   - npm run test
 
 before_deploy:
+  - git checkout -b release-test
   - mkdir piexifjs
   - cp ./dist/piexifjs.js ./piexifjs/
   - cp ./README.rst ./piexifjs/
   - cp ./LICENSE.txt ./piexifjs/
   - zip -r piexifjs.zip ./piexifjs
-  - sh set_release.sh
+  #- sh set_release.sh
 deploy:
   provider: releases
   api_key: "${GITHUB_OAUTH_TOKEN}"
   file: piexifjs.zip
   skip_cleanup: true
   on:
-    branch: master
+    all_branches: true
+    condition: $TRAVIS_BRANCH = $TRAVIS_TAG
