@@ -14,7 +14,6 @@ script:
   - npm run test
 
 before_deploy:
-  - git checkout -b release-test  # when release 2.0, change to master
   - mkdir piexifjs
   - cp ./dist/piexifjs.js ./piexifjs/
   - cp ./README.rst ./piexifjs/
