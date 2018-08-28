@@ -1,8 +1,0 @@
-docs
-samples
-tests
-phestum.js
-nodetest.js
-.travis.yml
-*.bat
-Dockerfile
