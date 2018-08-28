@@ -20,9 +20,14 @@ before_deploy:
   - cp ./LICENSE.txt ./piexifjs/
   - zip -r piexifjs.zip ./piexifjs
 deploy:
-  provider: releases
-  api_key: "${GITHUB_OAUTH_TOKEN}"
-  file: piexifjs.zip
-  skip_cleanup: true
-  on:
-    tags: true
+  - provider: releases
+    api_key: "${GITHUB_OAUTH_TOKEN}"
+    file: piexifjs.zip
+    skip_cleanup: true
+    on:
+      tags: true
+  - provider: npm
+    email: "${NPM_MYMAIL}"
+    api_key: "${NPM_TOKEN}"
+    on:
+      tags: true
