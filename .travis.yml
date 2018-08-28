@@ -19,6 +19,7 @@ before_deploy:
   - cp ./README.rst ./piexifjs/
   - cp ./LICENSE.txt ./piexifjs/
   - zip -r piexifjs.zip ./piexifjs
+  - rm -rf piexifjs
 deploy:
   - provider: releases
     api_key: "${GITHUB_OAUTH_TOKEN}"
