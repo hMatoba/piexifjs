@@ -1,3 +1,5 @@
+const piexifjs = require('../dist/piexifjs');
+
 const timeout = 5000
 
 describe(
@@ -6,7 +8,6 @@ describe(
     let page
     beforeAll(async () => {
       page = await global.__BROWSER__.newPage()
-      await page.goto('https://google.com')
     }, timeout)
 
     afterAll(async () => {
@@ -14,8 +15,14 @@ describe(
     })
 
     it('should load without error', async () => {
-      let text = await page.evaluate(() => document.body.textContent)
-      expect(text).toContain('google')
+      await page.addScriptTag({
+        path: "./dist/piexifjs.js"
+      });
+      const val = await page.evaluate(() => {
+        piexifjs.load;
+        return "xx";
+      })
+      expect(val).toBe("xx");
     })
   },
   timeout
