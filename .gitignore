@@ -4,6 +4,7 @@ README.md
 _images
 docs/_build/
 *.db
+npm-debug.log
 
 node_modules
 dist
