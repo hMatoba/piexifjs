@@ -11,7 +11,7 @@ before_script:
 
 script:
   - npm run build
-  - npm run browser-test
+  - npm run node-test
 
 before_deploy:
   - mkdir piexifjs

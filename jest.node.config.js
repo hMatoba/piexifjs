@@ -3,6 +3,6 @@ module.exports = {
   coverageDirectory: "coverage",
   testEnvironment: "node",
   testMatch: [
-    "**/tests/**/*.test.js",
+    "**/node_tests/**/*.test.js",
   ],
 };

@@ -20,7 +20,7 @@
   ],
   "scripts": {
     "build": "rollup -c",
-    "node-test": "jest",
+    "node-test": "jest --config=jest.node.config.js",
     "browser-test": "jest --config=jest.puppeteer.config.js"
   },
   "author": "hMatoba",
