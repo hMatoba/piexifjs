@@ -1,8 +1,8 @@
 import * as constants from './constants';
 
 const nStr = (ch:string, num:number) => {
-    var str = "";
-    for (var i = 0; i < num; i++) {
+    let str = "";
+    for (let i = 0; i < num; i++) {
         str += ch;
     }
     return str;
@@ -16,7 +16,7 @@ export const pack = (mark:string, array:Array<number>) => {
         throw ("'pack' error. " + (mark.length - 1) + " marks, " + array.length + " elements.");
     }
 
-    var littleEndian;
+    let littleEndian;
     if (mark[0] == "<") {
         littleEndian = true;
     } else if (mark[0] == ">") {
@@ -24,11 +24,11 @@ export const pack = (mark:string, array:Array<number>) => {
     } else {
         throw ("");
     }
-    var packed = "";
-    var p = 1;
-    var val = null;
-    var c = null;
-    var valStr = null;
+    let packed = "";
+    let p = 1;
+    let val = null;
+    let c = null;
+    let valStr = null;
 
     while (c = mark[p]) {
         if (c.toLowerCase() == "b") {
@@ -83,8 +83,8 @@ export const unpack = (mark:string, str:string) => {
     if (typeof (str) != "string") {
         throw ("'unpack' error. Got invalid type argument.");
     }
-    var l = 0;
-    for (var markPointer = 1; markPointer < mark.length; markPointer++) {
+    let l = 0;
+    for (let markPointer = 1; markPointer < mark.length; markPointer++) {
         if (mark[markPointer].toLowerCase() == "b") {
             l += 1;
         } else if (mark[markPointer].toLowerCase() == "h") {
@@ -100,7 +100,7 @@ export const unpack = (mark:string, str:string) => {
         throw ("'unpack' error. Mismatch between symbol and string length. " + l + ":" + str.length);
     }
 
-    var littleEndian;
+    let littleEndian;
     if (mark[0] == "<") {
         littleEndian = true;
     } else if (mark[0] == ">") {
@@ -108,13 +108,13 @@ export const unpack = (mark:string, str:string) => {
     } else {
         throw ("'unpack' error.");
     }
-    var unpacked = [];
-    var strPointer = 0;
-    var p = 1;
-    var val = null;
-    var c = null;
-    var length = null;
-    var sliced = "";
+    let unpacked = [];
+    let strPointer = 0;
+    let p = 1;
+    let val = null;
+    let c = null;
+    let length = null;
+    let sliced = "";
 
     while (c = mark[p]) {
         if (c.toLowerCase() == "b") {
@@ -159,14 +159,14 @@ export const unpack = (mark:string, str:string) => {
 
 const isBrowser = (new Function("try {return this===window;}catch(e){ return false;}"))();
 export const atob:Function = isBrowser 
-                              ? window.atob
-                              : (input:string) => {
-                                    const decoded = Buffer.from(input,'base64');
-                                    return decoded;
-                                };
+                             ? window.atob
+                             : (input:string) => {
+                                const decoded = Buffer.from(input,'base64');
+                                return decoded;
+                              };
 export const btoa:Function = isBrowser
-                            ? window.btoa
-                            : (input:string) => {
+                             ? window.btoa
+                             : (input:string) => {
                                 const buf = Buffer.from(input);
                                 const encoded = buf.toString('base64');
                                 return encoded;
@@ -196,7 +196,7 @@ export const copy = (obj:any) => {
 
 
 export const _get_thumbnail = (jpeg:string) => {
-    var segments = splitIntoSegments(jpeg);
+    let segments = splitIntoSegments(jpeg);
     while (("\xff\xe0" <= segments[1].slice(0, 2)) && (segments[1].slice(0, 2) <= "\xff\xef")) {
         segments = [segments[0]].concat(segments.slice(2));
     }
@@ -204,9 +204,9 @@ export const _get_thumbnail = (jpeg:string) => {
 };
 
 const _value_to_bytes = (raw_value:any, value_type:string, offset:number) => {
-    var four_bytes_over = "";
-    var value_str = "";
-    var length,
+    let four_bytes_over = "";
+    let value_str = "";
+    let length,
         new_value,
         num,
         den;
@@ -255,7 +255,7 @@ const _value_to_bytes = (raw_value:any, value_type:string, offset:number) => {
         } else {
             length = raw_value.length;
             new_value = "";
-            for (var n = 0; n < length; n++) {
+            for (let n = 0; n < length; n++) {
                 num = raw_value[n][0];
                 den = raw_value[n][1];
                 new_value += (pack(">L", [num]) +
@@ -273,7 +273,7 @@ const _value_to_bytes = (raw_value:any, value_type:string, offset:number) => {
         } else {
             length = raw_value.length;
             new_value = "";
-            for (var n = 0; n < length; n++) {
+            for (let n = 0; n < length; n++) {
                 num = raw_value[n][0];
                 den = raw_value[n][1];
                 new_value += (pack(">l", [num]) +
@@ -292,24 +292,24 @@ const _value_to_bytes = (raw_value:any, value_type:string, offset:number) => {
         }
     }
 
-    var length_str = pack(">L", [length]);
+    const length_str = pack(">L", [length]);
 
     return [length_str, value_str, four_bytes_over];
 };
 
 export const _dict_to_bytes = (ifd_dict:any, ifd:string, ifd_offset:number) => {
-    var TIFF_HEADER_LENGTH = 8;
-    var tag_count = Object.keys(ifd_dict).length;
-    var entry_header = pack(">H", [tag_count]);
-    var entries_length;
+    const TIFF_HEADER_LENGTH = 8;
+    const tag_count = Object.keys(ifd_dict).length;
+    const entry_header = pack(">H", [tag_count]);
+    let entries_length;
     if (["0th", "1st"].indexOf(ifd) > -1) {
         entries_length = 2 + tag_count * 12 + 4;
     } else {
         entries_length = 2 + tag_count * 12;
     }
-    var entries = "";
-    var values = "";
-    var key;
+    let entries = "";
+    let values = "";
+    let key;
 
     for (key in ifd_dict) {
         if (typeof (key) == "string") {
@@ -323,19 +323,19 @@ export const _dict_to_bytes = (ifd_dict:any, ifd:string, ifd_offset:number) => {
             continue;
         }
 
-        var raw_value = ifd_dict[key];
-        var key_str = pack(">H", [key]);
-        var value_type:string = constants.Tags[ifd][key]["type"];
-        var type_str = pack(">H", [constants.Types[value_type]]);
+        let raw_value = ifd_dict[key];
+        const key_str = pack(">H", [key]);
+        const value_type:string = constants.Tags[ifd][key]["type"];
+        const type_str = pack(">H", [constants.Types[value_type]]);
 
         if (typeof (raw_value) == "number") {
             raw_value = [raw_value];
         }
-        var offset = TIFF_HEADER_LENGTH + entries_length + ifd_offset + values.length;
-        var b = _value_to_bytes(raw_value, value_type, offset);
-        var length_str = b[0];
-        var value_str = b[1];
-        var four_bytes_over = b[2];
+        const offset = TIFF_HEADER_LENGTH + entries_length + ifd_offset + values.length;
+        const b = _value_to_bytes(raw_value, value_type, offset);
+        const length_str = b[0];
+        const value_str = b[1];
+        const four_bytes_over = b[2];
 
         entries += key_str + type_str + length_str + value_str;
         values += four_bytes_over;
@@ -350,7 +350,7 @@ export class ExifReader {
     tiftag: string;
     endian_mark: string;
     constructor (data:string) {
-        var segments,
+        let segments,
             app1;
         if (data.slice(0, 2) == "\xff\xd8") { // JPEG
             segments = splitIntoSegments(data);
@@ -370,31 +370,31 @@ export class ExifReader {
     }
 
     get_ifd = (pointer:number, ifd_name:string) => {
-        var tag_count = unpack(this.endian_mark + "H",
-                             this.tiftag.slice(pointer, pointer + 2))[0];
+        let tag_count = unpack(this.endian_mark + "H",
+                               this.tiftag.slice(pointer, pointer + 2))[0];
         if (tag_count == 0) {
             return null;
         }
-        var ifd_dict:any = {};
-        var offset = pointer + 2;
-        var t;
+        let ifd_dict:any = {};
+        const offset = pointer + 2;
+        let t;
         if (["0th", "1st"].indexOf(ifd_name) > -1) {
             t = "Image";
         } else {
             t = ifd_name;
         }
 
-        for (var x = 0; x < tag_count; x++) {
+        for (let x = 0; x < tag_count; x++) {
             pointer = offset + 12 * x;
-            var tag = unpack(this.endian_mark + "H",
-                this.tiftag.slice(pointer, pointer + 2))[0];
-            var value_type = unpack(this.endian_mark + "H",
-                this.tiftag.slice(pointer + 2, pointer + 4))[0];
-            var value_num = unpack(this.endian_mark + "L",
-                this.tiftag.slice(pointer + 4, pointer + 8))[0];
-            var value = this.tiftag.slice(pointer + 8, pointer + 12);
+            const tag = unpack(this.endian_mark + "H",
+                               this.tiftag.slice(pointer, pointer + 2))[0];
+            const value_type = unpack(this.endian_mark + "H",
+                                      this.tiftag.slice(pointer + 2, pointer + 4))[0];
+            const value_num = unpack(this.endian_mark + "L",
+                                     this.tiftag.slice(pointer + 4, pointer + 8))[0];
+            const value = this.tiftag.slice(pointer + 8, pointer + 12);
 
-            var v_set = [value_type, value_num, value];
+            const v_set = [value_type, value_num, value];
             if (tag in constants.Tags[t]) {
                 ifd_dict[tag] = this.convert_value(v_set);
             }
@@ -409,11 +409,11 @@ export class ExifReader {
     }
 
     convert_value = (val:any) => {
-        var data = null;
-        var t = val[0];
-        var length = val[1];
-        var value = val[2];
-        var pointer;
+        let data = null;
+        const t = val[0];
+        const length = val[1];
+        const value = val[2];
+        let pointer;
 
         if (t == 1) { // BYTE
             if (length > 4) {
@@ -452,7 +452,7 @@ export class ExifReader {
             pointer = unpack(this.endian_mark + "L", value)[0];
             if (length > 1) {
                 data = [];
-                for (var x = 0; x < length; x++) {
+                for (let x = 0; x < length; x++) {
                     data.push([unpack(this.endian_mark + "L",
                             this.tiftag.slice(pointer + x * 8, pointer + 4 + x * 8))[0],
                                unpack(this.endian_mark + "L",
@@ -460,11 +460,12 @@ export class ExifReader {
                                ]);
                 }
             } else {
-                data = [unpack(this.endian_mark + "L",
-                        this.tiftag.slice(pointer, pointer + 4))[0],
-                        unpack(this.endian_mark + "L",
-                        this.tiftag.slice(pointer + 4, pointer + 8))[0]
-                        ];
+                data = [
+                    unpack(this.endian_mark + "L",
+                    this.tiftag.slice(pointer, pointer + 4))[0],
+                    unpack(this.endian_mark + "L",
+                    this.tiftag.slice(pointer + 4, pointer + 8))[0]
+                ];
             }
         } else if (t == 7) { // UNDEFINED BYTES
             if (length > 4) {
@@ -477,7 +478,7 @@ export class ExifReader {
             pointer = unpack(this.endian_mark + "L", value)[0];
             if (length > 1) {
                 data = [];
-                for (var x = 0; x < length; x++) {
+                for (let x = 0; x < length; x++) {
                     data.push([unpack(this.endian_mark + "l",
                             this.tiftag.slice(pointer + x * 8, pointer + 4 + x * 8))[0],
                                unpack(this.endian_mark + "l",
@@ -510,15 +511,15 @@ export const splitIntoSegments = (data:string) => {
         throw ("Given data isn't JPEG.");
     }
 
-    var head = 2;
-    var segments = ["\xff\xd8"];
+    let head = 2;
+    let segments = ["\xff\xd8"];
     while (true) {
         if (data.slice(head, head + 2) == "\xff\xda") {
             segments.push(data.slice(head));
             break;
         } else {
-            var length = unpack(">H", data.slice(head + 2, head + 4))[0];
-            var endPoint = head + length + 2;
+            const length = unpack(">H", data.slice(head + 2, head + 4))[0];
+            const endPoint = head + length + 2;
             segments.push(data.slice(head, endPoint));
             head = endPoint;
         }
@@ -532,8 +533,8 @@ export const splitIntoSegments = (data:string) => {
 
 
 const getExifSeg = (segments:Array<string>) => {
-    var seg;
-    for (var i = 0; i < segments.length; i++) {
+    let seg;
+    for (let i = 0; i < segments.length; i++) {
         seg = segments[i];
         if (seg.slice(0, 2) == "\xff\xe1" &&
                seg.slice(4, 10) == "Exif\x00\x00") {
@@ -545,8 +546,8 @@ const getExifSeg = (segments:Array<string>) => {
 
 
 export const mergeSegments = (segments:Array<string>, exif:string) => {
-    var hasExifSegment = false;
-    var additionalAPP1ExifSegments:Array<number> = [];
+    let hasExifSegment = false;
+    let additionalAPP1ExifSegments:Array<number> = [];
 
     segments.forEach(function(segment, i) {
         // Replace first occurence of APP1:Exif segment

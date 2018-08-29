@@ -4,7 +4,7 @@ import * as utils from './utils';
 export const version:string = '2.0.0a';
 
 export const remove = (jpeg:string) => {
-    var b64 = false;
+    let b64 = false;
     if (jpeg.slice(0, 2) == "\xff\xd8") {
     } else if (jpeg.slice(0, 23) == "data:image/jpeg;base64," || jpeg.slice(0, 22) == "data:image/jpg;base64,") {
         jpeg = utils.atob(jpeg.split(",")[1]);
@@ -13,13 +13,13 @@ export const remove = (jpeg:string) => {
         throw ("Given data is not jpeg.");
     }
     
-    var segments = utils.splitIntoSegments(jpeg);
-    var newSegments = segments.filter(function(segment:string){
-      return  !(segment.slice(0, 2) == "\xff\xe1" &&
-               segment.slice(4, 10) == "Exif\x00\x00"); 
+    const segments = utils.splitIntoSegments(jpeg);
+    const newSegments = segments.filter(function(segment:string){
+        return  !(segment.slice(0, 2) == "\xff\xe1" &&
+                segment.slice(4, 10) == "Exif\x00\x00"); 
     });
     
-    var new_data = newSegments.join("");
+    let new_data = newSegments.join("");
     if (b64) {
         new_data = "data:image/jpeg;base64," + utils.btoa(new_data);
     }
@@ -29,7 +29,7 @@ export const remove = (jpeg:string) => {
 
 
 export const insert = (exif:string, jpeg:string) => {
-    var b64 = false;
+    let b64 = false;
     if (exif.slice(0, 6) != "\x45\x78\x69\x66\x00\x00") {
         throw ("Given data is not exif.");
     }
@@ -41,9 +41,9 @@ export const insert = (exif:string, jpeg:string) => {
         throw ("Given data is not jpeg.");
     }
 
-    var exifStr = "\xff\xe1" + utils.pack(">H", [exif.length + 2]) + exif;
-    var segments = utils.splitIntoSegments(jpeg);
-    var new_data = utils.mergeSegments(segments, exifStr);
+    const exifStr = "\xff\xe1" + utils.pack(">H", [exif.length + 2]) + exif;
+    const segments = utils.splitIntoSegments(jpeg);
+    let new_data = utils.mergeSegments(segments, exifStr);
     if (b64) {
         new_data = "data:image/jpeg;base64," + utils.btoa(new_data);
     }
@@ -53,7 +53,7 @@ export const insert = (exif:string, jpeg:string) => {
 
 
 export const load = (data:string) => {
-    var input_data;
+    let input_data;
     if (typeof (data) == "string") {
         if (data.slice(0, 2) == "\xff\xd8") {
             input_data = data;
@@ -68,8 +68,8 @@ export const load = (data:string) => {
         throw ("'load' gots invalid type argument.");
     }
 
-    var exif_dict:any = {};
-    var exifReader:any = new utils.ExifReader(input_data);
+    let exif_dict:any = {};
+    let exifReader:any = new utils.ExifReader(input_data);
     if (exifReader.tiftag === null) {
         return exif_dict;
     }
@@ -80,18 +80,17 @@ export const load = (data:string) => {
         exifReader.endian_mark = ">";
     }
 
-    var zerothObj = null;
-    var firstObj = null;
-    var exifObj = null;
-    var interopObj = null;
-    var gpsObj = null;
-    var thumbnail = null;
-    var pointer = utils.unpack(exifReader.endian_mark + "L",
+    let zerothObj = null;
+    let firstObj = null;
+    let exifObj = null;
+    let interopObj = null;
+    let gpsObj = null;
+    let thumbnail = null;
+    let pointer = utils.unpack(exifReader.endian_mark + "L",
                                exifReader.tiftag.slice(4, 8))[0];
-    var zerothObj = exifReader.get_ifd(pointer, "0th");
-    //*exif_dict["0th"] = exifReader.get_ifd(pointer, "0th");
+    zerothObj = exifReader.get_ifd(pointer, "0th");
 
-    var first_ifd_pointer = zerothObj["first_ifd_pointer"];
+    const first_ifd_pointer = zerothObj["first_ifd_pointer"];
     delete zerothObj["first_ifd_pointer"];
 
     if (zerothObj !== null && 34665 in zerothObj) {
@@ -111,8 +110,8 @@ export const load = (data:string) => {
                                first_ifd_pointer)[0];
         firstObj = exifReader.get_ifd(pointer, "1st");
         if (firstObj !== null && (513 in firstObj) && (514 in firstObj)) {
-            var end = firstObj[513] + firstObj[514];
-            var thumb = exifReader.tiftag.slice(firstObj[513], end);
+            const end = firstObj[513] + firstObj[514];
+            const thumb = exifReader.tiftag.slice(firstObj[513], end);
             thumbnail = thumb;
         }
     }
@@ -140,16 +139,16 @@ export const load = (data:string) => {
 
 
 export const dump = (exif_dict_original:any) => {
-    var TIFF_HEADER_LENGTH = 8;
+    const TIFF_HEADER_LENGTH = 8;
 
-    var exif_dict = utils.copy(exif_dict_original);
-    var header = "Exif\x00\x00\x4d\x4d\x00\x2a\x00\x00\x00\x08";
-    var exif_is = false;
-    var gps_is = false;
-    var interop_is = false;
-    var first_is = false;
+    let exif_dict = utils.copy(exif_dict_original);
+    const header = "Exif\x00\x00\x4d\x4d\x00\x2a\x00\x00\x00\x08";
+    let exif_is = false;
+    let gps_is = false;
+    let interop_is = false;
+    let first_is = false;
 
-    var zeroth_ifd,
+    let zeroth_ifd,
         exif_ifd,
         interop_ifd,
         gps_ifd,
@@ -194,11 +193,11 @@ export const dump = (exif_dict_original:any) => {
         first_ifd = exif_dict["1st"];
     }
     
-    var zeroth_set = utils._dict_to_bytes(zeroth_ifd, "0th", 0);
-    var zeroth_length = (zeroth_set[0].length + Number(exif_is) * 12 + Number(gps_is) * 12 + 4 +
+    let zeroth_set = utils._dict_to_bytes(zeroth_ifd, "0th", 0);
+    const zeroth_length = (zeroth_set[0].length + Number(exif_is) * 12 + Number(gps_is) * 12 + 4 +
         zeroth_set[1].length);
 
-    var exif_set,
+    let exif_set,
         exif_bytes = "",
         exif_length = 0,
         gps_set,
@@ -220,13 +219,13 @@ export const dump = (exif_dict_original:any) => {
         gps_length = gps_bytes.length;
     }
     if (interop_is) {
-        var offset = zeroth_length + exif_length + gps_length;
+        const offset = zeroth_length + exif_length + gps_length;
         interop_set = utils._dict_to_bytes(interop_ifd, "Interop", offset);
         interop_bytes = interop_set.join("");
         interop_length = interop_bytes.length;
     }
     if (first_is) {
-        var offset = zeroth_length + exif_length + gps_length + interop_length;
+        const offset = zeroth_length + exif_length + gps_length + interop_length;
         first_set = utils._dict_to_bytes(first_ifd, "1st", offset);
         thumbnail = utils._get_thumbnail(exif_dict["thumbnail"]);
         if (thumbnail.length > 64000) {
@@ -234,54 +233,54 @@ export const dump = (exif_dict_original:any) => {
         }
     }
 
-    var exif_pointer = "",
+    let exif_pointer = "",
         gps_pointer = "",
         interop_pointer = "",
         first_ifd_pointer = "\x00\x00\x00\x00";
     if (exif_is) {
-        var pointer_value = TIFF_HEADER_LENGTH + zeroth_length;
-        var pointer_str = utils.pack(">L", [pointer_value]);
-        var key = 34665;
-        var key_str = utils.pack(">H", [key]);
-        var type_str = utils.pack(">H", [constants.Types["Long"]]);
-        var length_str = utils.pack(">L", [1]);
+        const pointer_value = TIFF_HEADER_LENGTH + zeroth_length;
+        const pointer_str = utils.pack(">L", [pointer_value]);
+        const key = 34665;
+        const key_str = utils.pack(">H", [key]);
+        const type_str = utils.pack(">H", [constants.Types["Long"]]);
+        const length_str = utils.pack(">L", [1]);
         exif_pointer = key_str + type_str + length_str + pointer_str;
     }
     if (gps_is) {
-        var pointer_value = TIFF_HEADER_LENGTH + zeroth_length + exif_length;
-        var pointer_str = utils.pack(">L", [pointer_value]);
-        var key = 34853;
-        var key_str = utils.pack(">H", [key]);
-        var type_str = utils.pack(">H", [constants.Types["Long"]]);
-        var length_str = utils.pack(">L", [1]);
+        const pointer_value = TIFF_HEADER_LENGTH + zeroth_length + exif_length;
+        const pointer_str = utils.pack(">L", [pointer_value]);
+        const key = 34853;
+        const key_str = utils.pack(">H", [key]);
+        const type_str = utils.pack(">H", [constants.Types["Long"]]);
+        const length_str = utils.pack(">L", [1]);
         gps_pointer = key_str + type_str + length_str + pointer_str;
     }
     if (interop_is) {
-        var pointer_value = (TIFF_HEADER_LENGTH +
+        const pointer_value = (TIFF_HEADER_LENGTH +
             zeroth_length + exif_length + gps_length);
-        var pointer_str = utils.pack(">L", [pointer_value]);
-        var key = 40965;
-        var key_str = utils.pack(">H", [key]);
-        var type_str = utils.pack(">H", [constants.Types["Long"]]);
-        var length_str = utils.pack(">L", [1]);
+        const pointer_str = utils.pack(">L", [pointer_value]);
+        const key = 40965;
+        const key_str = utils.pack(">H", [key]);
+        const type_str = utils.pack(">H", [constants.Types["Long"]]);
+        const length_str = utils.pack(">L", [1]);
         interop_pointer = key_str + type_str + length_str + pointer_str;
     }
     if (first_is) {
-        var pointer_value = (TIFF_HEADER_LENGTH + zeroth_length +
+        const pointer_value = (TIFF_HEADER_LENGTH + zeroth_length +
             exif_length + gps_length + interop_length);
         first_ifd_pointer = utils.pack(">L", [pointer_value]);
-        var thumbnail_pointer = (pointer_value + first_set[0].length + 24 +
+        const thumbnail_pointer = (pointer_value + first_set[0].length + 24 +
             4 + first_set[1].length);
-        var thumbnail_p_bytes = ("\x02\x01\x00\x04\x00\x00\x00\x01" +
+        const thumbnail_p_bytes = ("\x02\x01\x00\x04\x00\x00\x00\x01" +
             utils.pack(">L", [thumbnail_pointer]));
-        var thumbnail_length_bytes = ("\x02\x02\x00\x04\x00\x00\x00\x01" +
+        const thumbnail_length_bytes = ("\x02\x02\x00\x04\x00\x00\x00\x01" +
             utils.pack(">L", [thumbnail.length]));
         first_bytes = (first_set[0] + thumbnail_p_bytes +
             thumbnail_length_bytes + "\x00\x00\x00\x00" +
             first_set[1] + thumbnail);
     }
 
-    var zeroth_bytes = (zeroth_set[0] + exif_pointer + gps_pointer +
+    const zeroth_bytes = (zeroth_set[0] + exif_pointer + gps_pointer +
         first_ifd_pointer + zeroth_set[1]);
     if (exif_is) {
         exif_bytes = exif_set[0] + interop_pointer + exif_set[1];
