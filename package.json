@@ -5,6 +5,7 @@
   "main": "dist/piexifjs.js",
   "files": [
     "dist/piexifjs.js",
+    "dist/piexifjs.js.map",
     "LICENSE.txt",
     "package.json"
   ],
