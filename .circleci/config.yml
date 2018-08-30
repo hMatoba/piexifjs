@@ -4,6 +4,8 @@ jobs:
     docker:
       - image: node:10-alpine
     working_directory: ~/repo
+    environment:
+      CHROME_BIN: /usr/bin/chromium-browser
     steps:
       - checkout
       - run:
@@ -19,7 +21,6 @@ jobs:
           command: |
             npm uninstall puppeteer
             npm install --save puppeteer@0.11.0
-            CHROME_BIN=/usr/bin/chromium-browser
             echo @edge http://nl.alpinelinux.org/alpine/edge/community >> /etc/apk/repositories
             echo @edge http://nl.alpinelinux.org/alpine/edge/main >> /etc/apk/repositories
             apk add --no-cache chromium@edge nss@edge
