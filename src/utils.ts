@@ -1,6 +1,6 @@
 import * as constants from './constants';
 
-const nStr = (ch:string, num:number) => {
+export const _nStr = (ch:string, num:number) => {
     let str = "";
     for (let i = 0; i < num; i++) {
         str += ch;
@@ -157,14 +157,14 @@ export const unpack = (mark:string, str:string) => {
     return unpacked;
 };
 
-const isBrowser = (new Function("try {return this===window;}catch(e){ return false;}"))();
-export const atob:Function = isBrowser 
+export const _isBrowser = (new Function("try {return this===window;}catch(e){ return false;}"))();
+export const atob:Function = _isBrowser 
                              ? window.atob
                              : (input:string) => {
                                 const decoded = Buffer.from(input,'base64');
                                 return decoded;
                               };
-export const btoa:Function = isBrowser
+export const btoa:Function = _isBrowser
                              ? window.btoa
                              : (input:string) => {
                                 const buf = Buffer.from(input);
@@ -173,18 +173,18 @@ export const btoa:Function = isBrowser
                               };
 
 
-const _pack_byte = (array:Array<number>) => {
-    return pack(">" + nStr("B", array.length), array);
+export const _pack_byte = (array:Array<number>) => {
+    return pack(">" + _nStr("B", array.length), array);
 };
 
 
-const _pack_short = (array:Array<number>) => {
-    return pack(">" + nStr("H", array.length), array);
+export const _pack_short = (array:Array<number>) => {
+    return pack(">" + _nStr("H", array.length), array);
 };
 
 
-const _pack_long = (array:Array<number>) => {
-    return pack(">" + nStr("L", array.length), array);
+export const _pack_long = (array:Array<number>) => {
+    return pack(">" + _nStr("L", array.length), array);
 };
 
 
@@ -195,7 +195,7 @@ export const copy = (obj:any) => {
 };
 
 
-export const _get_thumbnail = (jpeg:string) => {
+export const get_thumbnail = (jpeg:string) => {
     let segments = splitIntoSegments(jpeg);
     while (("\xff\xe0" <= segments[1].slice(0, 2)) && (segments[1].slice(0, 2) <= "\xff\xef")) {
         segments = [segments[0]].concat(segments.slice(2));
@@ -203,7 +203,7 @@ export const _get_thumbnail = (jpeg:string) => {
     return segments.join("");
 };
 
-const _value_to_bytes = (raw_value:any, value_type:string, offset:number) => {
+export const _value_to_bytes = (raw_value:any, value_type:string, offset:number) => {
     let four_bytes_over = "";
     let value_str = "";
     let length,
@@ -215,7 +215,7 @@ const _value_to_bytes = (raw_value:any, value_type:string, offset:number) => {
         length = raw_value.length;
         if (length <= 4) {
             value_str = (_pack_byte(raw_value) +
-                nStr("\x00", 4 - length));
+                _nStr("\x00", 4 - length));
         } else {
             value_str = pack(">L", [offset]);
             four_bytes_over = _pack_byte(raw_value);
@@ -224,7 +224,7 @@ const _value_to_bytes = (raw_value:any, value_type:string, offset:number) => {
         length = raw_value.length;
         if (length <= 2) {
             value_str = (_pack_short(raw_value) +
-                nStr("\x00\x00", 2 - length));
+                _nStr("\x00\x00", 2 - length));
         } else {
             value_str = pack(">L", [offset]);
             four_bytes_over = _pack_short(raw_value);
@@ -244,7 +244,7 @@ const _value_to_bytes = (raw_value:any, value_type:string, offset:number) => {
             value_str = pack(">L", [offset]);
             four_bytes_over = new_value;
         } else {
-            value_str = new_value + nStr("\x00", 4 - length);
+            value_str = new_value + _nStr("\x00", 4 - length);
         }
     } else if (value_type == "Rational") {
         if (typeof (raw_value[0]) == "number") {
@@ -288,7 +288,7 @@ const _value_to_bytes = (raw_value:any, value_type:string, offset:number) => {
             value_str = pack(">L", [offset]);
             four_bytes_over = raw_value;
         } else {
-            value_str = raw_value + nStr("\x00", 4 - length);
+            value_str = raw_value + _nStr("\x00", 4 - length);
         }
     }
 
@@ -297,7 +297,7 @@ const _value_to_bytes = (raw_value:any, value_type:string, offset:number) => {
     return [length_str, value_str, four_bytes_over];
 };
 
-export const _dict_to_bytes = (ifd_dict:any, ifd:string, ifd_offset:number) => {
+export const dict_to_bytes = (ifd_dict:any, ifd:string, ifd_offset:number) => {
     const TIFF_HEADER_LENGTH = 8;
     const tag_count = Object.keys(ifd_dict).length;
     const entry_header = pack(">H", [tag_count]);
@@ -343,8 +343,6 @@ export const _dict_to_bytes = (ifd_dict:any, ifd:string, ifd_offset:number) => {
 
     return [entry_header + entries, values];
 }
-
-
 
 export class ExifReader {
     tiftag: string;
@@ -418,10 +416,10 @@ export class ExifReader {
         if (t == 1) { // BYTE
             if (length > 4) {
                 pointer = unpack(this.endian_mark + "L", value)[0];
-                data = unpack(this.endian_mark + nStr("B", length),
+                data = unpack(this.endian_mark + _nStr("B", length),
                     this.tiftag.slice(pointer, pointer + length));
             } else {
-                data = unpack(this.endian_mark + nStr("B", length), value.slice(0, length));
+                data = unpack(this.endian_mark + _nStr("B", length), value.slice(0, length));
             }
         } else if (t == 2) { // ASCII
             if (length > 4) {
@@ -433,19 +431,19 @@ export class ExifReader {
         } else if (t == 3) { // SHORT
             if (length > 2) {
                 pointer = unpack(this.endian_mark + "L", value)[0];
-                data = unpack(this.endian_mark + nStr("H", length),
+                data = unpack(this.endian_mark + _nStr("H", length),
                     this.tiftag.slice(pointer, pointer + length * 2));
             } else {
-                data = unpack(this.endian_mark + nStr("H", length),
+                data = unpack(this.endian_mark + _nStr("H", length),
                     value.slice(0, length * 2));
             }
         } else if (t == 4) { // LONG
             if (length > 1) {
                 pointer = unpack(this.endian_mark + "L", value)[0];
-                data = unpack(this.endian_mark + nStr("L", length),
+                data = unpack(this.endian_mark + _nStr("L", length),
                     this.tiftag.slice(pointer, pointer + length * 4));
             } else {
-                data = unpack(this.endian_mark + nStr("L", length),
+                data = unpack(this.endian_mark + _nStr("L", length),
                     value);
             }
         } else if (t == 5) { // RATIONAL
@@ -504,7 +502,6 @@ export class ExifReader {
         }
     }
 }
-
 
 export const splitIntoSegments = (data:string) => {
     if (data.slice(0, 2) != "\xff\xd8") {

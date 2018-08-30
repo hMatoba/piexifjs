@@ -3,6 +3,8 @@ import * as utils from './utils';
 
 export const version:string = '2.0.0a';
 
+export const _:any = utils;
+
 export const remove = (jpeg:string) => {
     let b64 = false;
     if (jpeg.slice(0, 2) == "\xff\xd8") {
@@ -193,7 +195,7 @@ export const dump = (exif_dict_original:any) => {
         first_ifd = exif_dict["1st"];
     }
     
-    let zeroth_set = utils._dict_to_bytes(zeroth_ifd, "0th", 0);
+    let zeroth_set = utils.dict_to_bytes(zeroth_ifd, "0th", 0);
     const zeroth_length = (zeroth_set[0].length + Number(exif_is) * 12 + Number(gps_is) * 12 + 4 +
         zeroth_set[1].length);
 
@@ -210,24 +212,24 @@ export const dump = (exif_dict_original:any) => {
         first_bytes = "",
         thumbnail;
     if (exif_is) {
-        exif_set = utils._dict_to_bytes(exif_ifd, "Exif", zeroth_length);
+        exif_set = utils.dict_to_bytes(exif_ifd, "Exif", zeroth_length);
         exif_length = exif_set[0].length + Number(interop_is) * 12 + exif_set[1].length;
     }
     if (gps_is) {
-        gps_set = utils._dict_to_bytes(gps_ifd, "GPS", zeroth_length + exif_length);
+        gps_set = utils.dict_to_bytes(gps_ifd, "GPS", zeroth_length + exif_length);
         gps_bytes = gps_set.join("");
         gps_length = gps_bytes.length;
     }
     if (interop_is) {
         const offset = zeroth_length + exif_length + gps_length;
-        interop_set = utils._dict_to_bytes(interop_ifd, "Interop", offset);
+        interop_set = utils.dict_to_bytes(interop_ifd, "Interop", offset);
         interop_bytes = interop_set.join("");
         interop_length = interop_bytes.length;
     }
     if (first_is) {
         const offset = zeroth_length + exif_length + gps_length + interop_length;
-        first_set = utils._dict_to_bytes(first_ifd, "1st", offset);
-        thumbnail = utils._get_thumbnail(exif_dict["thumbnail"]);
+        first_set = utils.dict_to_bytes(first_ifd, "1st", offset);
+        thumbnail = utils.get_thumbnail(exif_dict["thumbnail"]);
         if (thumbnail.length > 64000) {
             throw ("Given thumbnail is too large. max 64kB");
         }
