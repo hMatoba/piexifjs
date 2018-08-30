@@ -8,7 +8,9 @@ jobs:
       - checkout
       - run:
           name: build
-          command: npm run build
+          command: |
+            npm install
+            npm run build
       - run:
           name: test
           command: npm run browser-test
