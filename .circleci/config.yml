@@ -6,11 +6,11 @@ jobs:
     working_directory: ~/repo
     steps:
       - run:
-        name: build
-        command: npm run build
+          name: build
+          command: npm run build
       - run:
-        name: test
-        command: npm run browser-test
+          name: test
+          command: npm run browser-test
 
 workflows:
   version: 2
