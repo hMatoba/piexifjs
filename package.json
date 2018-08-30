@@ -21,7 +21,6 @@
   ],
   "scripts": {
     "build": "rollup -c",
-    "build-for-test": "tsc && rollup -c",
     "node-test": "jest --config=jest.node.config.js",
     "browser-test": "jest --config=jest.puppeteer.config.js"
   },
