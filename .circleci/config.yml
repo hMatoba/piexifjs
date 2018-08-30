@@ -17,6 +17,7 @@ jobs:
       - run:
           name: set pupperpeer
           command: |
+            npm uninstall puppeteer
             npm install --save puppeteer@0.11.0
             CHROME_BIN=/usr/bin/chromium-browser
             echo @edge http://nl.alpinelinux.org/alpine/edge/community >> /etc/apk/repositories
