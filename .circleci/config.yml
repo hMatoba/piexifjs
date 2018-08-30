@@ -7,12 +7,10 @@ jobs:
     steps:
       - run:
         name: build
-        command: |
-          npm run build
+        command: npm run build
       - run:
         name: test
-        command: |
-          npm run browser-test
+        command: npm run browser-test
 
 workflows:
   version: 2
