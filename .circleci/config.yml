@@ -5,6 +5,7 @@ jobs:
       - image: node:10-alpine
     working_directory: ~/repo
     steps:
+      - checkout
       - run:
           name: build
           command: npm run build
