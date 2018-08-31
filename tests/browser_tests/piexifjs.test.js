@@ -3,8 +3,6 @@ const nodePiexifjs = require('../../dist/piexifjs');
 
 const timeout = 5000;
 const jpegBinary = fs.readFileSync("./tests/files/r_canon.jpg").toString("binary");
-const piexifCode = fs.readFileSync("/root/repo/dist/piexifjs.js", "utf8");
-console.log(piexifCode);
 
 describe(
   '/ (Home Page)',
@@ -26,7 +24,7 @@ describe(
       const nodeOutput = nodePiexifjs.load(jpegBinary);
       console.log("before");
       await page.addScriptTag({
-        content: piexifCode
+        path: require.resolve("../../dist/piexifjs")
       });
       
       console.log("after");
@@ -48,7 +46,7 @@ describe(
       };
       const nodeOutput = nodePiexifjs.dump(exif);
       await page.addScriptTag({
-        path: "./dist/piexifjs.js"
+        path: require.resolve("../../dist/piexifjs")
       });
       const browserOutput = await page.evaluate((exifObj) => {
           return piexifjs.dump(exifObj);
@@ -68,7 +66,7 @@ describe(
       const exifBinary = nodePiexifjs.dump(exif);
       const nodeOutput = nodePiexifjs.insert(exifBinary, jpegBinary);;
       await page.addScriptTag({
-        path: "./dist/piexifjs.js"
+        path: require.resolve("../../dist/piexifjs")
       });
       const browserOutput = await page.evaluate((exif, jpeg) => {
           return piexifjs.insert(exif, jpeg);
@@ -82,7 +80,7 @@ describe(
     it('should be same output from remove on node and browser ', async () => {
       const nodeOutput = nodePiexifjs.remove(jpegBinary);
       await page.addScriptTag({
-        path: "./dist/piexifjs.js"
+        path: require.resolve("../../dist/piexifjs")
       });
       const browserOutput = await page.evaluate((jpeg) => {
           return piexifjs.remove(jpeg);
