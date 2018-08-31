@@ -16,6 +16,10 @@ describe(
       await page.close()
     });
 
+    it('test', async () => {
+      await page.goto('https://example.com');
+    });
+    
     it('should be same output from load on node and browser ', async () => {
       const nodeOutput = nodePiexifjs.load(jpegBinary);
       await page.addScriptTag({
