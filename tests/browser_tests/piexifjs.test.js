@@ -22,14 +22,17 @@ describe(
     
     it('should be same output from load on node and browser ', async () => {
       const nodeOutput = nodePiexifjs.load(jpegBinary);
+      console.log("before");
       await page.addScriptTag({
         path: "./dist/piexifjs.js"
       });
+      console.log("after");
       const browserOutput = await page.evaluate((jpeg) => {
           return piexifjs.load(jpeg);
         },
         jpegBinary
       );
+      console.log("after after");
       expect(browserOutput).toEqual(nodeOutput);
     });
 
