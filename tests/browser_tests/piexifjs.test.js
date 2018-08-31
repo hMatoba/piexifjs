@@ -3,7 +3,7 @@ const nodePiexifjs = require('../../dist/piexifjs');
 
 const timeout = 5000;
 const jpegBinary = fs.readFileSync("./tests/files/r_canon.jpg").toString("binary");
-const piexifCode = fs.readFileSync("'../../dist/piexifjs.js", "utf8");
+const piexifCode = fs.readFileSync("../../dist/piexifjs.js", "utf8");
 
 describe(
   '/ (Home Page)',
