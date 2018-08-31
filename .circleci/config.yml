@@ -13,7 +13,7 @@ jobs:
           command: |
             apk update
       - run:
-          name: build
+          name: check 
           command: |
             npm install
       - run:
@@ -25,8 +25,13 @@ jobs:
             echo @edge http://nl.alpinelinux.org/alpine/edge/main >> /etc/apk/repositories
             apk add --no-cache chromium@edge nss@edge
       - run:
-          name: test
+          name: build
           command: npm run build
+      - run:
+          name: check output
+          command: |
+            ls dist
+            pwd
       - run:
           name: test
           command: npm run browser-test
