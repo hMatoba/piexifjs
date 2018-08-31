@@ -17,7 +17,9 @@ describe(
     });
 
     it('test', async () => {
-      await page.goto('https://example.com');
+      await page.addScriptTag({
+        content: "console.log('foo);"
+      });
     });
     
     it('should be same output from load on node and browser ', async () => {
