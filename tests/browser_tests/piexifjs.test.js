@@ -3,6 +3,7 @@ const nodePiexifjs = require('../../dist/piexifjs');
 
 const timeout = 5000;
 const jpegBinary = fs.readFileSync("./tests/files/r_canon.jpg").toString("binary");
+const piexifCode = fs.readFileSync("'../../dist/piexifjs", "utf8");
 
 describe(
   '/ (Home Page)',
@@ -24,8 +25,9 @@ describe(
       const nodeOutput = nodePiexifjs.load(jpegBinary);
       console.log("before");
       await page.addScriptTag({
-        path: "./dist/piexifjs.js"
+        content: piexifCode
       });
+      
       console.log("after");
       const browserOutput = await page.evaluate((jpeg) => {
           return piexifjs.load(jpeg);
