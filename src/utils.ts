@@ -203,14 +203,15 @@ export const get_thumbnail = (jpeg:string) => {
     return segments.join("");
 };
 
-export const _value_to_bytes = (raw_value:any, value_type:number, offset:number) => {
+export const _value_to_bytes = (raw_value:any, value_type:string, offset:number) => {
     let four_bytes_over = "";
     let value_str = "";
     let length,
         new_value,
         num,
         den;
-    if (value_type == constants.Types.Byte) {
+
+    if (value_type == "Byte") {
         length = raw_value.length;
         if (length <= 4) {
             value_str = (_pack_byte(raw_value) +
@@ -219,7 +220,7 @@ export const _value_to_bytes = (raw_value:any, value_type:number, offset:number)
             value_str = pack(">L", [offset]);
             four_bytes_over = _pack_byte(raw_value);
         }
-    } else if (value_type == constants.Types.Ascii) {
+    } else if (value_type == "Ascii") {
         new_value = raw_value + "\x00";
         length = new_value.length;
         if (length > 4) {
@@ -228,7 +229,7 @@ export const _value_to_bytes = (raw_value:any, value_type:number, offset:number)
         } else {
             value_str = new_value + _nStr("\x00", 4 - length);
         }
-    } else if (value_type == constants.Types.Short) {
+    } else if (value_type == "Short") {
         length = raw_value.length;
         if (length <= 2) {
             value_str = (_pack_short(raw_value) +
@@ -237,7 +238,7 @@ export const _value_to_bytes = (raw_value:any, value_type:number, offset:number)
             value_str = pack(">L", [offset]);
             four_bytes_over = _pack_short(raw_value);
         }
-    } else if (value_type == constants.Types.Long) {
+    } else if (value_type == "Long") {
         length = raw_value.length;
         if (length <= 1) {
             value_str = _pack_long(raw_value);
@@ -245,7 +246,7 @@ export const _value_to_bytes = (raw_value:any, value_type:number, offset:number)
             value_str = pack(">L", [offset]);
             four_bytes_over = _pack_long(raw_value);
         }
-    } else if (value_type == constants.Types.Rational) {
+    } else if (value_type == "Rational") {
         if (typeof (raw_value[0]) == "number") {
             length = 1;
             num = raw_value[0];
@@ -263,7 +264,7 @@ export const _value_to_bytes = (raw_value:any, value_type:number, offset:number)
         }
         value_str = pack(">L", [offset]);
         four_bytes_over = new_value;
-    } else if (value_type == constants.Types.Undefined) {
+    } else if (value_type == "Undefined") {
         length = raw_value.length;
         if (length > 4) {
             value_str = pack(">L", [offset]);
@@ -271,9 +272,9 @@ export const _value_to_bytes = (raw_value:any, value_type:number, offset:number)
         } else {
             value_str = raw_value + _nStr("\x00", 4 - length);
         }
-    } else if (value_type == constants.Types.SLong) {
+    } else if (value_type == "SLong") {
         throw new Error('Not implemented for SLong value');
-    } else if (value_type == constants.Types.SRational) {
+    } else if (value_type == "SRational") {
         if (typeof (raw_value[0]) == "number") {
             length = 1;
             num = raw_value[0];
@@ -291,8 +292,6 @@ export const _value_to_bytes = (raw_value:any, value_type:number, offset:number)
         }
         value_str = pack(">L", [offset]);
         four_bytes_over = new_value;
-    } else {
-        throw new Error("Got unhandled exif value type.");
     }
 
     const length_str = pack(">L", [length]);
@@ -300,12 +299,12 @@ export const _value_to_bytes = (raw_value:any, value_type:number, offset:number)
     return [length_str, value_str, four_bytes_over];
 };
 
-export const dict_to_bytes = (ifd_dict:any, ifdName:string, ifd_offset:number) => {
+export const dict_to_bytes = (ifd_dict:any, ifd:string, ifd_offset:number) => {
     const TIFF_HEADER_LENGTH = 8;
     const tag_count = Object.keys(ifd_dict).length;
     const entry_header = pack(">H", [tag_count]);
     let entries_length;
-    if (["0th", "1st"].indexOf(ifdName) > -1) {
+    if (["0th", "1st"].indexOf(ifd) > -1) {
         entries_length = 2 + tag_count * 12 + 4;
     } else {
         entries_length = 2 + tag_count * 12;
@@ -318,17 +317,17 @@ export const dict_to_bytes = (ifd_dict:any, ifdName:string, ifd_offset:number) =
         if (typeof (key) == "string") {
             key = parseInt(key);
         }
-        if ((ifdName == "0th") && ([34665, 34853].indexOf(key) > -1)) {
+        if ((ifd == "0th") && ([34665, 34853].indexOf(key) > -1)) {
             continue;
-        } else if ((ifdName == "Exif") && (key == 40965)) {
+        } else if ((ifd == "Exif") && (key == 40965)) {
             continue;
-        } else if ((ifdName == "1st") && ([513, 514].indexOf(key) > -1)) {
+        } else if ((ifd == "1st") && ([513, 514].indexOf(key) > -1)) {
             continue;
         }
 
         let raw_value = ifd_dict[key];
         const key_str = pack(">H", [key]);
-        const value_type:number = constants.Tags[ifdName][key]["type"];
+        const value_type:string = constants.Tags[ifd][key]["type"];
         const type_str = pack(">H", [constants.Types[value_type]]);
 
         if (typeof (raw_value) == "number") {
@@ -341,7 +340,6 @@ export const dict_to_bytes = (ifd_dict:any, ifdName:string, ifd_offset:number) =
         const four_bytes_over = b[2];
 
         entries += key_str + type_str + length_str + value_str;
-        console.log(key_str.length, type_str.length, length_str.length, value_str.length);
         values += four_bytes_over;
     }
 

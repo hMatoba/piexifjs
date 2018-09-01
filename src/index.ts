@@ -200,7 +200,6 @@ export const dump = (exif_dict_original:any) => {
     let zeroth_set = _utils.dict_to_bytes(zeroth_ifd, "0th", 0);
     const zeroth_length = (zeroth_set[0].length + Number(exif_is) * 12 + Number(gps_is) * 12 + 4 +
         zeroth_set[1].length);
-    console.log(zeroth_length, zeroth_set[0].length, zeroth_set[1].length);
 
     let exif_set,
         exif_bytes = "",
@@ -290,12 +289,6 @@ export const dump = (exif_dict_original:any) => {
     if (exif_is) {
         exif_bytes = exif_set[0] + interop_pointer + exif_set[1];
     }
-
-    console.log(zeroth_bytes.length, exif_bytes.length, gps_bytes.length, interop_bytes.length, first_bytes.length);
-    // console.log();
-    // console.log();
-    // console.log();
-    // console.log();
 
     return (header + zeroth_bytes + exif_bytes + gps_bytes +
         interop_bytes + first_bytes);

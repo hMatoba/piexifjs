@@ -19,1141 +19,1141 @@ export const Tags: any = {
     'Image': {
         11: {
             'name': 'ProcessingSoftware',
-            'type': Types.Ascii
+            'type': 'Ascii'
         },
         254: {
             'name': 'NewSubfileType',
-            'type': Types.Long
+            'type': 'Long'
         },
         255: {
             'name': 'SubfileType',
-            'type': Types.Short
+            'type': 'Short'
         },
         256: {
             'name': 'ImageWidth',
-            'type': Types.Long
+            'type': 'Long'
         },
         257: {
             'name': 'ImageLength',
-            'type': Types.Long
+            'type': 'Long'
         },
         258: {
             'name': 'BitsPerSample',
-            'type': Types.Short
+            'type': 'Short'
         },
         259: {
             'name': 'Compression',
-            'type': Types.Short
+            'type': 'Short'
         },
         262: {
             'name': 'PhotometricInterpretation',
-            'type': Types.Short
+            'type': 'Short'
         },
         263: {
             'name': 'Threshholding',
-            'type': Types.Short
+            'type': 'Short'
         },
         264: {
             'name': 'CellWidth',
-            'type': Types.Short
+            'type': 'Short'
         },
         265: {
             'name': 'CellLength',
-            'type': Types.Short
+            'type': 'Short'
         },
         266: {
             'name': 'FillOrder',
-            'type': Types.Short
+            'type': 'Short'
         },
         269: {
             'name': 'DocumentName',
-            'type': Types.Ascii
+            'type': 'Ascii'
         },
         270: {
             'name': 'ImageDescription',
-            'type': Types.Ascii
+            'type': 'Ascii'
         },
         271: {
             'name': 'Make',
-            'type': Types.Ascii
+            'type': 'Ascii'
         },
         272: {
             'name': 'Model',
-            'type': Types.Ascii
+            'type': 'Ascii'
         },
         273: {
             'name': 'StripOffsets',
-            'type': Types.Long
+            'type': 'Long'
         },
         274: {
             'name': 'Orientation',
-            'type': Types.Short
+            'type': 'Short'
         },
         277: {
             'name': 'SamplesPerPixel',
-            'type': Types.Short
+            'type': 'Short'
         },
         278: {
             'name': 'RowsPerStrip',
-            'type': Types.Long
+            'type': 'Long'
         },
         279: {
             'name': 'StripByteCounts',
-            'type': Types.Long
+            'type': 'Long'
         },
         282: {
             'name': 'XResolution',
-            'type': Types.Rational
+            'type': 'Rational'
         },
         283: {
             'name': 'YResolution',
-            'type': Types.Rational
+            'type': 'Rational'
         },
         284: {
             'name': 'PlanarConfiguration',
-            'type': Types.Short
+            'type': 'Short'
         },
         290: {
             'name': 'GrayResponseUnit',
-            'type': Types.Short
+            'type': 'Short'
         },
         291: {
             'name': 'GrayResponseCurve',
-            'type': Types.Short
+            'type': 'Short'
         },
         292: {
             'name': 'T4Options',
-            'type': Types.Long
+            'type': 'Long'
         },
         293: {
             'name': 'T6Options',
-            'type': Types.Long
+            'type': 'Long'
         },
         296: {
             'name': 'ResolutionUnit',
-            'type': Types.Short
+            'type': 'Short'
         },
         301: {
             'name': 'TransferFunction',
-            'type': Types.Short
+            'type': 'Short'
         },
         305: {
             'name': 'Software',
-            'type': Types.Ascii
+            'type': 'Ascii'
         },
         306: {
             'name': 'DateTime',
-            'type': Types.Ascii
+            'type': 'Ascii'
         },
         315: {
             'name': 'Artist',
-            'type': Types.Ascii
+            'type': 'Ascii'
         },
         316: {
             'name': 'HostComputer',
-            'type': Types.Ascii
+            'type': 'Ascii'
         },
         317: {
             'name': 'Predictor',
-            'type': Types.Short
+            'type': 'Short'
         },
         318: {
             'name': 'WhitePoint',
-            'type': Types.Rational
+            'type': 'Rational'
         },
         319: {
             'name': 'PrimaryChromaticities',
-            'type': Types.Rational
+            'type': 'Rational'
         },
         320: {
             'name': 'ColorMap',
-            'type': Types.Short
+            'type': 'Short'
         },
         321: {
             'name': 'HalftoneHints',
-            'type': Types.Short
+            'type': 'Short'
         },
         322: {
             'name': 'TileWidth',
-            'type': Types.Short
+            'type': 'Short'
         },
         323: {
             'name': 'TileLength',
-            'type': Types.Short
+            'type': 'Short'
         },
         324: {
             'name': 'TileOffsets',
-            'type': Types.Short
+            'type': 'Short'
         },
         325: {
             'name': 'TileByteCounts',
-            'type': Types.Short
+            'type': 'Short'
         },
         330: {
             'name': 'SubIFDs',
-            'type': Types.Long
+            'type': 'Long'
         },
         332: {
             'name': 'InkSet',
-            'type': Types.Short
+            'type': 'Short'
         },
         333: {
             'name': 'InkNames',
-            'type': Types.Ascii
+            'type': 'Ascii'
         },
         334: {
             'name': 'NumberOfInks',
-            'type': Types.Short
+            'type': 'Short'
         },
         336: {
             'name': 'DotRange',
-            'type': Types.Byte
+            'type': 'Byte'
         },
         337: {
             'name': 'TargetPrinter',
-            'type': Types.Ascii
+            'type': 'Ascii'
         },
         338: {
             'name': 'ExtraSamples',
-            'type': Types.Short
+            'type': 'Short'
         },
         339: {
             'name': 'SampleFormat',
-            'type': Types.Short
+            'type': 'Short'
         },
         340: {
             'name': 'SMinSampleValue',
-            'type': Types.Short
+            'type': 'Short'
         },
         341: {
             'name': 'SMaxSampleValue',
-            'type': Types.Short
+            'type': 'Short'
         },
         342: {
             'name': 'TransferRange',
-            'type': Types.Short
+            'type': 'Short'
         },
         343: {
             'name': 'ClipPath',
-            'type': Types.Byte
+            'type': 'Byte'
         },
         344: {
             'name': 'XClipPathUnits',
-            'type': Types.Long
+            'type': 'Long'
         },
         345: {
             'name': 'YClipPathUnits',
-            'type': Types.Long
+            'type': 'Long'
         },
         346: {
             'name': 'Indexed',
-            'type': Types.Short
+            'type': 'Short'
         },
         347: {
             'name': 'JPEGTables',
-            'type': Types.Undefined
+            'type': 'Undefined'
         },
         351: {
             'name': 'OPIProxy',
-            'type': Types.Short
+            'type': 'Short'
         },
         512: {
             'name': 'JPEGProc',
-            'type': Types.Long
+            'type': 'Long'
         },
         513: {
             'name': 'JPEGInterchangeFormat',
-            'type': Types.Long
+            'type': 'Long'
         },
         514: {
             'name': 'JPEGInterchangeFormatLength',
-            'type': Types.Long
+            'type': 'Long'
         },
         515: {
             'name': 'JPEGRestartInterval',
-            'type': Types.Short
+            'type': 'Short'
         },
         517: {
             'name': 'JPEGLosslessPredictors',
-            'type': Types.Short
+            'type': 'Short'
         },
         518: {
             'name': 'JPEGPointTransforms',
-            'type': Types.Short
+            'type': 'Short'
         },
         519: {
             'name': 'JPEGQTables',
-            'type': Types.Long
+            'type': 'Long'
         },
         520: {
             'name': 'JPEGDCTables',
-            'type': Types.Long
+            'type': 'Long'
         },
         521: {
             'name': 'JPEGACTables',
-            'type': Types.Long
+            'type': 'Long'
         },
         529: {
             'name': 'YCbCrCoefficients',
-            'type': Types.Rational
+            'type': 'Rational'
         },
         530: {
             'name': 'YCbCrSubSampling',
-            'type': Types.Short
+            'type': 'Short'
         },
         531: {
             'name': 'YCbCrPositioning',
-            'type': Types.Short
+            'type': 'Short'
         },
         532: {
             'name': 'ReferenceBlackWhite',
-            'type': Types.Rational
+            'type': 'Rational'
         },
         700: {
             'name': 'XMLPacket',
-            'type': Types.Byte
+            'type': 'Byte'
         },
         18246: {
             'name': 'Rating',
-            'type': Types.Short
+            'type': 'Short'
         },
         18249: {
             'name': 'RatingPercent',
-            'type': Types.Short
+            'type': 'Short'
         },
         32781: {
             'name': 'ImageID',
-            'type': Types.Ascii
+            'type': 'Ascii'
         },
         33421: {
             'name': 'CFARepeatPatternDim',
-            'type': Types.Short
+            'type': 'Short'
         },
         33422: {
             'name': 'CFAPattern',
-            'type': Types.Byte
+            'type': 'Byte'
         },
         33423: {
             'name': 'BatteryLevel',
-            'type': Types.Rational
+            'type': 'Rational'
         },
         33432: {
             'name': 'Copyright',
-            'type': Types.Ascii
+            'type': 'Ascii'
         },
         33434: {
             'name': 'ExposureTime',
-            'type': Types.Rational
+            'type': 'Rational'
         },
         34377: {
             'name': 'ImageResources',
-            'type': Types.Byte
+            'type': 'Byte'
         },
         34665: {
             'name': 'ExifTag',
-            'type': Types.Long
+            'type': 'Long'
         },
         34675: {
             'name': 'InterColorProfile',
-            'type': Types.Undefined
+            'type': 'Undefined'
         },
         34853: {
             'name': 'GPSTag',
-            'type': Types.Long
+            'type': 'Long'
         },
         34857: {
             'name': 'Interlace',
-            'type': Types.Short
+            'type': 'Short'
         },
         34858: {
             'name': 'TimeZoneOffset',
-            'type': Types.Long
+            'type': 'Long'
         },
         34859: {
             'name': 'SelfTimerMode',
-            'type': Types.Short
+            'type': 'Short'
         },
         37387: {
             'name': 'FlashEnergy',
-            'type': Types.Rational
+            'type': 'Rational'
         },
         37388: {
             'name': 'SpatialFrequencyResponse',
-            'type': Types.Undefined
+            'type': 'Undefined'
         },
         37389: {
             'name': 'Noise',
-            'type': Types.Undefined
+            'type': 'Undefined'
         },
         37390: {
             'name': 'FocalPlaneXResolution',
-            'type': Types.Rational
+            'type': 'Rational'
         },
         37391: {
             'name': 'FocalPlaneYResolution',
-            'type': Types.Rational
+            'type': 'Rational'
         },
         37392: {
             'name': 'FocalPlaneResolutionUnit',
-            'type': Types.Short
+            'type': 'Short'
         },
         37393: {
             'name': 'ImageNumber',
-            'type': Types.Long
+            'type': 'Long'
         },
         37394: {
             'name': 'SecurityClassification',
-            'type': Types.Ascii
+            'type': 'Ascii'
         },
         37395: {
             'name': 'ImageHistory',
-            'type': Types.Ascii
+            'type': 'Ascii'
         },
         37397: {
             'name': 'ExposureIndex',
-            'type': Types.Rational
+            'type': 'Rational'
         },
         37398: {
             'name': 'TIFFEPStandardID',
-            'type': Types.Byte
+            'type': 'Byte'
         },
         37399: {
             'name': 'SensingMethod',
-            'type': Types.Short
+            'type': 'Short'
         },
         40091: {
             'name': 'XPTitle',
-            'type': Types.Byte
+            'type': 'Byte'
         },
         40092: {
             'name': 'XPComment',
-            'type': Types.Byte
+            'type': 'Byte'
         },
         40093: {
             'name': 'XPAuthor',
-            'type': Types.Byte
+            'type': 'Byte'
         },
         40094: {
             'name': 'XPKeywords',
-            'type': Types.Byte
+            'type': 'Byte'
         },
         40095: {
             'name': 'XPSubject',
-            'type': Types.Byte
+            'type': 'Byte'
         },
         50341: {
             'name': 'PrintImageMatching',
-            'type': Types.Undefined
+            'type': 'Undefined'
         },
         50706: {
             'name': 'DNGVersion',
-            'type': Types.Byte
+            'type': 'Byte'
         },
         50707: {
             'name': 'DNGBackwardVersion',
-            'type': Types.Byte
+            'type': 'Byte'
         },
         50708: {
             'name': 'UniqueCameraModel',
-            'type': Types.Ascii
+            'type': 'Ascii'
         },
         50709: {
             'name': 'LocalizedCameraModel',
-            'type': Types.Byte
+            'type': 'Byte'
         },
         50710: {
             'name': 'CFAPlaneColor',
-            'type': Types.Byte
+            'type': 'Byte'
         },
         50711: {
             'name': 'CFALayout',
-            'type': Types.Short
+            'type': 'Short'
         },
         50712: {
             'name': 'LinearizationTable',
-            'type': Types.Short
+            'type': 'Short'
         },
         50713: {
             'name': 'BlackLevelRepeatDim',
-            'type': Types.Short
+            'type': 'Short'
         },
         50714: {
             'name': 'BlackLevel',
-            'type': Types.Rational
+            'type': 'Rational'
         },
         50715: {
             'name': 'BlackLevelDeltaH',
-            'type': Types.SRational
+            'type': 'SRational'
         },
         50716: {
             'name': 'BlackLevelDeltaV',
-            'type': Types.SRational
+            'type': 'SRational'
         },
         50717: {
             'name': 'WhiteLevel',
-            'type': Types.Short
+            'type': 'Short'
         },
         50718: {
             'name': 'DefaultScale',
-            'type': Types.Rational
+            'type': 'Rational'
         },
         50719: {
             'name': 'DefaultCropOrigin',
-            'type': Types.Short
+            'type': 'Short'
         },
         50720: {
             'name': 'DefaultCropSize',
-            'type': Types.Short
+            'type': 'Short'
         },
         50721: {
             'name': 'ColorMatrix1',
-            'type': Types.SRational
+            'type': 'SRational'
         },
         50722: {
             'name': 'ColorMatrix2',
-            'type': Types.SRational
+            'type': 'SRational'
         },
         50723: {
             'name': 'CameraCalibration1',
-            'type': Types.SRational
+            'type': 'SRational'
         },
         50724: {
             'name': 'CameraCalibration2',
-            'type': Types.SRational
+            'type': 'SRational'
         },
         50725: {
             'name': 'ReductionMatrix1',
-            'type': Types.SRational
+            'type': 'SRational'
         },
         50726: {
             'name': 'ReductionMatrix2',
-            'type': Types.SRational
+            'type': 'SRational'
         },
         50727: {
             'name': 'AnalogBalance',
-            'type': Types.Rational
+            'type': 'Rational'
         },
         50728: {
             'name': 'AsShotNeutral',
-            'type': Types.Short
+            'type': 'Short'
         },
         50729: {
             'name': 'AsShotWhiteXY',
-            'type': Types.Rational
+            'type': 'Rational'
         },
         50730: {
             'name': 'BaselineExposure',
-            'type': Types.SRational
+            'type': 'SRational'
         },
         50731: {
             'name': 'BaselineNoise',
-            'type': Types.Rational
+            'type': 'Rational'
         },
         50732: {
             'name': 'BaselineSharpness',
-            'type': Types.Rational
+            'type': 'Rational'
         },
         50733: {
             'name': 'BayerGreenSplit',
-            'type': Types.Long
+            'type': 'Long'
         },
         50734: {
             'name': 'LinearResponseLimit',
-            'type': Types.Rational
+            'type': 'Rational'
         },
         50735: {
             'name': 'CameraSerialNumber',
-            'type': Types.Ascii
+            'type': 'Ascii'
         },
         50736: {
             'name': 'LensInfo',
-            'type': Types.Rational
+            'type': 'Rational'
         },
         50737: {
             'name': 'ChromaBlurRadius',
-            'type': Types.Rational
+            'type': 'Rational'
         },
         50738: {
             'name': 'AntiAliasStrength',
-            'type': Types.Rational
+            'type': 'Rational'
         },
         50739: {
             'name': 'ShadowScale',
-            'type': Types.SRational
+            'type': 'SRational'
         },
         50740: {
             'name': 'DNGPrivateData',
-            'type': Types.Byte
+            'type': 'Byte'
         },
         50741: {
             'name': 'MakerNoteSafety',
-            'type': Types.Short
+            'type': 'Short'
         },
         50778: {
             'name': 'CalibrationIlluminant1',
-            'type': Types.Short
+            'type': 'Short'
         },
         50779: {
             'name': 'CalibrationIlluminant2',
-            'type': Types.Short
+            'type': 'Short'
         },
         50780: {
             'name': 'BestQualityScale',
-            'type': Types.Rational
+            'type': 'Rational'
         },
         50781: {
             'name': 'RawDataUniqueID',
-            'type': Types.Byte
+            'type': 'Byte'
         },
         50827: {
             'name': 'OriginalRawFileName',
-            'type': Types.Byte
+            'type': 'Byte'
         },
         50828: {
             'name': 'OriginalRawFileData',
-            'type': Types.Undefined
+            'type': 'Undefined'
         },
         50829: {
             'name': 'ActiveArea',
-            'type': Types.Short
+            'type': 'Short'
         },
         50830: {
             'name': 'MaskedAreas',
-            'type': Types.Short
+            'type': 'Short'
         },
         50831: {
             'name': 'AsShotICCProfile',
-            'type': Types.Undefined
+            'type': 'Undefined'
         },
         50832: {
             'name': 'AsShotPreProfileMatrix',
-            'type': Types.SRational
+            'type': 'SRational'
         },
         50833: {
             'name': 'CurrentICCProfile',
-            'type': Types.Undefined
+            'type': 'Undefined'
         },
         50834: {
             'name': 'CurrentPreProfileMatrix',
-            'type': Types.SRational
+            'type': 'SRational'
         },
         50879: {
             'name': 'ColorimetricReference',
-            'type': Types.Short
+            'type': 'Short'
         },
         50931: {
             'name': 'CameraCalibrationSignature',
-            'type': Types.Byte
+            'type': 'Byte'
         },
         50932: {
             'name': 'ProfileCalibrationSignature',
-            'type': Types.Byte
+            'type': 'Byte'
         },
         50934: {
             'name': 'AsShotProfileName',
-            'type': Types.Byte
+            'type': 'Byte'
         },
         50935: {
             'name': 'NoiseReductionApplied',
-            'type': Types.Rational
+            'type': 'Rational'
         },
         50936: {
             'name': 'ProfileName',
-            'type': Types.Byte
+            'type': 'Byte'
         },
         50937: {
             'name': 'ProfileHueSatMapDims',
-            'type': Types.Long
+            'type': 'Long'
         },
         50941: {
             'name': 'ProfileEmbedPolicy',
-            'type': Types.Long
+            'type': 'Long'
         },
         50942: {
             'name': 'ProfileCopyright',
-            'type': Types.Byte
+            'type': 'Byte'
         },
         50964: {
             'name': 'ForwardMatrix1',
-            'type': Types.SRational
+            'type': 'SRational'
         },
         50965: {
             'name': 'ForwardMatrix2',
-            'type': Types.SRational
+            'type': 'SRational'
         },
         50966: {
             'name': 'PreviewApplicationName',
-            'type': Types.Byte
+            'type': 'Byte'
         },
         50967: {
             'name': 'PreviewApplicationVersion',
-            'type': Types.Byte
+            'type': 'Byte'
         },
         50968: {
             'name': 'PreviewSettingsName',
-            'type': Types.Byte
+            'type': 'Byte'
         },
         50969: {
             'name': 'PreviewSettingsDigest',
-            'type': Types.Byte
+            'type': 'Byte'
         },
         50970: {
             'name': 'PreviewColorSpace',
-            'type': Types.Long
+            'type': 'Long'
         },
         50971: {
             'name': 'PreviewDateTime',
-            'type': Types.Ascii
+            'type': 'Ascii'
         },
         50972: {
             'name': 'RawImageDigest',
-            'type': Types.Undefined
+            'type': 'Undefined'
         },
         50973: {
             'name': 'OriginalRawFileDigest',
-            'type': Types.Undefined
+            'type': 'Undefined'
         },
         50974: {
             'name': 'SubTileBlockSize',
-            'type': Types.Long
+            'type': 'Long'
         },
         50975: {
             'name': 'RowInterleaveFactor',
-            'type': Types.Long
+            'type': 'Long'
         },
         50981: {
             'name': 'ProfileLookTableDims',
-            'type': Types.Long
+            'type': 'Long'
         },
         51008: {
             'name': 'OpcodeList1',
-            'type': Types.Undefined
+            'type': 'Undefined'
         },
         51009: {
             'name': 'OpcodeList2',
-            'type': Types.Undefined
+            'type': 'Undefined'
         },
         51022: {
             'name': 'OpcodeList3',
-            'type': Types.Undefined
+            'type': 'Undefined'
         }
     },
     'Exif': {
         33434: {
             'name': 'ExposureTime',
-            'type': Types.Rational
+            'type': 'Rational'
         },
         33437: {
             'name': 'FNumber',
-            'type': Types.Rational
+            'type': 'Rational'
         },
         34850: {
             'name': 'ExposureProgram',
-            'type': Types.Short
+            'type': 'Short'
         },
         34852: {
             'name': 'SpectralSensitivity',
-            'type': Types.Ascii
+            'type': 'Ascii'
         },
         34855: {
             'name': 'ISOSpeedRatings',
-            'type': Types.Short
+            'type': 'Short'
         },
         34856: {
             'name': 'OECF',
-            'type': Types.Undefined
+            'type': 'Undefined'
         },
         34864: {
             'name': 'SensitivityType',
-            'type': Types.Short
+            'type': 'Short'
         },
         34865: {
             'name': 'StandardOutputSensitivity',
-            'type': Types.Long
+            'type': 'Long'
         },
         34866: {
             'name': 'RecommendedExposureIndex',
-            'type': Types.Long
+            'type': 'Long'
         },
         34867: {
             'name': 'ISOSpeed',
-            'type': Types.Long
+            'type': 'Long'
         },
         34868: {
             'name': 'ISOSpeedLatitudeyyy',
-            'type': Types.Long
+            'type': 'Long'
         },
         34869: {
             'name': 'ISOSpeedLatitudezzz',
-            'type': Types.Long
+            'type': 'Long'
         },
         36864: {
             'name': 'ExifVersion',
-            'type': Types.Undefined
+            'type': 'Undefined'
         },
         36867: {
             'name': 'DateTimeOriginal',
-            'type': Types.Ascii
+            'type': 'Ascii'
         },
         36868: {
             'name': 'DateTimeDigitized',
-            'type': Types.Ascii
+            'type': 'Ascii'
         },
         37121: {
             'name': 'ComponentsConfiguration',
-            'type': Types.Undefined
+            'type': 'Undefined'
         },
         37122: {
             'name': 'CompressedBitsPerPixel',
-            'type': Types.Rational
+            'type': 'Rational'
         },
         37377: {
             'name': 'ShutterSpeedValue',
-            'type': Types.SRational
+            'type': 'SRational'
         },
         37378: {
             'name': 'ApertureValue',
-            'type': Types.Rational
+            'type': 'Rational'
         },
         37379: {
             'name': 'BrightnessValue',
-            'type': Types.SRational
+            'type': 'SRational'
         },
         37380: {
             'name': 'ExposureBiasValue',
-            'type': Types.SRational
+            'type': 'SRational'
         },
         37381: {
             'name': 'MaxApertureValue',
-            'type': Types.Rational
+            'type': 'Rational'
         },
         37382: {
             'name': 'SubjectDistance',
-            'type': Types.Rational
+            'type': 'Rational'
         },
         37383: {
             'name': 'MeteringMode',
-            'type': Types.Short
+            'type': 'Short'
         },
         37384: {
             'name': 'LightSource',
-            'type': Types.Short
+            'type': 'Short'
         },
         37385: {
             'name': 'Flash',
-            'type': Types.Short
+            'type': 'Short'
         },
         37386: {
             'name': 'FocalLength',
-            'type': Types.Rational
+            'type': 'Rational'
         },
         37396: {
             'name': 'SubjectArea',
-            'type': Types.Short
+            'type': 'Short'
         },
         37500: {
             'name': 'MakerNote',
-            'type': Types.Undefined
+            'type': 'Undefined'
         },
         37510: {
             'name': 'UserComment',
-            'type': Types.Ascii
+            'type': 'Ascii'
         },
         37520: {
             'name': 'SubSecTime',
-            'type': Types.Ascii
+            'type': 'Ascii'
         },
         37521: {
             'name': 'SubSecTimeOriginal',
-            'type': Types.Ascii
+            'type': 'Ascii'
         },
         37522: {
             'name': 'SubSecTimeDigitized',
-            'type': Types.Ascii
+            'type': 'Ascii'
         },
         40960: {
             'name': 'FlashpixVersion',
-            'type': Types.Undefined
+            'type': 'Undefined'
         },
         40961: {
             'name': 'ColorSpace',
-            'type': Types.Short
+            'type': 'Short'
         },
         40962: {
             'name': 'PixelXDimension',
-            'type': Types.Long
+            'type': 'Long'
         },
         40963: {
             'name': 'PixelYDimension',
-            'type': Types.Long
+            'type': 'Long'
         },
         40964: {
             'name': 'RelatedSoundFile',
-            'type': Types.Ascii
+            'type': 'Ascii'
         },
         40965: {
             'name': 'InteroperabilityTag',
-            'type': Types.Long
+            'type': 'Long'
         },
         41483: {
             'name': 'FlashEnergy',
-            'type': Types.Rational
+            'type': 'Rational'
         },
         41484: {
             'name': 'SpatialFrequencyResponse',
-            'type': Types.Undefined
+            'type': 'Undefined'
         },
         41486: {
             'name': 'FocalPlaneXResolution',
-            'type': Types.Rational
+            'type': 'Rational'
         },
         41487: {
             'name': 'FocalPlaneYResolution',
-            'type': Types.Rational
+            'type': 'Rational'
         },
         41488: {
             'name': 'FocalPlaneResolutionUnit',
-            'type': Types.Short
+            'type': 'Short'
         },
         41492: {
             'name': 'SubjectLocation',
-            'type': Types.Short
+            'type': 'Short'
         },
         41493: {
             'name': 'ExposureIndex',
-            'type': Types.Rational
+            'type': 'Rational'
         },
         41495: {
             'name': 'SensingMethod',
-            'type': Types.Short
+            'type': 'Short'
         },
         41728: {
             'name': 'FileSource',
-            'type': Types.Undefined
+            'type': 'Undefined'
         },
         41729: {
             'name': 'SceneType',
-            'type': Types.Undefined
+            'type': 'Undefined'
         },
         41730: {
             'name': 'CFAPattern',
-            'type': Types.Undefined
+            'type': 'Undefined'
         },
         41985: {
             'name': 'CustomRendered',
-            'type': Types.Short
+            'type': 'Short'
         },
         41986: {
             'name': 'ExposureMode',
-            'type': Types.Short
+            'type': 'Short'
         },
         41987: {
             'name': 'WhiteBalance',
-            'type': Types.Short
+            'type': 'Short'
         },
         41988: {
             'name': 'DigitalZoomRatio',
-            'type': Types.Rational
+            'type': 'Rational'
         },
         41989: {
             'name': 'FocalLengthIn35mmFilm',
-            'type': Types.Short
+            'type': 'Short'
         },
         41990: {
             'name': 'SceneCaptureType',
-            'type': Types.Short
+            'type': 'Short'
         },
         41991: {
             'name': 'GainControl',
-            'type': Types.Short
+            'type': 'Short'
         },
         41992: {
             'name': 'Contrast',
-            'type': Types.Short
+            'type': 'Short'
         },
         41993: {
             'name': 'Saturation',
-            'type': Types.Short
+            'type': 'Short'
         },
         41994: {
             'name': 'Sharpness',
-            'type': Types.Short
+            'type': 'Short'
         },
         41995: {
             'name': 'DeviceSettingDescription',
-            'type': Types.Undefined
+            'type': 'Undefined'
         },
         41996: {
             'name': 'SubjectDistanceRange',
-            'type': Types.Short
+            'type': 'Short'
         },
         42016: {
             'name': 'ImageUniqueID',
-            'type': Types.Ascii
+            'type': 'Ascii'
         },
         42032: {
             'name': 'CameraOwnerName',
-            'type': Types.Ascii
+            'type': 'Ascii'
         },
         42033: {
             'name': 'BodySerialNumber',
-            'type': Types.Ascii
+            'type': 'Ascii'
         },
         42034: {
             'name': 'LensSpecification',
-            'type': Types.Rational
+            'type': 'Rational'
         },
         42035: {
             'name': 'LensMake',
-            'type': Types.Ascii
+            'type': 'Ascii'
         },
         42036: {
             'name': 'LensModel',
-            'type': Types.Ascii
+            'type': 'Ascii'
         },
         42037: {
             'name': 'LensSerialNumber',
-            'type': Types.Ascii
+            'type': 'Ascii'
         },
         42240: {
             'name': 'Gamma',
-            'type': Types.Rational
+            'type': 'Rational'
         }
     },
     'GPS': {
         0: {
             'name': 'GPSVersionID',
-            'type': Types.Byte
+            'type': 'Byte'
         },
         1: {
             'name': 'GPSLatitudeRef',
-            'type': Types.Ascii
+            'type': 'Ascii'
         },
         2: {
             'name': 'GPSLatitude',
-            'type': Types.Rational
+            'type': 'Rational'
         },
         3: {
             'name': 'GPSLongitudeRef',
-            'type': Types.Ascii
+            'type': 'Ascii'
         },
         4: {
             'name': 'GPSLongitude',
-            'type': Types.Rational
+            'type': 'Rational'
         },
         5: {
             'name': 'GPSAltitudeRef',
-            'type': Types.Byte
+            'type': 'Byte'
         },
         6: {
             'name': 'GPSAltitude',
-            'type': Types.Rational
+            'type': 'Rational'
         },
         7: {
             'name': 'GPSTimeStamp',
-            'type': Types.Rational
+            'type': 'Rational'
         },
         8: {
             'name': 'GPSSatellites',
-            'type': Types.Ascii
+            'type': 'Ascii'
         },
         9: {
             'name': 'GPSStatus',
-            'type': Types.Ascii
+            'type': 'Ascii'
         },
         10: {
             'name': 'GPSMeasureMode',
-            'type': Types.Ascii
+            'type': 'Ascii'
         },
         11: {
             'name': 'GPSDOP',
-            'type': Types.Rational
+            'type': 'Rational'
         },
         12: {
             'name': 'GPSSpeedRef',
-            'type': Types.Ascii
+            'type': 'Ascii'
         },
         13: {
             'name': 'GPSSpeed',
-            'type': Types.Rational
+            'type': 'Rational'
         },
         14: {
             'name': 'GPSTrackRef',
-            'type': Types.Ascii
+            'type': 'Ascii'
         },
         15: {
             'name': 'GPSTrack',
-            'type': Types.Rational
+            'type': 'Rational'
         },
         16: {
             'name': 'GPSImgDirectionRef',
-            'type': Types.Ascii
+            'type': 'Ascii'
         },
         17: {
             'name': 'GPSImgDirection',
-            'type': Types.Rational
+            'type': 'Rational'
         },
         18: {
             'name': 'GPSMapDatum',
-            'type': Types.Ascii
+            'type': 'Ascii'
         },
         19: {
             'name': 'GPSDestLatitudeRef',
-            'type': Types.Ascii
+            'type': 'Ascii'
         },
         20: {
             'name': 'GPSDestLatitude',
-            'type': Types.Rational
+            'type': 'Rational'
         },
         21: {
             'name': 'GPSDestLongitudeRef',
-            'type': Types.Ascii
+            'type': 'Ascii'
         },
         22: {
             'name': 'GPSDestLongitude',
-            'type': Types.Rational
+            'type': 'Rational'
         },
         23: {
             'name': 'GPSDestBearingRef',
-            'type': Types.Ascii
+            'type': 'Ascii'
         },
         24: {
             'name': 'GPSDestBearing',
-            'type': Types.Rational
+            'type': 'Rational'
         },
         25: {
             'name': 'GPSDestDistanceRef',
-            'type': Types.Ascii
+            'type': 'Ascii'
         },
         26: {
             'name': 'GPSDestDistance',
-            'type': Types.Rational
+            'type': 'Rational'
         },
         27: {
             'name': 'GPSProcessingMethod',
-            'type': Types.Undefined
+            'type': 'Undefined'
         },
         28: {
             'name': 'GPSAreaInformation',
-            'type': Types.Undefined
+            'type': 'Undefined'
         },
         29: {
             'name': 'GPSDateStamp',
-            'type': Types.Ascii
+            'type': 'Ascii'
         },
         30: {
             'name': 'GPSDifferential',
-            'type': Types.Short
+            'type': 'Short'
         },
         31: {
             'name': 'GPSHPositioningError',
-            'type': Types.Rational
+            'type': 'Rational'
         }
     },
     'Interop': {
         1: {
             'name': 'InteroperabilityIndex',
-            'type': Types.Ascii
+            'type': 'Ascii'
         }
     },
 };
