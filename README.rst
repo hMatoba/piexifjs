@@ -9,6 +9,24 @@ Piexifjs
 Read and modify exif. Library to modify exif in JS(both client-side and Node.js).
 http://piexifjs.readthedocs.org/en/latest/index.html
 
+Notice and Warning!
+-------------------
+
+We are implementing v2.0. This version would include a few big changes. If you won't ready to use, don't update this library.
+ 
+```
+npm install piexifjs@1.0.4
+```
+ 
+Thank you for using piexifjs!
+
+version 2.0
+-----------
+
+- some data types are changed in exif
+- add some arguments type checks 
+- stop to support bower
+
 How to Use
 ----------
 
