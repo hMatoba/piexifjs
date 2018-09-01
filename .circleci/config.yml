@@ -4,8 +4,6 @@ jobs:
     docker:
       - image: matoba/node10-puppeteer
     working_directory: ~/repo
-    environment:
-      CHROME_BIN: /usr/bin/chromium-browser
     steps:
       - checkout
       - run:
