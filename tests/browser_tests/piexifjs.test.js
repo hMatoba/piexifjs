@@ -25,9 +25,9 @@ describe(
     it('should be same output from load on node and browser ', async () => {
       const nodeOutput = nodePiexifjs.load(jpegBinary);
       console.log("before");
-      console.log(require.resolve("/root/repo/dist/piexifjs.js"));
+      console.log(require.resolve("../../dist/piexifjs.js"));
       await page.addScriptTag({
-        path: require.resolve("/root/repo/dist/piexifjs.js")
+        path: require.resolve("../../dist/piexifjs.js")
       });
       
       console.log("after");
