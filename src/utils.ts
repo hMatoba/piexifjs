@@ -10,10 +10,10 @@ export const _nLoopStr = (ch:string, num:number) => {
 
 export const pack = (mark:string, array:Array<number>) => {
     if (!(array instanceof Array)) {
-        throw ("'pack' error. Got invalid type argument.");
+        throw new Error("'pack' error. Got invalid type argument.");
     }
     if ((mark.length - 1) != array.length) {
-        throw ("'pack' error. " + (mark.length - 1) + " marks, " + array.length + " elements.");
+        throw new Error("'pack' error. " + (mark.length - 1) + " marks, " + array.length + " elements.");
     }
 
     let littleEndian;
@@ -22,13 +22,13 @@ export const pack = (mark:string, array:Array<number>) => {
     } else if (mark[0] == ">") {
         littleEndian = false;
     } else {
-        throw ("");
+        throw new Error("Not match any endian.");
     }
     let packed = "";
     let p = 1;
     let val = null;
     let c = null;
-    let valStr = null;
+    let valBinary = null;
 
     while (c = mark[p]) {
         if (c.toLowerCase() == "b") {
@@ -37,19 +37,19 @@ export const pack = (mark:string, array:Array<number>) => {
                 val += 0x100;
             }
             if ((val > 0xff) || (val < 0)) {
-                throw ("'pack' error.");
+                throw new Error("'pack' error.");
             } else {
-                valStr = String.fromCharCode(val);
+                valBinary = String.fromCharCode(val);
             }
         } else if (c == "H") {
             val = array[p - 1];
             if ((val > 0xffff) || (val < 0)) {
-                throw ("'pack' error.");
+                throw new Error("'pack' error.");
             } else {
-                valStr = String.fromCharCode(Math.floor((val % 0x10000) / 0x100)) +
+                valBinary = String.fromCharCode(Math.floor((val % 0x10000) / 0x100)) +
                     String.fromCharCode(val % 0x100);
                 if (littleEndian) {
-                    valStr = valStr.split("").reverse().join("");
+                    valBinary = valBinary.split("").reverse().join("");
                 }
             }
         } else if (c.toLowerCase() == "l") {
@@ -58,21 +58,21 @@ export const pack = (mark:string, array:Array<number>) => {
                 val += 0x100000000;
             }
             if ((val > 0xffffffff) || (val < 0)) {
-                throw ("'pack' error.");
+                throw new Error("'pack' error.");
             } else {
-                valStr = String.fromCharCode(Math.floor(val / 0x1000000)) +
+                valBinary = String.fromCharCode(Math.floor(val / 0x1000000)) +
                     String.fromCharCode(Math.floor((val % 0x1000000) / 0x10000)) +
                     String.fromCharCode(Math.floor((val % 0x10000) / 0x100)) +
                     String.fromCharCode(val % 0x100);
                 if (littleEndian) {
-                    valStr = valStr.split("").reverse().join("");
+                    valBinary = valBinary.split("").reverse().join("");
                 }
             }
         } else {
-            throw ("'pack' error.");
+            throw new Error("'pack' error.");
         }
 
-        packed += valStr;
+        packed += valBinary;
         p += 1;
     }
 
@@ -81,7 +81,7 @@ export const pack = (mark:string, array:Array<number>) => {
 
 export const unpack = (mark:string, str:string) => {
     if (typeof (str) != "string") {
-        throw ("'unpack' error. Got invalid type argument.");
+        throw new Error("'unpack' error. Got invalid type argument.");
     }
     let l = 0;
     for (let markPointer = 1; markPointer < mark.length; markPointer++) {
@@ -92,12 +92,12 @@ export const unpack = (mark:string, str:string) => {
         } else if (mark[markPointer].toLowerCase() == "l") {
             l += 4;
         } else {
-            throw ("'unpack' error. Got invalid mark.");
+            throw new Error("'unpack' error. Got invalid mark.");
         }
     }
 
     if (l != str.length) {
-        throw ("'unpack' error. Mismatch between symbol and string length. " + l + ":" + str.length);
+        throw new Error("'unpack' error. Mismatch between symbol and string length. " + l + ":" + str.length);
     }
 
     let littleEndian;
@@ -106,7 +106,7 @@ export const unpack = (mark:string, str:string) => {
     } else if (mark[0] == ">") {
         littleEndian = false;
     } else {
-        throw ("'unpack' error.");
+        throw new Error("'unpack' error.");
     }
     let unpacked = [];
     let strPointer = 0;
@@ -146,7 +146,7 @@ export const unpack = (mark:string, str:string) => {
                 val -= 0x100000000;
             }
         } else {
-            throw ("'unpack' error. " + c);
+            throw new Error("'unpack' error. " + c);
         }
 
         unpacked.push(val);
@@ -173,17 +173,17 @@ export const btoa:Function = _isBrowser
                               };
 
 
-export const _pack_byte = (array:Array<number>) => {
+export const _packByte = (array:Array<number>) => {
     return pack(">" + _nLoopStr("B", array.length), array);
 };
 
 
-export const _pack_short = (array:Array<number>) => {
+export const _packShort = (array:Array<number>) => {
     return pack(">" + _nLoopStr("H", array.length), array);
 };
 
 
-export const _pack_long = (array:Array<number>) => {
+export const _packLong = (array:Array<number>) => {
     return pack(">" + _nLoopStr("L", array.length), array);
 };
 
@@ -195,7 +195,7 @@ export const copy = (obj:any) => {
 };
 
 
-export const get_thumbnail = (jpeg:string) => {
+export const getThumbnail = (jpeg:string) => {
     let segments = splitIntoSegments(jpeg);
     while (("\xff\xe0" <= segments[1].slice(0, 2)) && (segments[1].slice(0, 2) <= "\xff\xef")) {
         segments = [segments[0]].concat(segments.slice(2));
@@ -203,73 +203,73 @@ export const get_thumbnail = (jpeg:string) => {
     return segments.join("");
 };
 
-export const _value_to_bytes = (raw_value:any, value_type:number, offset:number) => {
-    let four_bytes_over = "";
-    let value_str = "";
+export const _valueToBytes = (raw_value:any, value_type:number, offset:number) => {
+    let fourBytesOver = "";
+    let valueBinary = "";
     let length,
-        new_value,
+        newValue,
         num,
         den;
     if (value_type == constants.Types.Byte) {
         length = raw_value.length;
         if (length <= 4) {
-            value_str = (_pack_byte(raw_value) +
+            valueBinary = (_packByte(raw_value) +
                 _nLoopStr("\x00", 4 - length));
         } else {
-            value_str = pack(">L", [offset]);
-            four_bytes_over = _pack_byte(raw_value);
+            valueBinary = pack(">L", [offset]);
+            fourBytesOver = _packByte(raw_value);
         }
     } else if (value_type == constants.Types.Ascii) {
-        new_value = raw_value + "\x00";
-        length = new_value.length;
+        newValue = raw_value + "\x00";
+        length = newValue.length;
         if (length > 4) {
-            value_str = pack(">L", [offset]);
-            four_bytes_over = new_value;
+            valueBinary = pack(">L", [offset]);
+            fourBytesOver = newValue;
         } else {
-            value_str = new_value + _nLoopStr("\x00", 4 - length);
+            valueBinary = newValue + _nLoopStr("\x00", 4 - length);
         }
     } else if (value_type == constants.Types.Short) {
         length = raw_value.length;
         if (length <= 2) {
-            value_str = (_pack_short(raw_value) +
+            valueBinary = (_packShort(raw_value) +
                 _nLoopStr("\x00\x00", 2 - length));
         } else {
-            value_str = pack(">L", [offset]);
-            four_bytes_over = _pack_short(raw_value);
+            valueBinary = pack(">L", [offset]);
+            fourBytesOver = _packShort(raw_value);
         }
     } else if (value_type == constants.Types.Long) {
         length = raw_value.length;
         if (length <= 1) {
-            value_str = _pack_long(raw_value);
+            valueBinary = _packLong(raw_value);
         } else {
-            value_str = pack(">L", [offset]);
-            four_bytes_over = _pack_long(raw_value);
+            valueBinary = pack(">L", [offset]);
+            fourBytesOver = _packLong(raw_value);
         }
     } else if (value_type == constants.Types.Rational) {
         if (typeof (raw_value[0]) == "number") {
             length = 1;
             num = raw_value[0];
             den = raw_value[1];
-            new_value = pack(">L", [num]) + pack(">L", [den]);
+            newValue = pack(">L", [num]) + pack(">L", [den]);
         } else {
             length = raw_value.length;
-            new_value = "";
+            newValue = "";
             for (let n = 0; n < length; n++) {
                 num = raw_value[n][0];
                 den = raw_value[n][1];
-                new_value += (pack(">L", [num]) +
+                newValue += (pack(">L", [num]) +
                     pack(">L", [den]));
             }
         }
-        value_str = pack(">L", [offset]);
-        four_bytes_over = new_value;
+        valueBinary = pack(">L", [offset]);
+        fourBytesOver = newValue;
     } else if (value_type == constants.Types.Undefined) {
         length = raw_value.length;
         if (length > 4) {
-            value_str = pack(">L", [offset]);
-            four_bytes_over = raw_value;
+            valueBinary = pack(">L", [offset]);
+            fourBytesOver = raw_value;
         } else {
-            value_str = raw_value + _nLoopStr("\x00", 4 - length);
+            valueBinary = raw_value + _nLoopStr("\x00", 4 - length);
         }
     } else if (value_type == constants.Types.SLong) {
         throw new Error('Not implemented for SLong value');
@@ -278,43 +278,43 @@ export const _value_to_bytes = (raw_value:any, value_type:number, offset:number)
             length = 1;
             num = raw_value[0];
             den = raw_value[1];
-            new_value = pack(">l", [num]) + pack(">l", [den]);
+            newValue = pack(">l", [num]) + pack(">l", [den]);
         } else {
             length = raw_value.length;
-            new_value = "";
+            newValue = "";
             for (let n = 0; n < length; n++) {
                 num = raw_value[n][0];
                 den = raw_value[n][1];
-                new_value += (pack(">l", [num]) +
+                newValue += (pack(">l", [num]) +
                     pack(">l", [den]));
             }
         }
-        value_str = pack(">L", [offset]);
-        four_bytes_over = new_value;
+        valueBinary = pack(">L", [offset]);
+        fourBytesOver = newValue;
     } else {
         throw new Error("Got unhandled exif value type.");
     }
 
     const length_str = pack(">L", [length]);
 
-    return [length_str, value_str, four_bytes_over];
+    return [length_str, valueBinary, fourBytesOver];
 };
 
-export const dict_to_bytes = (ifd_dict:any, ifdName:string, ifd_offset:number) => {
+export const dictToBytes = (ifdObj:any, ifdName:string, ifdOffsetCount:number) => {
     const TIFF_HEADER_LENGTH = 8;
-    const tag_count = Object.keys(ifd_dict).length;
-    const entry_header = pack(">H", [tag_count]);
-    let entries_length;
+    const tagCount = Object.keys(ifdObj).length;
+    const entryHeader = pack(">H", [tagCount]);
+    let entriesLength;
     if (["0th", "1st"].indexOf(ifdName) > -1) {
-        entries_length = 2 + tag_count * 12 + 4;
+        entriesLength = 2 + tagCount * 12 + 4;
     } else {
-        entries_length = 2 + tag_count * 12;
+        entriesLength = 2 + tagCount * 12;
     }
     let entries = "";
     let values = "";
     let key;
 
-    for (key in ifd_dict) {
+    for (key in ifdObj) {
         if (typeof (key) == "string") {
             key = parseInt(key);
         }
@@ -326,90 +326,89 @@ export const dict_to_bytes = (ifd_dict:any, ifdName:string, ifd_offset:number) =
             continue;
         }
 
-        let raw_value = ifd_dict[key];
-        const key_str = pack(">H", [key]);
-        const value_type:number = constants.Tags[ifdName][key]["type"];
-        const type_str = pack(">H", [value_type]);
+        let rawValue = ifdObj[key];
+        const keyBinary = pack(">H", [key]);
+        const valueType:number = constants.Tags[ifdName][key]["type"];
+        const typeBinary = pack(">H", [valueType]);
 
-
-        if (typeof (raw_value) == "number") {
-            raw_value = [raw_value];
+        if (typeof (rawValue) == "number") {
+            rawValue = [rawValue];
         }
-        const offset = TIFF_HEADER_LENGTH + entries_length + ifd_offset + values.length;
-        const b = _value_to_bytes(raw_value, value_type, offset);
-        const length_str = b[0];
-        const value_str = b[1];
-        const four_bytes_over = b[2];
+        const offset = TIFF_HEADER_LENGTH + entriesLength + ifdOffsetCount + values.length;
+        const b = _valueToBytes(rawValue, valueType, offset);
+        const lengthBinary = b[0];
+        const valueBinary = b[1];
+        const fourBytesOver = b[2];
 
-        entries += key_str + type_str + length_str + value_str;
-        values += four_bytes_over;
+        entries += keyBinary + typeBinary + lengthBinary + valueBinary;
+        values += fourBytesOver;
     }
-    return [entry_header + entries, values];
+    return [entryHeader + entries, values];
 }
 
 export class ExifReader {
     tiftag: string;
-    endian_mark: string;
-    constructor (data:string) {
+    endianMark: string;
+    constructor (exifBinary:string) {
         let segments,
             app1;
-        if (data.slice(0, 2) == "\xff\xd8") { // JPEG
-            segments = splitIntoSegments(data);
+        if (exifBinary.slice(0, 2) == "\xff\xd8") { // JPEG
+            segments = splitIntoSegments(exifBinary);
             app1 = getExifSeg(segments);
             if (app1) {
                 this.tiftag = app1.slice(10);
             } else {
                 this.tiftag = null;
             }
-        } else if (["\x49\x49", "\x4d\x4d"].indexOf(data.slice(0, 2)) > -1) { // TIFF
-            this.tiftag = data;
-        } else if (data.slice(0, 4) == "Exif") { // Exif
-            this.tiftag = data.slice(6);
+        } else if (["\x49\x49", "\x4d\x4d"].indexOf(exifBinary.slice(0, 2)) > -1) { // TIFF
+            this.tiftag = exifBinary;
+        } else if (exifBinary.slice(0, 4) == "Exif") { // Exif
+            this.tiftag = exifBinary.slice(6);
         } else {
-            throw ("Given file is neither JPEG nor TIFF.");
+            throw new Error("Given file is neither JPEG nor TIFF.");
         }
     }
 
-    get_ifd = (pointer:number, ifd_name:string) => {
-        let tag_count = unpack(this.endian_mark + "H",
+    getIfd = (pointer:number, ifdName:string) => {
+        let tag_count = unpack(this.endianMark + "H",
                                this.tiftag.slice(pointer, pointer + 2))[0];
         if (tag_count == 0) {
             return null;
         }
-        let ifd_dict:any = {};
+        let ifdObj:any = {};
         const offset = pointer + 2;
         let t;
-        if (["0th", "1st"].indexOf(ifd_name) > -1) {
+        if (["0th", "1st"].indexOf(ifdName) > -1) {
             t = "Image";
         } else {
-            t = ifd_name;
+            t = ifdName;
         }
 
         for (let x = 0; x < tag_count; x++) {
             pointer = offset + 12 * x;
-            const tag = unpack(this.endian_mark + "H",
+            const tag = unpack(this.endianMark + "H",
                                this.tiftag.slice(pointer, pointer + 2))[0];
-            const value_type = unpack(this.endian_mark + "H",
+            const valueType = unpack(this.endianMark + "H",
                                       this.tiftag.slice(pointer + 2, pointer + 4))[0];
-            const value_num = unpack(this.endian_mark + "L",
+            const valueNum = unpack(this.endianMark + "L",
                                      this.tiftag.slice(pointer + 4, pointer + 8))[0];
             const value = this.tiftag.slice(pointer + 8, pointer + 12);
 
-            const v_set = [value_type, value_num, value];
+            const valueSet = [valueType, valueNum, value];
             if (tag in constants.Tags[t]) {
-                ifd_dict[tag] = this.convert_value(v_set);
+                ifdObj[tag] = this.convertValue(valueSet);
             }
         }
 
-        if (ifd_name == "0th") {
+        if (ifdName == "0th") {
             pointer = offset + 12 * tag_count;
-            ifd_dict["first_ifd_pointer"] = this.tiftag.slice(pointer, pointer + 4);
+            ifdObj["first_ifd_pointer"] = this.tiftag.slice(pointer, pointer + 4);
         }
 
-        return ifd_dict;
+        return ifdObj;
     }
 
-    convert_value = (val:any) => {
+    convertValue = (val:any) => {
         let data = null;
         const t = val[0];
         const length = val[1];
@@ -418,83 +417,83 @@ export class ExifReader {
 
         if (t == 1) { // BYTE
             if (length > 4) {
-                pointer = unpack(this.endian_mark + "L", value)[0];
-                data = unpack(this.endian_mark + _nLoopStr("B", length),
+                pointer = unpack(this.endianMark + "L", value)[0];
+                data = unpack(this.endianMark + _nLoopStr("B", length),
                     this.tiftag.slice(pointer, pointer + length));
             } else {
-                data = unpack(this.endian_mark + _nLoopStr("B", length), value.slice(0, length));
+                data = unpack(this.endianMark + _nLoopStr("B", length), value.slice(0, length));
             }
         } else if (t == 2) { // ASCII
             if (length > 4) {
-                pointer = unpack(this.endian_mark + "L", value)[0];
+                pointer = unpack(this.endianMark + "L", value)[0];
                 data = this.tiftag.slice(pointer, pointer + length - 1);
             } else {
                 data = value.slice(0, length - 1);
             }
         } else if (t == 3) { // SHORT
             if (length > 2) {
-                pointer = unpack(this.endian_mark + "L", value)[0];
-                data = unpack(this.endian_mark + _nLoopStr("H", length),
+                pointer = unpack(this.endianMark + "L", value)[0];
+                data = unpack(this.endianMark + _nLoopStr("H", length),
                     this.tiftag.slice(pointer, pointer + length * 2));
             } else {
-                data = unpack(this.endian_mark + _nLoopStr("H", length),
+                data = unpack(this.endianMark + _nLoopStr("H", length),
                     value.slice(0, length * 2));
             }
         } else if (t == 4) { // LONG
             if (length > 1) {
-                pointer = unpack(this.endian_mark + "L", value)[0];
-                data = unpack(this.endian_mark + _nLoopStr("L", length),
+                pointer = unpack(this.endianMark + "L", value)[0];
+                data = unpack(this.endianMark + _nLoopStr("L", length),
                     this.tiftag.slice(pointer, pointer + length * 4));
             } else {
-                data = unpack(this.endian_mark + _nLoopStr("L", length),
+                data = unpack(this.endianMark + _nLoopStr("L", length),
                     value);
             }
         } else if (t == 5) { // RATIONAL
-            pointer = unpack(this.endian_mark + "L", value)[0];
+            pointer = unpack(this.endianMark + "L", value)[0];
             if (length > 1) {
                 data = [];
                 for (let x = 0; x < length; x++) {
-                    data.push([unpack(this.endian_mark + "L",
+                    data.push([unpack(this.endianMark + "L",
                             this.tiftag.slice(pointer + x * 8, pointer + 4 + x * 8))[0],
-                               unpack(this.endian_mark + "L",
+                               unpack(this.endianMark + "L",
                             this.tiftag.slice(pointer + 4 + x * 8, pointer + 8 + x * 8))[0]
                                ]);
                 }
             } else {
                 data = [
-                    unpack(this.endian_mark + "L",
+                    unpack(this.endianMark + "L",
                     this.tiftag.slice(pointer, pointer + 4))[0],
-                    unpack(this.endian_mark + "L",
+                    unpack(this.endianMark + "L",
                     this.tiftag.slice(pointer + 4, pointer + 8))[0]
                 ];
             }
         } else if (t == 7) { // UNDEFINED BYTES
             if (length > 4) {
-                pointer = unpack(this.endian_mark + "L", value)[0];
+                pointer = unpack(this.endianMark + "L", value)[0];
                 data = this.tiftag.slice(pointer, pointer + length);
             } else {
                 data = value.slice(0, length);
             }
         } else if (t == 10) { // SRATIONAL
-            pointer = unpack(this.endian_mark + "L", value)[0];
+            pointer = unpack(this.endianMark + "L", value)[0];
             if (length > 1) {
                 data = [];
                 for (let x = 0; x < length; x++) {
-                    data.push([unpack(this.endian_mark + "l",
+                    data.push([unpack(this.endianMark + "l",
                             this.tiftag.slice(pointer + x * 8, pointer + 4 + x * 8))[0],
-                               unpack(this.endian_mark + "l",
+                               unpack(this.endianMark + "l",
                             this.tiftag.slice(pointer + 4 + x * 8, pointer + 8 + x * 8))[0]
                               ]);
                 }
             } else {
-                data = [unpack(this.endian_mark + "l",
+                data = [unpack(this.endianMark + "l",
                         this.tiftag.slice(pointer, pointer + 4))[0],
-                        unpack(this.endian_mark + "l",
+                        unpack(this.endianMark + "l",
                         this.tiftag.slice(pointer + 4, pointer + 8))[0]
                        ];
             }
         } else {
-            throw ("Exif might be wrong. Got incorrect value " +
+            throw new Error("Exif might be wrong. Got incorrect value " +
                 "type to decode. type:" + t);
         }
 
@@ -508,7 +507,7 @@ export class ExifReader {
 
 export const splitIntoSegments = (data:string) => {
     if (data.slice(0, 2) != "\xff\xd8") {
-        throw ("Given data isn't JPEG.");
+        throw new Error("Given data isn't JPEG.");
     }
 
     let head = 2;
@@ -525,7 +524,7 @@ export const splitIntoSegments = (data:string) => {
         }
 
         if (head >= data.length) {
-            throw ("Wrong JPEG data.");
+            throw new Error("Wrong JPEG data.");
         }
     }
     return segments;
