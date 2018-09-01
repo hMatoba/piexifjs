@@ -329,7 +329,8 @@ export const dict_to_bytes = (ifd_dict:any, ifdName:string, ifd_offset:number) =
         let raw_value = ifd_dict[key];
         const key_str = pack(">H", [key]);
         const value_type:number = constants.Tags[ifdName][key]["type"];
-        const type_str = pack(">H", [constants.Types[value_type]]);
+        const type_str = pack(">H", [value_type]);
+
 
         if (typeof (raw_value) == "number") {
             raw_value = [raw_value];
@@ -341,10 +342,8 @@ export const dict_to_bytes = (ifd_dict:any, ifdName:string, ifd_offset:number) =
         const four_bytes_over = b[2];
 
         entries += key_str + type_str + length_str + value_str;
-        console.log(key_str.length, type_str.length, length_str.length, value_str.length);
         values += four_bytes_over;
     }
-
     return [entry_header + entries, values];
 }
 

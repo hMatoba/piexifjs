@@ -13,6 +13,20 @@ export const Types:ITypes = {
     SRational: 10
 };
 
+interface ITypeNums {
+    [key: number]:string
+}
+
+export const TypeNums:ITypeNums = {
+    1: 'Byte',
+    2: 'Ascii',
+    3: 'Short',
+    4: 'Long',
+    5: 'Rational',
+    7: 'Undefined',
+    9: 'SLong',
+    10: 'SRational'
+};
 
 
 export const Tags: any = {
