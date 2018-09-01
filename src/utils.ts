@@ -220,6 +220,15 @@ export const _value_to_bytes = (raw_value:any, value_type:string, offset:number)
             value_str = pack(">L", [offset]);
             four_bytes_over = _pack_byte(raw_value);
         }
+    } else if (value_type == "Ascii") {
+        new_value = raw_value + "\x00";
+        length = new_value.length;
+        if (length > 4) {
+            value_str = pack(">L", [offset]);
+            four_bytes_over = new_value;
+        } else {
+            value_str = new_value + _nStr("\x00", 4 - length);
+        }
     } else if (value_type == "Short") {
         length = raw_value.length;
         if (length <= 2) {
@@ -236,15 +245,6 @@ export const _value_to_bytes = (raw_value:any, value_type:string, offset:number)
         } else {
             value_str = pack(">L", [offset]);
             four_bytes_over = _pack_long(raw_value);
-        }
-    } else if (value_type == "Ascii") {
-        new_value = raw_value + "\x00";
-        length = new_value.length;
-        if (length > 4) {
-            value_str = pack(">L", [offset]);
-            four_bytes_over = new_value;
-        } else {
-            value_str = new_value + _nStr("\x00", 4 - length);
         }
     } else if (value_type == "Rational") {
         if (typeof (raw_value[0]) == "number") {
@@ -264,6 +264,16 @@ export const _value_to_bytes = (raw_value:any, value_type:string, offset:number)
         }
         value_str = pack(">L", [offset]);
         four_bytes_over = new_value;
+    } else if (value_type == "Undefined") {
+        length = raw_value.length;
+        if (length > 4) {
+            value_str = pack(">L", [offset]);
+            four_bytes_over = raw_value;
+        } else {
+            value_str = raw_value + _nStr("\x00", 4 - length);
+        }
+    } else if (value_type == "SLong") {
+        throw new Error('Not implemented for SLong value');
     } else if (value_type == "SRational") {
         if (typeof (raw_value[0]) == "number") {
             length = 1;
@@ -282,14 +292,6 @@ export const _value_to_bytes = (raw_value:any, value_type:string, offset:number)
         }
         value_str = pack(">L", [offset]);
         four_bytes_over = new_value;
-    } else if (value_type == "Undefined") {
-        length = raw_value.length;
-        if (length > 4) {
-            value_str = pack(">L", [offset]);
-            four_bytes_over = raw_value;
-        } else {
-            value_str = raw_value + _nStr("\x00", 4 - length);
-        }
     }
 
     const length_str = pack(">L", [length]);
