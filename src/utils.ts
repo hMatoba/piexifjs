@@ -1,6 +1,6 @@
 import * as constants from './constants';
 
-export const _nStr = (ch:string, num:number) => {
+export const _nLoopStr = (ch:string, num:number) => {
     let str = "";
     for (let i = 0; i < num; i++) {
         str += ch;
@@ -174,17 +174,17 @@ export const btoa:Function = _isBrowser
 
 
 export const _pack_byte = (array:Array<number>) => {
-    return pack(">" + _nStr("B", array.length), array);
+    return pack(">" + _nLoopStr("B", array.length), array);
 };
 
 
 export const _pack_short = (array:Array<number>) => {
-    return pack(">" + _nStr("H", array.length), array);
+    return pack(">" + _nLoopStr("H", array.length), array);
 };
 
 
 export const _pack_long = (array:Array<number>) => {
-    return pack(">" + _nStr("L", array.length), array);
+    return pack(">" + _nLoopStr("L", array.length), array);
 };
 
 
@@ -214,7 +214,7 @@ export const _value_to_bytes = (raw_value:any, value_type:number, offset:number)
         length = raw_value.length;
         if (length <= 4) {
             value_str = (_pack_byte(raw_value) +
-                _nStr("\x00", 4 - length));
+                _nLoopStr("\x00", 4 - length));
         } else {
             value_str = pack(">L", [offset]);
             four_bytes_over = _pack_byte(raw_value);
@@ -226,13 +226,13 @@ export const _value_to_bytes = (raw_value:any, value_type:number, offset:number)
             value_str = pack(">L", [offset]);
             four_bytes_over = new_value;
         } else {
-            value_str = new_value + _nStr("\x00", 4 - length);
+            value_str = new_value + _nLoopStr("\x00", 4 - length);
         }
     } else if (value_type == constants.Types.Short) {
         length = raw_value.length;
         if (length <= 2) {
             value_str = (_pack_short(raw_value) +
-                _nStr("\x00\x00", 2 - length));
+                _nLoopStr("\x00\x00", 2 - length));
         } else {
             value_str = pack(">L", [offset]);
             four_bytes_over = _pack_short(raw_value);
@@ -269,7 +269,7 @@ export const _value_to_bytes = (raw_value:any, value_type:number, offset:number)
             value_str = pack(">L", [offset]);
             four_bytes_over = raw_value;
         } else {
-            value_str = raw_value + _nStr("\x00", 4 - length);
+            value_str = raw_value + _nLoopStr("\x00", 4 - length);
         }
     } else if (value_type == constants.Types.SLong) {
         throw new Error('Not implemented for SLong value');
@@ -419,10 +419,10 @@ export class ExifReader {
         if (t == 1) { // BYTE
             if (length > 4) {
                 pointer = unpack(this.endian_mark + "L", value)[0];
-                data = unpack(this.endian_mark + _nStr("B", length),
+                data = unpack(this.endian_mark + _nLoopStr("B", length),
                     this.tiftag.slice(pointer, pointer + length));
             } else {
-                data = unpack(this.endian_mark + _nStr("B", length), value.slice(0, length));
+                data = unpack(this.endian_mark + _nLoopStr("B", length), value.slice(0, length));
             }
         } else if (t == 2) { // ASCII
             if (length > 4) {
@@ -434,19 +434,19 @@ export class ExifReader {
         } else if (t == 3) { // SHORT
             if (length > 2) {
                 pointer = unpack(this.endian_mark + "L", value)[0];
-                data = unpack(this.endian_mark + _nStr("H", length),
+                data = unpack(this.endian_mark + _nLoopStr("H", length),
                     this.tiftag.slice(pointer, pointer + length * 2));
             } else {
-                data = unpack(this.endian_mark + _nStr("H", length),
+                data = unpack(this.endian_mark + _nLoopStr("H", length),
                     value.slice(0, length * 2));
             }
         } else if (t == 4) { // LONG
             if (length > 1) {
                 pointer = unpack(this.endian_mark + "L", value)[0];
-                data = unpack(this.endian_mark + _nStr("L", length),
+                data = unpack(this.endian_mark + _nLoopStr("L", length),
                     this.tiftag.slice(pointer, pointer + length * 4));
             } else {
-                data = unpack(this.endian_mark + _nStr("L", length),
+                data = unpack(this.endian_mark + _nLoopStr("L", length),
                     value);
             }
         } else if (t == 5) { // RATIONAL
