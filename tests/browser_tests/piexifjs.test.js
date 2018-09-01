@@ -3,6 +3,7 @@ const nodePiexifjs = require('../../dist/piexifjs');
 
 const timeout = 5000;
 const jpegBinary = fs.readFileSync("./tests/files/r_canon.jpg").toString("binary");
+const piexifPath = '../../dist/piexifjs.js';
 
 describe(
   '/ (Home Page)',
@@ -16,27 +17,23 @@ describe(
       await page.close()
     });
 
-    it('test', async () => {
+    it('test to check running puppeteer', async () => {
       await page.addScriptTag({
-        content: "console.log('foo);"
+        content: "const x = 1 + 1;"
       });
     });
     
     it('should be same output from load on node and browser ', async () => {
       const nodeOutput = nodePiexifjs.load(jpegBinary);
-      console.log("before");
-      console.log(require.resolve("../../dist/piexifjs.js"));
       await page.addScriptTag({
-        path: require.resolve("../../dist/piexifjs.js")
+        path: require.resolve(piexifPath)
       });
       
-      console.log("after");
       const browserOutput = await page.evaluate((jpeg) => {
           return piexifjs.load(jpeg);
         },
         jpegBinary
       );
-      console.log("after after");
       expect(browserOutput).toEqual(nodeOutput);
     });
 
@@ -49,7 +46,7 @@ describe(
       };
       const nodeOutput = nodePiexifjs.dump(exif);
       await page.addScriptTag({
-        path: require.resolve("../../dist/piexifjs")
+        path: require.resolve(piexifPath)
       });
       const browserOutput = await page.evaluate((exifObj) => {
           return piexifjs.dump(exifObj);
@@ -69,7 +66,7 @@ describe(
       const exifBinary = nodePiexifjs.dump(exif);
       const nodeOutput = nodePiexifjs.insert(exifBinary, jpegBinary);;
       await page.addScriptTag({
-        path: require.resolve("../../dist/piexifjs")
+        path: require.resolve(piexifPath)
       });
       const browserOutput = await page.evaluate((exif, jpeg) => {
           return piexifjs.insert(exif, jpeg);
@@ -83,7 +80,7 @@ describe(
     it('should be same output from remove on node and browser ', async () => {
       const nodeOutput = nodePiexifjs.remove(jpegBinary);
       await page.addScriptTag({
-        path: require.resolve("../../dist/piexifjs")
+        path: require.resolve(piexifPath)
       });
       const browserOutput = await page.evaluate((jpeg) => {
           return piexifjs.remove(jpeg);
