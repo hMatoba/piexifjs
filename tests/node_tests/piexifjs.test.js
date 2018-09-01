@@ -26,7 +26,7 @@ test('"load" returns correct value" -- 1', () => {
   const correctObj = {
     '0th': {
       256: 10,
-      257:10
+      257: 10
     }
   };
   const exifObj = piexifjs.load(exifBinary);
