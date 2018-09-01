@@ -1,6 +1,6 @@
 interface ITypes {
     [key: string]:number
-  }
+}
 
 export const Types:ITypes = {
     Byte: 1,
@@ -665,18 +665,6 @@ export const Tags: any = {
             'name': 'ProfileHueSatMapDims',
             'type': 'Long'
         },
-        50938: {
-            'name': 'ProfileHueSatMapData1',
-            'type': 'Float'
-        },
-        50939: {
-            'name': 'ProfileHueSatMapData2',
-            'type': 'Float'
-        },
-        50940: {
-            'name': 'ProfileToneCurve',
-            'type': 'Float'
-        },
         50941: {
             'name': 'ProfileEmbedPolicy',
             'type': 'Long'
@@ -736,10 +724,6 @@ export const Tags: any = {
         50981: {
             'name': 'ProfileLookTableDims',
             'type': 'Long'
-        },
-        50982: {
-            'name': 'ProfileLookTableData',
-            'type': 'Float'
         },
         51008: {
             'name': 'OpcodeList1',
