@@ -13,7 +13,7 @@ test('"dump" returns correct value" -- 1', () => {
   const exifObj = {
     '0th': {
       256: 10,
-      257:10
+      257: 10
     }
   };
   const exifBinary = piexifjs.dump(exifObj);
