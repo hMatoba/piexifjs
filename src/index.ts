@@ -1,11 +1,20 @@
-import * as constants from './constants';
+import * as _constants from './constants';
 import * as _utils from './utils';
 import * as _helper from './helper';
 
 export const version:string = '2.0.0a';
+interface IExif {
+    '0th'?: any;
+    'Exif'?: any;
+    'Interop'?: any;
+    'GPS'?: any;
+    '1st'?: any;
+    'thumbnail'?: string;
+};
 
 export const _:any = _utils;
 export const helper:any = _helper;
+export const constants:any = _constants;
 
 export const remove = (imageBinary:string) => {
     let bbase64Encoded = false;
@@ -72,7 +81,7 @@ export const load = (binary:string) => {
         throw new Error("'load' gots invalid type argument.");
     }
 
-    let exifObj:any = {};
+    let exifObj:IExif = {};
     let exifReader:any = new _utils.ExifReader(exifBinary);
     if (exifReader.tiftag === null) {
         return exifObj;
@@ -140,11 +149,10 @@ export const load = (binary:string) => {
     return exifObj;
 };
 
-
-export const dump = (originalExifObj:any) => {
+export const dump = (originalExifObj:IExif) => {
     const TIFF_HEADER_LENGTH = 8;
 
-    let exifObj = _utils.copy(originalExifObj);
+    let exifObj:IExif = _utils.copy(originalExifObj);
     const header = "Exif\x00\x00\x4d\x4d\x00\x2a\x00\x00\x00\x08";
     let existExifIfd = false;
     let existGpsIfd = false;
@@ -172,19 +180,19 @@ export const dump = (originalExifObj:any) => {
             exifIfd[40965] = 1;
             existInteropIfd = true;
             interopIfd = exifObj["Interop"];
-        } else if (Object.keys(exifIfd).indexOf(constants.TagValues.ExifIFD.InteroperabilityTag.toString()) > -1) {
+        } else if (Object.keys(exifIfd).indexOf(_constants.TagValues.ExifIFD.InteroperabilityTag.toString()) > -1) {
             delete exifIfd[40965];
         }
-    } else if (Object.keys(zerothIfd).indexOf(constants.TagValues.ImageIFD.ExifTag.toString()) > -1) {
+    } else if (Object.keys(zerothIfd).indexOf(_constants.TagValues.ImageIFD.ExifTag.toString()) > -1) {
         delete zerothIfd[34665];
     }
 
     if (("GPS" in exifObj) && (Object.keys(exifObj["GPS"]).length)) {
-        zerothIfd[constants.TagValues.ImageIFD.GPSTag] = 1;
+        zerothIfd[_constants.TagValues.ImageIFD.GPSTag] = 1;
         existGpsIfd = true;
         gpsIfd = exifObj["GPS"];
-    } else if (Object.keys(zerothIfd).indexOf(constants.TagValues.ImageIFD.GPSTag.toString()) > -1) {
-        delete zerothIfd[constants.TagValues.ImageIFD.GPSTag];
+    } else if (Object.keys(zerothIfd).indexOf(_constants.TagValues.ImageIFD.GPSTag.toString()) > -1) {
+        delete zerothIfd[_constants.TagValues.ImageIFD.GPSTag];
     }
     
     if (("1st" in exifObj) &&
@@ -245,7 +253,7 @@ export const dump = (originalExifObj:any) => {
         const pointerBinary = _utils.pack(">L", [pointerValue]);
         const key = 34665;
         const keyBinary = _utils.pack(">H", [key]);
-        const typeBinary = _utils.pack(">H", [constants.Types["Long"]]);
+        const typeBinary = _utils.pack(">H", [_constants.Types["Long"]]);
         const lengthBinary = _utils.pack(">L", [1]);
         exifPointer = keyBinary + typeBinary + lengthBinary + pointerBinary;
     }
@@ -254,7 +262,7 @@ export const dump = (originalExifObj:any) => {
         const pointerBinary = _utils.pack(">L", [pointerValue]);
         const key = 34853;
         const keyBinary = _utils.pack(">H", [key]);
-        const typeBinary = _utils.pack(">H", [constants.Types["Long"]]);
+        const typeBinary = _utils.pack(">H", [_constants.Types["Long"]]);
         const lengthBinary = _utils.pack(">L", [1]);
         gpsPointer = keyBinary + typeBinary + lengthBinary + pointerBinary;
     }
@@ -264,7 +272,7 @@ export const dump = (originalExifObj:any) => {
         const pointerBinary = _utils.pack(">L", [pointerValue]);
         const key = 40965;
         const keyBinary = _utils.pack(">H", [key]);
-        const typeBinary = _utils.pack(">H", [constants.Types["Long"]]);
+        const typeBinary = _utils.pack(">H", [_constants.Types["Long"]]);
         const lengthBinary = _utils.pack(">L", [1]);
         interopPointer = keyBinary + typeBinary + lengthBinary + pointerBinary;
     }

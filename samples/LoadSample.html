@@ -36,7 +36,7 @@ table, th, td {
 }
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
-<script src="../piexif.js"></script>
+<script src="../dist/piexifjs.js"></script>
 </head>
 <body>
   <h3>Piexifjs Demo</h3>
@@ -50,7 +50,7 @@ function printExif(dataURL) {
     var originalImg = new Image();
     originalImg.src = dataURL;
 
-    var exif = piexif.load(dataURL);
+    var exif = piexifjs.load(dataURL);
     var ifds = ["0th", "Exif", "GPS", "Interop", "1st"];
     var s = ""
     for (var i=0; i<5; i++)
@@ -64,7 +64,7 @@ function printExif(dataURL) {
             } else {
                 str = escape(exif[ifd][tag]);
             }
-            ifd_i += ("<tr><td class='te'>" + piexif.TAGS[ifd][tag]["name"] +
+            ifd_i += ("<tr><td class='te'>" + piexifjs.constants.Tags[ifd][tag]["name"] +
                       "</td><td class='te'><div class='divtd'>" +
                       str + "</div></td></tr>");
         }
