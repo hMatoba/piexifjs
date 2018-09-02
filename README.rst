@@ -23,9 +23,9 @@ Thank you for using piexifjs!
 version 2.0
 -----------
 
-- some data types are changed in exif
 - add some arguments type checks 
 - stop to support bower
+- some data types are changed in exif?
 
 How to Use
 ----------
