@@ -203,102 +203,192 @@ export const getThumbnail = (jpeg:string) => {
     return segments.join("");
 };
 
-export const _valueToBytes = (raw_value:any, value_type:number, offset:number) => {
-    let fourBytesOver = "";
-    let valueBinary = "";
-    let length,
-        newValue,
-        num,
-        den;
-    if (value_type == constants.Types.Byte) {
-        length = raw_value.length;
-        if (length <= 4) {
-            valueBinary = (_packByte(raw_value) +
-                _nLoopStr("\x00", 4 - length));
-        } else {
-            valueBinary = pack(">L", [offset]);
-            fourBytesOver = _packByte(raw_value);
-        }
-    } else if (value_type == constants.Types.Ascii) {
-        newValue = raw_value + "\x00";
-        length = newValue.length;
-        if (length > 4) {
-            valueBinary = pack(">L", [offset]);
-            fourBytesOver = newValue;
-        } else {
-            valueBinary = newValue + _nLoopStr("\x00", 4 - length);
-        }
-    } else if (value_type == constants.Types.Short) {
-        length = raw_value.length;
-        if (length <= 2) {
-            valueBinary = (_packShort(raw_value) +
-                _nLoopStr("\x00\x00", 2 - length));
-        } else {
-            valueBinary = pack(">L", [offset]);
-            fourBytesOver = _packShort(raw_value);
-        }
-    } else if (value_type == constants.Types.Long) {
-        length = raw_value.length;
-        if (length <= 1) {
-            valueBinary = _packLong(raw_value);
-        } else {
-            valueBinary = pack(">L", [offset]);
-            fourBytesOver = _packLong(raw_value);
-        }
-    } else if (value_type == constants.Types.Rational) {
-        if (typeof (raw_value[0]) == "number") {
-            length = 1;
-            num = raw_value[0];
-            den = raw_value[1];
-            newValue = pack(">L", [num]) + pack(">L", [den]);
-        } else {
-            length = raw_value.length;
-            newValue = "";
-            for (let n = 0; n < length; n++) {
-                num = raw_value[n][0];
-                den = raw_value[n][1];
-                newValue += (pack(">L", [num]) +
-                    pack(">L", [den]));
-            }
-        }
-        valueBinary = pack(">L", [offset]);
-        fourBytesOver = newValue;
-    } else if (value_type == constants.Types.Undefined) {
-        length = raw_value.length;
-        if (length > 4) {
-            valueBinary = pack(">L", [offset]);
-            fourBytesOver = raw_value;
-        } else {
-            valueBinary = raw_value + _nLoopStr("\x00", 4 - length);
-        }
-    } else if (value_type == constants.Types.SLong) {
+export const _valueToBytes = (rawValue:any, valueType:number, offset:number) => {
+    let tagBinary;
+    if (valueType == constants.Types.Byte) {
+        tagBinary = _toByte(rawValue, offset);
+    } else if (valueType == constants.Types.Ascii) {
+        tagBinary = _toAscii(rawValue, offset)
+    } else if (valueType == constants.Types.Short) {
+        tagBinary = _toShort(rawValue, offset);
+    } else if (valueType == constants.Types.Long) {
+        tagBinary = _toLong(rawValue, offset);
+    } else if (valueType == constants.Types.Rational) {
+        tagBinary = _toRational(rawValue, offset);
+    } else if (valueType == constants.Types.Undefined) {
+        tagBinary = _toUndefined(rawValue, offset);
+    } else if (valueType == constants.Types.SLong) {
         throw new Error('Not implemented for SLong value');
-    } else if (value_type == constants.Types.SRational) {
-        if (typeof (raw_value[0]) == "number") {
-            length = 1;
-            num = raw_value[0];
-            den = raw_value[1];
-            newValue = pack(">l", [num]) + pack(">l", [den]);
-        } else {
-            length = raw_value.length;
-            newValue = "";
-            for (let n = 0; n < length; n++) {
-                num = raw_value[n][0];
-                den = raw_value[n][1];
-                newValue += (pack(">l", [num]) +
-                    pack(">l", [den]));
-            }
-        }
-        valueBinary = pack(">L", [offset]);
-        fourBytesOver = newValue;
+    } else if (valueType == constants.Types.SRational) {
+        tagBinary = _toSRational(rawValue, offset);
     } else {
         throw new Error("Got unhandled exif value type.");
     }
 
-    const length_str = pack(">L", [length]);
+    const lengthBinary = pack(">L", [tagBinary.length]);
 
-    return [length_str, valueBinary, fourBytesOver];
+    return [lengthBinary, tagBinary.value, tagBinary.fourBytesOver];
 };
+
+interface ITagBinary {
+    value:string,
+    length:number,
+    fourBytesOver:string
+};
+
+
+export const _toByte = (rawValue:any, offset:number) => {
+    if (!Array.isArray(rawValue)) {
+        throw new Error('Value must be "string". Got '+ (typeof rawValue));
+    }
+
+    const length = rawValue.length;
+    let tagBinary:ITagBinary = {
+        value: '',
+        length: null,
+        fourBytesOver: ''
+    };
+    if (length <= 4) {
+        tagBinary.value = (_packByte(rawValue) +
+            _nLoopStr("\x00", 4 - length));
+    } else {
+        tagBinary.value = pack(">L", [offset]);
+        tagBinary.fourBytesOver = _packByte(rawValue);
+    }
+    tagBinary.length = length;
+    return tagBinary;
+};
+
+export const _toAscii = (rawValue:string, offset:number) => {
+    const newValue = rawValue + "\x00";
+    const length = newValue.length;
+    let tagBinary:ITagBinary = {
+        value: '',
+        length: null,
+        fourBytesOver: ''
+    };
+    if (length > 4) {
+        tagBinary.value = pack(">L", [offset]);
+        tagBinary.fourBytesOver = newValue;
+    } else {
+        tagBinary.value = newValue + _nLoopStr("\x00", 4 - length);
+    }
+    tagBinary.length = length;
+    return tagBinary;
+};
+
+export const _toShort = (rawValue:any, offset:number) => {
+    const length = rawValue.length;
+    let tagBinary:ITagBinary = {
+        value: '',
+        length: null,
+        fourBytesOver: ''
+    };
+    if (length <= 2) {
+        tagBinary.value = (_packShort(rawValue) +
+            _nLoopStr("\x00\x00", 2 - length));
+    } else {
+        tagBinary.value = pack(">L", [offset]);
+        tagBinary.fourBytesOver = _packShort(rawValue);
+    }
+    tagBinary.length = length;
+    return tagBinary;
+};
+
+export const _toLong = (rawValue:any, offset:number) => {
+    const length = rawValue.length;
+    let tagBinary:ITagBinary = {
+        value: '',
+        length: null,
+        fourBytesOver: ''
+    };
+    if (length <= 1) {
+        tagBinary.value = _packLong(rawValue);
+    } else {
+        tagBinary.value = pack(">L", [offset]);
+        tagBinary.fourBytesOver = _packLong(rawValue);
+    }
+    tagBinary.length = length;
+    return tagBinary;
+};
+
+export const _toRational = (rawValue:any, offset:number) => {
+    let tagBinary:ITagBinary = {
+        value: '',
+        length: null,
+        fourBytesOver: ''
+    };
+    let newValue;
+    let length;
+    if ((typeof rawValue[0]) == "number") {
+        length = 1;
+        const num = rawValue[0];
+        const den = rawValue[1];
+        newValue = pack(">L", [num]) + pack(">L", [den]);
+    } else {
+        length = rawValue.length;
+        newValue = "";
+        for (let n = 0; n < length; n++) {
+            const num = rawValue[n][0];
+            const den = rawValue[n][1];
+            newValue += (pack(">L", [num]) +
+                         pack(">L", [den]));
+        }
+    
+    }
+    tagBinary.length = length;
+    tagBinary.value = pack(">L", [offset]);
+    tagBinary.fourBytesOver = newValue;   
+    return tagBinary;
+};
+
+export const _toUndefined = (rawValue:string, offset:number) => {
+    const length = rawValue.length;
+    let tagBinary:ITagBinary = {
+        value: '',
+        length: null,
+        fourBytesOver: ''
+    };
+    if (length > 4) {
+        tagBinary.value = pack(">L", [offset]);
+        tagBinary.fourBytesOver = rawValue;
+    } else {
+        tagBinary.value = rawValue + _nLoopStr("\x00", 4 - length);
+    }
+    tagBinary.length = length;
+    return tagBinary;
+};
+
+
+export const _toSRational = (rawValue:any, offset:number) => {
+    let length;
+    let newValue = "";
+    let tagBinary:ITagBinary = {
+        value: '',
+        length: null,
+        fourBytesOver: ''
+    };
+    if ((typeof rawValue[0]) == "number") {
+        length = 1;
+        const num = rawValue[0];
+        const den = rawValue[1];
+        newValue = pack(">l", [num]) + pack(">l", [den]);
+    } else {
+        length = rawValue.length;
+        newValue = "";
+        for (let n = 0; n < length; n++) {
+            const num = rawValue[n][0];
+            const den = rawValue[n][1];
+            newValue += (pack(">l", [num]) +
+                pack(">l", [den]));
+        }
+    }
+    tagBinary.length = length;
+    tagBinary.value = pack(">L", [offset]);
+    tagBinary.fourBytesOver = newValue;
+    return tagBinary;
+};
+
 
 export const dictToBytes = (ifdObj:any, ifdName:string, ifdOffsetCount:number) => {
     const TIFF_HEADER_LENGTH = 8;
@@ -370,9 +460,9 @@ export class ExifReader {
     }
 
     getIfd = (pointer:number, ifdName:string) => {
-        let tag_count = unpack(this.endianMark + "H",
+        const tagCount = unpack(this.endianMark + "H",
                                this.tiftag.slice(pointer, pointer + 2))[0];
-        if (tag_count == 0) {
+        if (tagCount == 0) {
             return null;
         }
         let ifdObj:any = {};
@@ -384,7 +474,7 @@ export class ExifReader {
             t = ifdName;
         }
 
-        for (let x = 0; x < tag_count; x++) {
+        for (let x = 0; x < tagCount; x++) {
             pointer = offset + 12 * x;
             const tag = unpack(this.endianMark + "H",
                                this.tiftag.slice(pointer, pointer + 2))[0];
@@ -401,7 +491,7 @@ export class ExifReader {
         }
 
         if (ifdName == "0th") {
-            pointer = offset + 12 * tag_count;
+            pointer = offset + 12 * tagCount;
             ifdObj["first_ifd_pointer"] = this.tiftag.slice(pointer, pointer + 4);
         }
 
