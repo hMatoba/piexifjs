@@ -89,7 +89,7 @@ No dependency. Piexifjs just needs standard JavaScript environment.
 Environment
 -----------
 
-Both client-side and server-side. Standard browsers(Tested on IE11, Opera28, and PhantomJS) and Node.js.
+Both client-side and server-side. Standard browsers(without IE) and Node.js.
 
 Issues
 ------

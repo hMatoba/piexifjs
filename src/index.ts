@@ -1,16 +1,9 @@
 import * as _constants from './constants';
 import * as _utils from './utils';
 import * as _helper from './helper';
+import * as interfaces from './interfaces';
 
 export const version:string = '2.0.0a';
-interface IExif {
-    '0th'?: any;
-    'Exif'?: any;
-    'Interop'?: any;
-    'GPS'?: any;
-    '1st'?: any;
-    'thumbnail'?: string;
-};
 
 export const _:any = _utils;
 export const helper:any = _helper;
@@ -23,7 +16,7 @@ export const remove = (imageBinary:string) => {
         imageBinary = _utils.atob(imageBinary.split(",")[1]);
         bbase64Encoded = true;
     } else {
-        throw ("Given data is not jpeg.");
+        throw new Error("Given data is not jpeg.");
     }
     
     const segments = _utils.splitIntoSegments(imageBinary);
@@ -44,7 +37,7 @@ export const remove = (imageBinary:string) => {
 export const insert = (exifBinary:string, imageBinary:string) => {
     let base64Encoded = false;
     if (exifBinary.slice(0, 6) != "\x45\x78\x69\x66\x00\x00") {
-        throw ("Given data is not exif.");
+        throw new Error("Given data is not exif.");
     }
     if (imageBinary.slice(0, 2) == "\xff\xd8") {
     } else if (imageBinary.slice(0, 23) == "data:image/jpeg;base64," || imageBinary.slice(0, 22) == "data:image/jpg;base64,") {
@@ -81,7 +74,7 @@ export const load = (binary:string) => {
         throw new Error("'load' gots invalid type argument.");
     }
 
-    let exifObj:IExif = {};
+    let exifObj:interfaces.IExif = {};
     let exifReader:any = new _utils.ExifReader(exifBinary);
     if (exifReader.tiftag === null) {
         return exifObj;
@@ -149,10 +142,10 @@ export const load = (binary:string) => {
     return exifObj;
 };
 
-export const dump = (originalExifObj:IExif) => {
+export const dump = (originalExifObj:interfaces.IExif) => {
     const TIFF_HEADER_LENGTH = 8;
 
-    let exifObj:IExif = _utils.copy(originalExifObj);
+    let exifObj:interfaces.IExif = _utils.copy(originalExifObj);
     const header = "Exif\x00\x00\x4d\x4d\x00\x2a\x00\x00\x00\x08";
     let existExifIfd = false;
     let existGpsIfd = false;
@@ -240,7 +233,7 @@ export const dump = (originalExifObj:IExif) => {
         firstIfdSet = _utils.dictToBytes(firstIfd, "1st", offset);
         thumbnail = _utils.getThumbnail(exifObj["thumbnail"]);
         if (thumbnail.length > 64000) {
-            throw ("Given thumbnail is too large. max 64kB");
+            throw new Error("Given thumbnail is too large. max 64kB");
         }
     }
 
