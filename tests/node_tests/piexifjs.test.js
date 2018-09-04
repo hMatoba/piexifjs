@@ -9,6 +9,18 @@ test('"load" returns a object contains IFD -- 1', () => {
   expect(Object.keys(exifObj)).toContain('0th');
 });
 
+test('"load" returns correct value" -- 1', () => {
+  const exifBinary = 'Exif\x00\x00MM\x00*\x00\x00\x00\x08\x00\x02\x01\x00\x00\x04\x00\x00\x00\x01\x00\x00\x00\n\x01\x01\x00\x04\x00\x00\x00\x01\x00\x00\x00\n\x00\x00\x00\x00';
+  const correctObj = {
+    '0th': {
+      256: 10,
+      257: 10
+    }
+  };
+  const exifObj = piexifjs.load(exifBinary);
+  expect(exifObj).toEqual(correctObj);
+});
+
 test('"dump" returns correct value" -- 1', () => {
   const exifObj = {
     '0th': {
@@ -21,17 +33,17 @@ test('"dump" returns correct value" -- 1', () => {
   expect(exifBinary).toBe(correctBinary);
 });
 
-test('"load" returns correct value" -- 1', () => {
-  const exifBinary = 'Exif\x00\x00MM\x00*\x00\x00\x00\x08\x00\x02\x01\x00\x00\x04\x00\x00\x00\x01\x00\x00\x00\n\x01\x01\x00\x04\x00\x00\x00\x01\x00\x00\x00\n\x00\x00\x00\x00';
-  const correctObj = {
+test('"dump" throws "ValueConvertError"" -- 1', () => {
+  const exifObj = {
     '0th': {
-      256: 10,
-      257: 10
+      256: "10"
     }
   };
-  const exifObj = piexifjs.load(exifBinary);
-  expect(exifObj).toEqual(correctObj);
+  expect(
+    () => { piexifjs.dump(exifObj); }
+  ).toThrow(piexifjs.exceptions.ValueConvertError);
 });
+
 
 test('round trip "load" and "dump" -- 1', () => {
   const jpegBinary = fs.readFileSync("./tests/files/r_sony.jpg").toString("binary");
