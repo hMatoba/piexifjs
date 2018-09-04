@@ -470,7 +470,7 @@ export const dictToBytes = (ifdObj:any, ifdName:string, ifdOffsetCount:number) =
                 console.error(e.message);
                 const _ifdName = ['0th', '1st'].includes(ifdName) ? 'Image' : ifdName;
                 const tagName = constants.Tags[_ifdName][key]['name'];
-                throw new Error(`Can't convert ${tagName} in ${ifdName} IFD.`);
+                throw new piexifjs.exceptions.ValueConvertError(`Can't convert ${tagName} in ${ifdName} IFD.`);
             }
             throw e;
         }
