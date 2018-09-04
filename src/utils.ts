@@ -11,11 +11,11 @@ export const _nLoopStr = (ch:string, num:number) => {
 };
 
 export const pack = (mark:string, array:Array<number>) => {
-    // if (!(array instanceof Array)) {
-    //     throw new Error("'pack' error. Got invalid type argument.");
-    // }
+    if (!(array instanceof Array)) {
+        throw new Error("'pack' error. Got invalid type argument.");
+    }
     if ((mark.length - 1) != array.length) {
-        throw new Error("'pack' error. " + (mark.length - 1) + " marks, " + array.length + " elements.");
+        throw new Error(`'pack' error. ${mark.length - 1} marks, ${array.length} elements.`);
     }
 
     let littleEndian;
@@ -163,15 +163,15 @@ export const _isBrowser = (new Function("try {return this===window;}catch(e){ re
 export const atob:Function = _isBrowser 
                              ? window.atob
                              : (input:string) => {
-                                const decoded = Buffer.from(input,'base64');
-                                return decoded;
+                                 const decoded = Buffer.from(input,'base64');
+                                 return decoded;
                               };
 export const btoa:Function = _isBrowser
                              ? window.btoa
                              : (input:string) => {
-                                const buf = Buffer.from(input);
-                                const encoded = buf.toString('base64');
-                                return encoded;
+                                 const buf = Buffer.from(input);
+                                 const encoded = buf.toString('base64');
+                                 return encoded;
                               };
 
 
