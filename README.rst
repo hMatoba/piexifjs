@@ -1,8 +1,6 @@
 Piexifjs
 ========
 
-Node.js
-
 .. image:: https://travis-ci.org/hMatoba/piexifjs.svg?branch=master
     :target: https://travis-ci.org/hMatoba/piexifjs
 
