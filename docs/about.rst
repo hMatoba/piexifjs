@@ -2,6 +2,18 @@
 About Piexifjs
 ==============
 
+Notice and Warning!
+-------------------
+
+We are implementing v2.0. This version would include a few big changes. If you won't ready to use, don't update this library.
+
+- Change namespace from *pixif* to *piexifjs* in browser environment.
+- add some arguments type checks 
+- stop to support bower
+- some data types are changed in exif object...?
+
+Some names in this libary will be changed until beta version.
+
 What for?
 ---------
 
@@ -25,7 +37,7 @@ No dependencies.
 Environment
 -----------
 
-Tested on IE11, Opera28, and PhantomJS 1.9.8. It runs on even Node.js.
+Both client-side and server-side. Standard browsers(without IE) and Node.js.
 
 License
 -------
