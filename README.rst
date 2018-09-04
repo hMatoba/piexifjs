@@ -1,10 +1,15 @@
 Piexifjs
 ========
 
+Node.js
 .. image:: https://travis-ci.org/hMatoba/piexifjs.svg?branch=master
     :target: https://travis-ci.org/hMatoba/piexifjs
+
 .. image:: https://badge.fury.io/js/piexifjs.svg
     :target: http://badge.fury.io/js/piexifjs
+
+.. image:: https://circleci.com/gh/hMatoba/piexifjs/tree/master.svg?style=svg
+    :target: https://circleci.com/gh/hMatoba/piexifjs/tree/master
 
 Read and modify exif. Library to modify exif in JS(both client-side and Node.js).
 http://piexifjs.readthedocs.org/en/latest/index.html
