@@ -1,17 +1,9 @@
 Piexifjs
 ========
 
-.. image:: https://travis-ci.org/hMatoba/piexifjs.svg?branch=master
-    :target: https://travis-ci.org/hMatoba/piexifjs
+[![Build Status](https://travis-ci.org/hMatoba/piexifjs.svg?branch=master)](https://travis-ci.org/hMatoba/piexifjs)
 
-.. image:: https://badge.fury.io/js/piexifjs.svg
-    :target: http://badge.fury.io/js/piexifjs
-
-.. image:: https://circleci.com/gh/hMatoba/piexifjs/tree/master.svg?style=svg
-    :target: https://circleci.com/gh/hMatoba/piexifjs/tree/master
-
-Read and modify exif. Library to modify exif in JS(both client-side and Node.js).
-http://piexifjs.readthedocs.org/en/latest/index.html
+[![CircleCI](https://circleci.com/gh/hMatoba/piexifjs/tree/master.svg?style=svg)](https://circleci.com/gh/hMatoba/piexifjs/tree/master)
 
 Notice and Warning!
 -------------------
@@ -43,8 +35,6 @@ Use with File API or Canvas API.
 
 Example
 -------
-
-::
 
     <input type="file" id="files" />
     <script src="/js/piexif.js" />
