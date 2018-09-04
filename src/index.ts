@@ -2,12 +2,14 @@ import * as _constants from './constants';
 import * as _utils from './utils';
 import * as _helper from './helper';
 import * as interfaces from './interfaces';
+import * as _exceptions from './exceptions';
 
 export const version:string = '2.0.0a';
 
 export const _:any = _utils;
 export const helper:any = _helper;
 export const constants:any = _constants;
+export const exceptions:any = _exceptions;
 
 export const remove = (imageBinary:string) => {
     let bbase64Encoded = false;
