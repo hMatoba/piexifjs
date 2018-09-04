@@ -239,10 +239,20 @@ interface ITagBinary {
 
 
 export const _toByte = (rawValue:any, offset:number) => {
-    if (!Array.isArray(rawValue) || (typeof rawValue[0] !== 'number')) {
-        let t = Array.isArray(rawValue) ? "Array" : typeof rawValue;
-        t = (t == 'Array') ? `Array<${typeof rawValue[0]}>` : t;
-        throw new exceptions.ValueConvertError(`Value must be "number" or "Array<number>". Got "${t}".`);
+    if (!((typeof rawValue === 'number') || (Array.isArray(rawValue) && (typeof rawValue[0] === 'number')))) {
+        const t = Array.isArray(rawValue) ? 'Array' : typeof rawValue;
+        throw new exceptions.ValueConvertError(
+            `Value must be "number" or "Array<number>".\n`
+            + `Value: ${rawValue}\n`
+            + `Type: ${t}`
+        );
+    }
+    if (typeof (rawValue) == "number") {
+        rawValue = [rawValue];
+    }
+
+    if (typeof (rawValue) == "number") {
+        rawValue = [rawValue];
     }
 
     const length = rawValue.length;
@@ -265,7 +275,7 @@ export const _toByte = (rawValue:any, offset:number) => {
 export const _toAscii = (rawValue:string, offset:number) => {
     if (typeof rawValue !== 'string') {
         const t = Array.isArray(rawValue) ? "Array" : typeof rawValue;
-        throw new exceptions.ValueConvertError(`alue must be "string". Got "${t}".`);
+        throw new exceptions.ValueConvertError(`Value must be "string". Got "${t}".`);
     }
 
     const newValue = rawValue + "\x00";
@@ -286,10 +296,16 @@ export const _toAscii = (rawValue:string, offset:number) => {
 };
 
 export const _toShort = (rawValue:any, offset:number) => {
-    if (!Array.isArray(rawValue) || (typeof rawValue[0] !== 'number')) {
-        let t = Array.isArray(rawValue) ? "Array" : typeof rawValue;
-        t = (t == 'Array') ? `Array<${typeof rawValue[0]}>` : t;
-        throw new exceptions.ValueConvertError(`Value must be "number" or "Array<number>". Got "${t}".`);
+    if (!((typeof rawValue === 'number') || (Array.isArray(rawValue) && (typeof rawValue[0] === 'number')))) {
+        const t = Array.isArray(rawValue) ? 'Array' : typeof rawValue;
+        throw new exceptions.ValueConvertError(
+            `Value must be "number" or "Array<number>".\n`
+            + `Value: ${rawValue}\n`
+            + `Type: ${t}`
+        );
+    }
+    if (typeof (rawValue) == "number") {
+        rawValue = [rawValue];
     }
 
     const length = rawValue.length;
@@ -310,11 +326,18 @@ export const _toShort = (rawValue:any, offset:number) => {
 };
 
 export const _toLong = (rawValue:any, offset:number) => {
-    if (!Array.isArray(rawValue) || (typeof rawValue[0] !== 'number')) {
-        let t = Array.isArray(rawValue) ? "Array" : typeof rawValue;
-        t = (t == 'Array') ? `Array<${typeof rawValue[0]}>` : t;
-        throw new exceptions.ValueConvertError(`Value must be "number" or "Array<number>". Got "${t}".`);
+    if (!((typeof rawValue === 'number') || (Array.isArray(rawValue) && (typeof rawValue[0] === 'number')))) {
+        const t = Array.isArray(rawValue) ? 'Array' : typeof rawValue;
+        throw new exceptions.ValueConvertError(
+            `Value must be "number" or "Array<number>".\n`
+            + `Value: ${rawValue}\n`
+            + `Type: ${t}`
+        );
     }
+    if (typeof (rawValue) == "number") {
+        rawValue = [rawValue];
+    }
+
 
     const length = rawValue.length;
     let tagBinary:ITagBinary = {
@@ -336,7 +359,7 @@ export const _toRational = (rawValue:any, offset:number) => {
     if (!Array.isArray(rawValue)) {
         let t = Array.isArray(rawValue) ? "Array" : typeof rawValue;
         t = (t == 'Array') ? `Array<${typeof rawValue[0]}>` : t;
-        throw new exceptions.ValueConvertError(`Value must be "number" or "Array<number>". Got "${t}".`);
+        throw new exceptions.ValueConvertError(`Value must be "Array<number>". Got "${t}".`);
     }
 
     let tagBinary:ITagBinary = {
@@ -395,7 +418,7 @@ export const _toSRational = (rawValue:any, offset:number) => {
     if (!Array.isArray(rawValue)) {
         let t = Array.isArray(rawValue) ? "Array" : typeof rawValue;
         t = (t == 'Array') ? `Array<${typeof rawValue[0]}>` : t;
-        throw new exceptions.ValueConvertError(`Value must be "number" or "Array<number>". Got "${t}".`);
+        throw new exceptions.ValueConvertError(`Value must be "Array<number>". Got "${t}".`);
     }
 
     let length;
@@ -458,9 +481,6 @@ export const dictToBytes = (ifdObj:any, ifdName:string, ifdOffsetCount:number) =
         const valueType:number = constants.Tags[ifdName][key]["type"];
         const typeBinary = pack(">H", [valueType]);
 
-        if (typeof (rawValue) == "number") {
-            rawValue = [rawValue];
-        }
         const offset = TIFF_HEADER_LENGTH + entriesLength + ifdOffsetCount + values.length;
         let b:ITagBinary;
         try {
