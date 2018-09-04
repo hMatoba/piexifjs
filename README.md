@@ -28,11 +28,6 @@ How to Use
 
 [Read the Docs](https://piexifjs.readthedocs.io/en/2.0/index.html)
 
-- *var exifObj = piexif.load(jpegData)* - Get exif data as *object*. *jpegData* must be a *string* that starts with "\data:image/jpeg;base64,"(DataURL), "\\xff\\xd8", or "Exif".
-- *var exifStr = piexif.dump(exifObj)* - Get exif as *string* to insert into JPEG.
-- *piexif.insert(exifStr, jpegData)* - Insert exif into JPEG. If *jpegData* is DataURL, returns JPEG as DataURL. Else if *jpegData* is binary as *string*, returns JPEG as binary as *string*.
-- *piexif.remove(jpegData)* - Remove exif from JPEG. If *jpegData* is DataURL, returns JPEG as DataURL. Else if *jpegData* is binary as *string*, returns JPEG as binary as *string*.
-
 Dependency
 ----------
 
