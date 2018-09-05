@@ -1,8 +1,9 @@
 Piexifjs
 ========
 
-[![Build Status](https://travis-ci.org/hMatoba/piexifjs.svg?branch=master)](https://travis-ci.org/hMatoba/piexifjs)
-
+**Node.js**                                                                                                        |**browser**
+-------------------------------------------------------------------------------------------------------------------|-----------
+[![Build Status](https://travis-ci.org/hMatoba/piexifjs.svg?branch=master)](https://travis-ci.org/hMatoba/piexifjs)|
 [![CircleCI](https://circleci.com/gh/hMatoba/piexifjs/tree/master.svg?style=svg)](https://circleci.com/gh/hMatoba/piexifjs/tree/master)
 
 Notice and Warning!
