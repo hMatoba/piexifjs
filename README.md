@@ -3,7 +3,7 @@ Piexifjs
 
 **Node.js**                                                                                                        |**browser**
 -------------------------------------------------------------------------------------------------------------------|-----------
-[![Build Status](https://travis-ci.org/hMatoba/piexifjs.svg?branch=master)](https://travis-ci.org/hMatoba/piexifjs)|[![CircleCI](https://circleci.com/gh/hMatoba/piexifjs/tree/master.svg?style=svg)](https://circleci.com/gh/hMatoba/piexifjs/tree/master)
+[![Build Status](https://travis-ci.org/hMatoba/piexifjs.svg?branch=2.0)](https://travis-ci.org/hMatoba/piexifjs)|[![CircleCI](https://circleci.com/gh/hMatoba/piexifjs/tree/2.0.svg?style=svg)](https://circleci.com/gh/hMatoba/piexifjs/tree/2.0)
 
 Notice and Warning!
 -------------------
