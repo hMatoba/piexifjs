@@ -239,20 +239,17 @@ interface ITagBinary {
 
 
 export const _toByte = (rawValue:any, offset:number) => {
-    if (!((typeof rawValue === 'number') || (Array.isArray(rawValue) && (typeof rawValue[0] === 'number')))) {
+    if (typeof (rawValue) == "number") {
+        rawValue = [rawValue];
+    } else if (Array.isArray(rawValue) && (typeof rawValue[0] === 'number')) {
+        // pass
+    } else {
         const t = Array.isArray(rawValue) ? 'Array' : typeof rawValue;
         throw new exceptions.ValueConvertError(
             `Value must be "number" or "Array<number>".\n`
             + `Value: ${rawValue}\n`
             + `Type: ${t}`
         );
-    }
-    if (typeof (rawValue) == "number") {
-        rawValue = [rawValue];
-    }
-
-    if (typeof (rawValue) == "number") {
-        rawValue = [rawValue];
     }
 
     const length = rawValue.length;
@@ -263,7 +260,7 @@ export const _toByte = (rawValue:any, offset:number) => {
     };
     if (length <= 4) {
         tagBinary.value = (_packByte(rawValue) +
-            _nLoopStr("\x00", 4 - length));
+                           _nLoopStr("\x00", 4 - length));
     } else {
         tagBinary.value = pack(">L", [offset]);
         tagBinary.fourBytesOver = _packByte(rawValue);
@@ -296,16 +293,17 @@ export const _toAscii = (rawValue:string, offset:number) => {
 };
 
 export const _toShort = (rawValue:any, offset:number) => {
-    if (!((typeof rawValue === 'number') || (Array.isArray(rawValue) && (typeof rawValue[0] === 'number')))) {
+    if (typeof (rawValue) == "number") {
+        rawValue = [rawValue];
+    } else if (Array.isArray(rawValue) && (typeof rawValue[0] === 'number')) {
+        // pass
+    } else {
         const t = Array.isArray(rawValue) ? 'Array' : typeof rawValue;
         throw new exceptions.ValueConvertError(
             `Value must be "number" or "Array<number>".\n`
             + `Value: ${rawValue}\n`
             + `Type: ${t}`
         );
-    }
-    if (typeof (rawValue) == "number") {
-        rawValue = [rawValue];
     }
 
     const length = rawValue.length;
@@ -326,16 +324,17 @@ export const _toShort = (rawValue:any, offset:number) => {
 };
 
 export const _toLong = (rawValue:any, offset:number) => {
-    if (!((typeof rawValue === 'number') || (Array.isArray(rawValue) && (typeof rawValue[0] === 'number')))) {
+    if (typeof (rawValue) == "number") {
+        rawValue = [rawValue];
+    } else if (Array.isArray(rawValue) && (typeof rawValue[0] === 'number')) {
+        // pass
+    } else {
         const t = Array.isArray(rawValue) ? 'Array' : typeof rawValue;
         throw new exceptions.ValueConvertError(
             `Value must be "number" or "Array<number>".\n`
             + `Value: ${rawValue}\n`
             + `Type: ${t}`
         );
-    }
-    if (typeof (rawValue) == "number") {
-        rawValue = [rawValue];
     }
 
 
