@@ -356,10 +356,14 @@ export const _toLong = (rawValue:any, offset:number) => {
 };
 
 export const _toRational = (rawValue:any, offset:number) => {
-    if (!Array.isArray(rawValue)) {
+    if (Array.isArray(rawValue) && (typeof rawValue[0] === "number") && (rawValue.length === 2)) {
+        rawValue = [rawValue];
+    } else if (Array.isArray(rawValue) && (Array.isArray(rawValue[0])) && (typeof rawValue[0][0] === "number")) {
+        // pass
+    } else {
         let t = Array.isArray(rawValue) ? "Array" : typeof rawValue;
         t = (t == 'Array') ? `Array<${typeof rawValue[0]}>` : t;
-        throw new exceptions.ValueConvertError(`Value must be "Array<number>". Got "${t}".`);
+        throw new exceptions.ValueConvertError(`Value must be "Array<number>" or "Array<Array<number>>". Got "${t}".`);
     }
 
     let tagBinary:ITagBinary = {
@@ -367,22 +371,13 @@ export const _toRational = (rawValue:any, offset:number) => {
         lengthBinary: '',
         fourBytesOver: ''
     };
-    let newValue;
-    let length;
-    if ((typeof rawValue[0]) == "number") {
-        length = 1;
-        const num = rawValue[0];
-        const den = rawValue[1];
-        newValue = pack(">L", [num]) + pack(">L", [den]);
-    } else {
-        length = rawValue.length;
-        newValue = "";
-        for (let n = 0; n < length; n++) {
-            const num = rawValue[n][0];
-            const den = rawValue[n][1];
-            newValue += (pack(">L", [num]) +
-                         pack(">L", [den]));
-        }
+    const length = rawValue.length;
+    let newValue = "";
+    for (let n = 0; n < length; n++) {
+        const num = rawValue[n][0];
+        const den = rawValue[n][1];
+        newValue += (pack(">L", [num]) +
+                        pack(">L", [den]));
     
     }
     tagBinary.lengthBinary = pack(">L", [length]);
@@ -415,33 +410,28 @@ export const _toUndefined = (rawValue:string, offset:number) => {
 
 
 export const _toSRational = (rawValue:any, offset:number) => {
-    if (!Array.isArray(rawValue)) {
+    if (Array.isArray(rawValue) && (typeof rawValue[0] === "number") && (rawValue.length === 2)) {
+        rawValue = [rawValue];
+    } else if (Array.isArray(rawValue) && (Array.isArray(rawValue[0])) && (typeof rawValue[0][0] === "number")) {
+        // pass
+    } else {
         let t = Array.isArray(rawValue) ? "Array" : typeof rawValue;
         t = (t == 'Array') ? `Array<${typeof rawValue[0]}>` : t;
-        throw new exceptions.ValueConvertError(`Value must be "Array<number>". Got "${t}".`);
+        throw new exceptions.ValueConvertError(`Value must be "Array<number>" or "Array<Array<number>>". Got "${t}".`);
     }
 
-    let length;
-    let newValue = "";
     let tagBinary:ITagBinary = {
         value: '',
         lengthBinary: '',
         fourBytesOver: ''
     };
-    if ((typeof rawValue[0]) == "number") {
-        length = 1;
-        const num = rawValue[0];
-        const den = rawValue[1];
-        newValue = pack(">l", [num]) + pack(">l", [den]);
-    } else {
-        length = rawValue.length;
-        newValue = "";
-        for (let n = 0; n < length; n++) {
-            const num = rawValue[n][0];
-            const den = rawValue[n][1];
-            newValue += (pack(">l", [num]) +
-                pack(">l", [den]));
-        }
+    const length = rawValue.length;
+    let newValue = "";
+    for (let n = 0; n < length; n++) {
+        const num = rawValue[n][0];
+        const den = rawValue[n][1];
+        newValue += (pack(">l", [num]) +
+                     pack(">l", [den]));
     }
     tagBinary.lengthBinary = pack(">L", [length]);
     tagBinary.value = pack(">L", [offset]);
@@ -487,10 +477,10 @@ export const dictToBytes = (ifdObj:any, ifdName:string, ifdOffsetCount:number) =
             b = _valueToBytes(rawValue, valueType, offset);
         } catch (e) {
             if (e instanceof exceptions.ValueConvertError) {
-                console.error(e.message);
                 const _ifdName = ['0th', '1st'].includes(ifdName) ? 'Image' : ifdName;
                 const tagName = constants.Tags[_ifdName][key]['name'];
-                throw new exceptions.ValueConvertError(`Can't convert ${tagName} in ${ifdName} IFD.`);
+                const errorMessage = `Can't convert ${tagName} in ${ifdName} IFD.\r`;
+                e.message = errorMessage + e.message;
             }
             throw e;
         }
