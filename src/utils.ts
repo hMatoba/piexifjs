@@ -82,7 +82,7 @@ export const pack = (mark:string, array:Array<number>) => {
 };
 
 export const unpack = (mark:string, str:string) => {
-    if (typeof (str) != "string") {
+    if (typeof str != "string") {
         throw new Error("'unpack' error. Got invalid type argument.");
     }
     let l = 0;
