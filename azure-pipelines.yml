@@ -17,4 +17,3 @@ steps:
     npm run build
     ls dist
   displayName: 'npm install and build'
-
