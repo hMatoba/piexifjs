@@ -8,7 +8,7 @@ pool:
 trigger:
 - master
 - features/*
-- azure-pipelines
+- "azure-pipelines"
 
 steps:
 - task: NodeTool@0
