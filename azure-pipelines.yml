@@ -5,6 +5,10 @@
 
 pool:
   vmImage: 'Ubuntu 16.04'
+trigger:
+- master
+- features/*
+- azure-pipelines
 
 steps:
 - task: NodeTool@0
