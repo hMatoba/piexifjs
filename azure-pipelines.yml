@@ -29,7 +29,7 @@
 resources:
   containers:
   - container: my_container
-    image: ubuntu:16.04
+    image: matoba/node10-puppeteer:azure-pipe
 
 pool:
   vmImage: 'Ubuntu 16.04'
