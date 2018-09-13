@@ -3,10 +3,33 @@
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/vsts/pipelines/languages/javascript
 
+# resources:
+#   containers:
+#   - container: my_container
+#     image: matoba/node10-puppeteer:azure-pipe
+
+# pool:
+#   vmImage: 'Ubuntu 16.04'
+
+# container: my_container
+
+# steps:
+# - script: printenv
+
+# - script: |
+#     npm install
+#     npm run build
+#     ls dist
+#   displayName: 'npm install and build'
+
+# - script: |
+#     npm run browser-test
+#   displayName: 'test'
+
 resources:
   containers:
   - container: my_container
-    image: matoba/node10-puppeteer:azure-pipe
+    image: ubuntu:16.04
 
 pool:
   vmImage: 'Ubuntu 16.04'
@@ -15,13 +38,3 @@ container: my_container
 
 steps:
 - script: printenv
-
-- script: |
-    npm install
-    npm run build
-    ls dist
-  displayName: 'npm install and build'
-
-- script: |
-    npm run browser-test
-  displayName: 'test'
