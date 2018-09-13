@@ -29,7 +29,7 @@
 resources:
   containers:
   - container: my_container
-    image: alpine
+    image: debian
 
 pool:
   vmImage: 'Ubuntu 16.04'
