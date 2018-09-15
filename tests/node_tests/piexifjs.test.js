@@ -52,14 +52,14 @@ test('round trip "load" and "dump" -- 1', () => {
   const exifObj2 = piexifjs.load(exifBinary);
 
   // remove pointer values
-  delete exifObj1['0th'][34665];
-  delete exifObj2['0th'][34665];
-  delete exifObj1['1st'][513];
-  delete exifObj2['1st'][513];
-  delete exifObj1['1st'][514];
-  delete exifObj2['1st'][514];
-  delete exifObj1['Exif'][40965];
-  delete exifObj2['Exif'][40965];
+  delete exifObj1['0th'][piexifjs.TagValues.ImageIFD.ExifTag];
+  delete exifObj2['0th'][piexifjs.TagValues.ImageIFD.ExifTag];
+  delete exifObj1['1st'][piexifjs.TagValues.ImageIFD.JPEGInterchangeFormat];
+  delete exifObj2['1st'][piexifjs.TagValues.ImageIFD.JPEGInterchangeFormat];
+  delete exifObj1['1st'][piexifjs.TagValues.ImageIFD.JPEGInterchangeFormatLength];
+  delete exifObj2['1st'][piexifjs.TagValues.ImageIFD.JPEGInterchangeFormatLength];
+  delete exifObj1['Exif'][piexifjs.TagValues.ExifIFD.InteroperabilityTag];
+  delete exifObj2['Exif'][piexifjs.TagValues.ExifIFD.InteroperabilityTag];
 
   expect(exifObj1).toEqual(exifObj2);
 });
