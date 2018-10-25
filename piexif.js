@@ -2440,9 +2440,10 @@ SOFTWARE.
 
     that.GPSHelper = {
         degToDmsRational:function (degFloat) {
-            var minFloat = degFloat % 1 * 60;
+            var degAbs = Math.abs(degFloat);
+            var minFloat = degAbs % 1 * 60;
             var secFloat = minFloat % 1 * 60;
-            var deg = Math.floor(degFloat);
+            var deg = Math.floor(degAbs);
             var min = Math.floor(minFloat);
             var sec = Math.round(secFloat * 100);
 
@@ -2450,12 +2451,12 @@ SOFTWARE.
         },
 
         dmsRationalToDeg:function (dmsArray, ref) {
-          var sign = (ref === 'S' || ref === 'W') ? -1.0 : 1.0;
-          var deg = sign * dmsArray[0][0] / dmsArray[0][1] +
-                    dmsArray[1][0] / dmsArray[1][1] / 60.0 +
-                    dmsArray[2][0] / dmsArray[2][1] / 3600.0;
+            var sign = (ref === 'S' || ref === 'W') ? -1.0 : 1.0;
+            var deg = dmsArray[0][0] / dmsArray[0][1] +
+                      dmsArray[1][0] / dmsArray[1][1] / 60.0 +
+                      dmsArray[2][0] / dmsArray[2][1] / 3600.0;
 
-          return deg;
+            return deg * sign;
         }
     };
     
