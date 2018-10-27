@@ -24,17 +24,17 @@ Thank you for using piexifjs!
 How to Use
 ----------
 
-- *var exifObj = piexif.load(jpegData)* - Get exif data as *object*. *jpegData* must be a *string* that starts with "\data:image/jpeg;base64,"(DataURL), "\\xff\\xd8", or "Exif".
-- *var exifStr = piexif.dump(exifObj)* - Get exif as *string* to insert into JPEG.
-- *piexif.insert(exifStr, jpegData)* - Insert exif into JPEG. If *jpegData* is DataURL, returns JPEG as DataURL. Else if *jpegData* is binary as *string*, returns JPEG as binary as *string*.
-- *piexif.remove(jpegData)* - Remove exif from JPEG. If *jpegData* is DataURL, returns JPEG as DataURL. Else if *jpegData* is binary as *string*, returns JPEG as binary as *string*.
+- :code:`var exifObj = piexif.load(jpegData)` - Get exif data as *object*. *jpegData* must be a *string* that starts with "\data:image/jpeg;base64,"(DataURL), "\\xff\\xd8", or "Exif".
+- :code:`var exifStr = piexif.dump(exifObj)` - Get exif as *string* to insert into JPEG.
+- :code:`piexif.insert(exifStr, jpegData)` - Insert exif into JPEG. If *jpegData* is DataURL, returns JPEG as DataURL. Else if *jpegData* is binary as *string*, returns JPEG as binary as *string*.
+- :code:`piexif.remove(jpegData)` - Remove exif from JPEG. If *jpegData* is DataURL, returns JPEG as DataURL. Else if *jpegData* is binary as *string*, returns JPEG as binary as *string*.
 
 Use with File API or Canvas API.
 
 Example
 -------
 
-::
+.. code:: html
 
     <input type="file" id="files" />
     <script src="/js/piexif.js" />
