@@ -11,8 +11,7 @@ export const helper:any = _helper;
 export const constants:any = _constants;
 export const exceptions:any = _exceptions;
 
-// compatibility for 1.x
-export const TagNames:any = _constants.Tags;
+export const Tags:any = _constants.Tags;
 export const TagValues:any = _constants.TagValues;
 
 
