@@ -1,6 +1,6 @@
 {
   "name": "piexifjs",
-  "version": "2.0.0-alpha.003",
+  "version": "2.0.0-alpha.004",
   "description": "Read and write exif.",
   "main": "dist/piexifjs.js",
   "files": [
