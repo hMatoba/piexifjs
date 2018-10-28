@@ -1,11 +1,11 @@
 export const GPSHelper = {
     degToDmsRational: (degFloat:number) => {
-        var minFloat = degFloat % 1 * 60;
+        var degAbs = Math.abs(degFloat);
+        var minFloat = degAbs % 1 * 60;
         var secFloat = minFloat % 1 * 60;
-        var deg = Math.floor(degFloat);
+        var deg = Math.floor(degAbs);
         var min = Math.floor(minFloat);
         var sec = Math.round(secFloat * 100);
-
         return [[deg, 1], [min, 1], [sec, 100]];
     },
 
