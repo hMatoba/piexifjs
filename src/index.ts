@@ -4,7 +4,7 @@ import * as _helper from './helper';
 import * as interfaces from './interfaces';
 import * as _exceptions from './exceptions';
 
-export const version:string = '2.0.0a';
+export const version:string = '2.0.0b';
 
 export const _:any = _utils;
 export const helper:any = _helper;
