@@ -4,7 +4,7 @@
    contain the root `toctree` directive.
 
 Welcome to Piexifjs's documentation!
-==================================
+====================================
 
 .. image:: https://travis-ci.org/hMatoba/piexifjs.svg?branch=master
    :target: https://travis-ci.org/hMatoba/piexifjs
@@ -17,8 +17,11 @@ https://github.com/hMatoba/piexifjs
 
    about
    functions
-   appendices
+   constants
+   helpers
+   1to2
    sample
+   appendices
    changes
 
 Indices and tables

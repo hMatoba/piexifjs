@@ -7,7 +7,7 @@ Notice and Warning!
 
 We are implementing v2.0. This version would include a few big changes. If you won't ready to use, don't update this library.
 
-- Change namespace from *pixif* to *piexifjs* in browser environment.
+- Change namespace from *piexif* to *piexifjs* in browser environment.
 - add some arguments type checks 
 - stop to support bower
 - some data types are changed in exif object...?
@@ -29,6 +29,8 @@ There are only just four functions.
 - *insert(exifbytes, jpegData)* - Insert exif into JPEG.
 - *remove(jpegData)* - Remove exif from JPEG.
 
+and some utilities.
+
 Dependency
 ----------
 
@@ -37,7 +39,7 @@ No dependencies.
 Environment
 -----------
 
-Both client-side and server-side. Standard browsers(without IE) and Node.js.
+Both client-side and server-side.
 
 License
 -------
