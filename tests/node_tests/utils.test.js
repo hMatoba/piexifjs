@@ -1,6 +1,5 @@
 // Add private tests of functions.
-const sum = require('../../dist/piexifjs');
+const piexifjs = require('../../dist/piexifjs');
 
-test('adds 1 + 2 to equal 3', () => {
-  expect(1).toBe(1);
+test('add tests', () => {
 });
