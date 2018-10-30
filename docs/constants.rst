@@ -10,7 +10,7 @@ To set exif values
 ::
 
     let zerothIfd = {
-        piexifjs.TagValues.ImageIFD.ProcessingSoftware: 'piexifjs'
+        [piexifjs.TagValues.ImageIFD.ProcessingSoftware]: 'piexifjs'
     };
 
 Exif IFD: *piexifjs.TagValues.ExifIFD*
