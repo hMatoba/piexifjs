@@ -7,7 +7,6 @@ Notice and Warning!
 
 We are implementing v2.0. This version would include a few big changes. If you won't ready to use, don't update this library.
 
-- Change namespace from *piexif* to *piexifjs* in browser environment.
 - add some arguments type checks 
 - stop to support bower
 - some data types are changed in exif object...?
@@ -39,7 +38,7 @@ No dependencies.
 Environment
 -----------
 
-Both client-side and server-side. Piexifjs is transpiled as Universal Module Definition(https://github.com/umdjs/umd).
+Both client-side and server-side. Piexifjs is transpiled as `Universal Module Definition <https://github.com/umdjs/umd>`_.
 
 License
 -------

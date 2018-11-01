@@ -19,7 +19,7 @@ load
 
 ::
 
-    var exifObj = piexif.load(jpegData);
+    let exifObj = piexif.load(jpegData);
     for (let ifd in exifObj) {
         if (ifd == "thumbnail") {
             continue;
