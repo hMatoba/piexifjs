@@ -17,9 +17,9 @@ Interoperability IFD: *piexif.TagValues.InteropIFD*
 
     let zerothIfd = {
         [piexif.TagValues.ImageIFD.ProcessingSoftware]:'piexifjs',
-        [piexif.ImageIFD.XResolution]:[777, 1],
-        [piexif.ImageIFD.YResolution]:[777, 1],
-        [piexif.ImageIFD.Software]:"Piexifjs"
+        [piexif.TagValues.ImageIFD.XResolution]:[777, 1],
+        [piexif.TagValues.ImageIFD.YResolution]:[777, 1],
+        [piexif.TagValues.ImageIFD.Software]:"Piexifjs"
     };
     let exifIfd = {
         [piexif.TagValues.ExifIFD.DateTimeOriginal]:"2010:10:10 10:10:10",

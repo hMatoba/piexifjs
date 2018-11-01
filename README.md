@@ -36,7 +36,7 @@ No dependency. Piexifjs just needs standard JavaScript environment.
 Environment
 -----------
 
-Both client-side and server-side. Standard browsers(without IE) and Node.js.
+Both client-side and server-side. Piexifjs is transpiled as Universal Module Definition(https://github.com/umdjs/umd).
 
 Issues
 ------

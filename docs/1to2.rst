@@ -1,3 +1,7 @@
 ======
 1 to 2
 ======
+
+*piexif.TAGS* -> *piexif.Tags*
+
+*piexif.\*IFD* -> *piexif.TagValues.\*IFD*

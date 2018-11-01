@@ -39,7 +39,7 @@ No dependencies.
 Environment
 -----------
 
-Both client-side and server-side.
+Both client-side and server-side. Piexifjs is transpiled as Universal Module Definition(https://github.com/umdjs/umd).
 
 License
 -------

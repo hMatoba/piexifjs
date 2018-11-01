@@ -22,6 +22,7 @@ https://github.com/hMatoba/piexifjs
    1to2
    sample
    appendices
+   developer
    changes
 
 Indices and tables
