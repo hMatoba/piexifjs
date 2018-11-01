@@ -15,8 +15,8 @@ script:
 
 before_deploy:
   - mkdir piexifjs
-  - cp ./dist/piexifjs.js ./piexifjs/
-  - cp ./dist/piexifjs.js.map ./piexifjs/
+  - cp ./dist/piexif.js ./piexifjs/
+  - cp ./dist/piexif.js.map ./piexifjs/
   - cp ./README.md ./piexifjs/
   - cp ./LICENSE.txt ./piexifjs/
   - zip -r piexifjs.zip ./piexifjs

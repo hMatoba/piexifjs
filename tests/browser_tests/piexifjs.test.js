@@ -1,9 +1,9 @@
 const fs = require('fs');
-const nodePiexifjs = require('../../dist/piexifjs');
+const nodePiexif = require('../../dist/piexif');
 
 const timeout = 5000;
 const jpegBinary = fs.readFileSync("./tests/files/r_canon.jpg").toString("binary");
-const piexifPath = '../../dist/piexifjs.js';
+const piexifPath = '../../dist/piexif.js';
 
 let page;
 beforeAll(async () => {
@@ -21,13 +21,13 @@ it('test to check running puppeteer', async () => {
 });
 
 it('should be same output from load on node and browser ', async () => {
-  const nodeOutput = nodePiexifjs.load(jpegBinary);
+  const nodeOutput = nodePiexif.load(jpegBinary);
   await page.addScriptTag({
     path: require.resolve(piexifPath)
   });
   
   const browserOutput = await page.evaluate((jpeg) => {
-      return piexifjs.load(jpeg);
+      return piexif.load(jpeg);
     },
     jpegBinary
   );
@@ -41,12 +41,12 @@ it('should be same output from dump on node and browser ', async () => {
       '257': 10
     }
   };
-  const nodeOutput = nodePiexifjs.dump(exif);
+  const nodeOutput = nodePiexif.dump(exif);
   await page.addScriptTag({
     path: require.resolve(piexifPath)
   });
   const browserOutput = await page.evaluate((exifObj) => {
-      return piexifjs.dump(exifObj);
+      return piexif.dump(exifObj);
     },
     exif
   );
@@ -60,13 +60,13 @@ it('should be same output from insert on node and browser ', async () => {
       '257': 10
     }
   };
-  const exifBinary = nodePiexifjs.dump(exif);
-  const nodeOutput = nodePiexifjs.insert(exifBinary, jpegBinary);;
+  const exifBinary = nodePiexif.dump(exif);
+  const nodeOutput = nodePiexif.insert(exifBinary, jpegBinary);;
   await page.addScriptTag({
     path: require.resolve(piexifPath)
   });
   const browserOutput = await page.evaluate((exif, jpeg) => {
-      return piexifjs.insert(exif, jpeg);
+      return piexif.insert(exif, jpeg);
     },
     exifBinary,
     jpegBinary
@@ -75,12 +75,12 @@ it('should be same output from insert on node and browser ', async () => {
 });
 
 it('should be same output from remove on node and browser ', async () => {
-  const nodeOutput = nodePiexifjs.remove(jpegBinary);
+  const nodeOutput = nodePiexif.remove(jpegBinary);
   await page.addScriptTag({
     path: require.resolve(piexifPath)
   });
   const browserOutput = await page.evaluate((jpeg) => {
-      return piexifjs.remove(jpeg);
+      return piexif.remove(jpeg);
     },
     jpegBinary
   );

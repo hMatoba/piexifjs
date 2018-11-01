@@ -1,5 +1,5 @@
 // Add private tests of functions.
-const piexifjs = require('../../dist/piexifjs');
+const piexif = require('../../dist/piexif');
 
 test('add tests', () => {
 });

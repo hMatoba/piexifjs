@@ -5,7 +5,7 @@ Helpers
 degrees in *rational*
 ---------------------
 
-.. js:function:: piexifjs.helper.GPSHelper.degToDmsRational(degrees)
+.. js:function:: piexif.helper.GPSHelper.degToDmsRational(degrees)
 
    Convert degrees(*number*) to *[[deg1, deg2], [min1, min2], [sec1, sec2]]*.
 
@@ -15,12 +15,12 @@ degrees in *rational*
 
 ::
 
-    const degreesRat = piexifjs.helper.GPSHelper.degToDmsRational(63.2);
+    const degreesRat = piexif.helper.GPSHelper.degToDmsRational(63.2);
 
 degrees in *number*
 -------------------
 
-.. js:function:: piexifjs.helper.GPSHelper.dmsRationalToDeg(degrees, direction)
+.. js:function:: piexif.helper.GPSHelper.dmsRationalToDeg(degrees, direction)
 
    Convert degrees(*[[deg1, deg2], [min1, min2], [sec1, sec2]]*) to *number*.
 
@@ -31,4 +31,4 @@ degrees in *number*
 
 ::
 
-    const degreesNum = piexifjs.helper.GPSHelper.dmsRationalToDeg([[60, 1], [10, 1], [10, 1]], "S");
+    const degreesNum = piexif.helper.GPSHelper.dmsRationalToDeg([[60, 1], [10, 1], [10, 1]], "S");

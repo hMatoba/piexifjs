@@ -9,7 +9,7 @@ Functions
 load
 ----
 
-.. js:function:: piexifjs.load(jpegData)
+.. js:function:: piexif.load(jpegData)
 
    Get exif data as *object*. jpegData must be a *string* that starts with "\data:image/jpeg;base64,"(DataURL), "\\xff\\xd8", or "Exif".
 
@@ -19,21 +19,21 @@ load
 
 ::
 
-    var exifObj = piexifjs.load(jpegData);
+    var exifObj = piexif.load(jpegData);
     for (var ifd in exifObj) {
         if (ifd == "thumbnail") {
             continue;
         }
         console.log("-" + ifd);
         for (var tag in exifObj[ifd]) {
-            console.log("  " + piexifjs.constants.Tags[ifd][tag]["name"] + ":" + exifObj[ifd][tag]);
+            console.log("  " + piexif.constants.Tags[ifd][tag]["name"] + ":" + exifObj[ifd][tag]);
         }
     }
 
 dump
 ----
 
-.. js:function:: piexifjs.dump(exifObj)
+.. js:function:: piexif.dump(exifObj)
 
    Get exif binary as *string* to insert into JPEG.
 
@@ -46,20 +46,20 @@ dump
     var zeroth = {};
     var exif = {};
     var gps = {};
-    zeroth[piexifjs.constants.TagValues.ImageIFD.Make] = "Make";
-    zeroth[piexifjs.constants.TagValues.ImageIFD.XResolution] = [777, 1];
-    zeroth[piexifjs.constants.TagValues.ImageIFD.YResolution] = [777, 1];
-    zeroth[piexifjs.constants.TagValues.ImageIFD.Software] = "Piexifjs";
-    exif[piexifjs.constants.TagValues.ExifIFD.DateTimeOriginal] = "2010:10:10 10:10:10";
-    exif[piexifjs.constants.TagValues.ExifIFD.LensMake] = "LensMake";
-    exif[piexifjs.constants.TagValues.ExifIFD.Sharpness] = 777;
-    exif[piexifjs.constants.TagValues.ExifIFD.LensSpecification] = [[1, 1], [1, 1], [1, 1], [1, 1]];
-    gps[piexifjs.constants.TagValues.GPSIFD.GPSVersionID] = [7, 7, 7, 7];
-    gps[piexifjs.constants.TagValues.GPSIFD.GPSDateStamp] = "1999:99:99 99:99:99";
+    zeroth[piexif.constants.TagValues.ImageIFD.Make] = "Make";
+    zeroth[piexif.constants.TagValues.ImageIFD.XResolution] = [777, 1];
+    zeroth[piexif.constants.TagValues.ImageIFD.YResolution] = [777, 1];
+    zeroth[piexif.constants.TagValues.ImageIFD.Software] = "Piexifjs";
+    exif[piexif.constants.TagValues.ExifIFD.DateTimeOriginal] = "2010:10:10 10:10:10";
+    exif[piexif.constants.TagValues.ExifIFD.LensMake] = "LensMake";
+    exif[piexif.constants.TagValues.ExifIFD.Sharpness] = 777;
+    exif[piexif.constants.TagValues.ExifIFD.LensSpecification] = [[1, 1], [1, 1], [1, 1], [1, 1]];
+    gps[piexif.constants.TagValues.GPSIFD.GPSVersionID] = [7, 7, 7, 7];
+    gps[piexif.constants.TagValues.GPSIFD.GPSDateStamp] = "1999:99:99 99:99:99";
     var exifObj = {"0th":zeroth, "Exif":exif, "GPS":gps};
-    var exifbytes = piexifjs.dump(exifObj);
+    var exifbytes = piexif.dump(exifObj);
 
-Properties of *piexifjs.constants.TagValues.ImageIFD* help to make 0thIFD and 1stIFD. *piexifjs.constants.TagValues.ExifIFD* is for ExifIFD. *piexifjs.constants.TagValues.GPSIFD* is for GPSIFD. *piexifjs.InteropIFD* is for InteroperabilityIFD.
+Properties of *piexif.constants.TagValues.ImageIFD* help to make 0thIFD and 1stIFD. *piexif.constants.TagValues.ExifIFD* is for ExifIFD. *piexif.constants.TagValues.GPSIFD* is for GPSIFD. *piexif.InteropIFD* is for InteroperabilityIFD.
 
 .. note:: ExifTag(34665), GPSTag(34853), and InteroperabilityTag(40965) in 0thIFD automatically are set appropriate value.
 .. note:: JPEGInterchangeFormat(513), and JPEGInterchangeFormatLength(514) in 1stIFD automatically are set appropriate value.
@@ -67,7 +67,7 @@ Properties of *piexifjs.constants.TagValues.ImageIFD* help to make 0thIFD and 1s
 
 insert
 ------
-.. js:function:: piexifjs.insert(exifbytes, jpegData)
+.. js:function:: piexif.insert(exifbytes, jpegData)
 
    Insert exif into JPEG.
 
@@ -78,12 +78,12 @@ insert
 
 ::
 
-    var exifbytes = piexifjs.dump(exifObj)
-    var newJpeg = piexifjs.insert(exifbytes, jpegData)
+    var exifbytes = piexif.dump(exifObj)
+    var newJpeg = piexif.insert(exifbytes, jpegData)
 
 remove
 ------
-.. js:function:: piexifjs.remove(jpegData)
+.. js:function:: piexif.remove(jpegData)
 
    Remove exif from JPEG.
 
@@ -93,4 +93,4 @@ remove
 
 ::
 
-    var newJpeg = piexifjs.remove(jpegData)
+    var newJpeg = piexif.remove(jpegData)
