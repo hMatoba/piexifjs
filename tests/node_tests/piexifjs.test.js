@@ -13,8 +13,8 @@ test('"load" returns correct value" -- 1', () => {
   const exifBinary = 'Exif\x00\x00MM\x00*\x00\x00\x00\x08\x00\x02\x01\x00\x00\x04\x00\x00\x00\x01\x00\x00\x00\n\x01\x01\x00\x04\x00\x00\x00\x01\x00\x00\x00\n\x00\x00\x00\x00';
   const correctObj = {
     '0th': {
-      256: 10,
-      257: 10
+      [piexif.TagValues.ImageIFD.ImageWidth]: 10,
+      [piexif.TagValues.ImageIFD.ImageLength]: 10
     }
   };
   const exifObj = piexif.load(exifBinary);
@@ -24,8 +24,8 @@ test('"load" returns correct value" -- 1', () => {
 test('"dump" returns correct value" -- 1', () => {
   const exifObj = {
     '0th': {
-      256: 10,
-      257: 10
+      [piexif.TagValues.ImageIFD.ImageWidth]: 10,
+      [piexif.TagValues.ImageIFD.ImageLength]: 10
     }
   };
   const exifBinary = piexif.dump(exifObj);
@@ -36,7 +36,7 @@ test('"dump" returns correct value" -- 1', () => {
 test('"dump" throws "ValueConvertError"" -- 1', () => {
   const exifObj = {
     '0th': {
-      256: "10"
+      [piexif.TagValues.ImageIFD.ImageWidth]: "10"
     }
   };
   expect(
@@ -44,6 +44,23 @@ test('"dump" throws "ValueConvertError"" -- 1', () => {
   ).toThrow(piexif.exceptions.ValueConvertError);
 });
 
+test('Compare "load" output with some correct values - BIG ENDIAN FILE - 1', () => {
+  const jpegBinary = fs.readFileSync("./tests/files/r_canon.jpg").toString("binary");
+  const exifObj = piexif.load(jpegBinary);
+  expect(exifObj['0th'][piexif.TagValues.ImageIFD.Make]).toBe('Canon');
+  expect(exifObj['0th'][piexif.TagValues.ImageIFD.Orientation]).toBe(1);
+  expect(exifObj['Exif'][piexif.TagValues.ExifIFD.ExposureTime]).toEqual([1, 50]);
+  expect(exifObj['Exif'][piexif.TagValues.ExifIFD.PixelXDimension]).toBe(4352);
+});
+
+test('Compare "load" output with soem correct values - LITTLE ENDIAN FILE - 1', () => {
+  const jpegBinary = fs.readFileSync("./tests/files/r_sony.jpg").toString("binary");
+  const exifObj = piexif.load(jpegBinary);
+  expect(exifObj['0th'][piexif.TagValues.ImageIFD.Make]).toBe('SONY');
+  expect(exifObj['0th'][piexif.TagValues.ImageIFD.Orientation]).toBe(1);
+  expect(exifObj['Exif'][piexif.TagValues.ExifIFD.ExposureTime]).toEqual([1, 125]);
+  expect(exifObj['1st'][piexif.TagValues.ImageIFD.JPEGInterchangeFormatLength]).toBe(13127);
+});
 
 test('round trip "load" and "dump" -- 1', () => {
   const jpegBinary = fs.readFileSync("./tests/files/r_sony.jpg").toString("binary");
