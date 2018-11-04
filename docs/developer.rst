@@ -8,9 +8,9 @@ start development.
 
     npm install
 
-Source codes are in "src".
+Source codes are in "./src".
 
-Transpile with below comand.
+Codes are written in TypeScript. Transpile with below comand.
 
 ::
 

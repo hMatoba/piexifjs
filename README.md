@@ -8,7 +8,7 @@ Piexifjs
 Notice and Warning!
 -------------------
 
-We are implementing v2.0. This version would include a few big changes. If you won't ready to use, don't update this library.
+We will release v2.0 soon. This version would include a few big changes. If you won't ready to use, don't update this library.
  
 ```
 npm install piexifjs@1.0.4
