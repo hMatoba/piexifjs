@@ -14,10 +14,12 @@ script:
   - npm run node-test
 
 before_deploy:
-  - mkdir piexifjs
-  - cp ./dist/piexif.js ./piexifjs/
-  - cp ./dist/piexif.js.map ./piexifjs/
+  - mkdir -p piexifjs/dist
+  - cp ./dist/piexif.js ./piexifjs/dist
+  - cp ./dist/piexif.js.map ./piexifjs/dist
+  - cp ./dist/index.d.ts ./piexifjs/dist
   - cp ./README.md ./piexifjs/
+  - cp ./package.json ./piexifjs/
   - cp ./LICENSE.txt ./piexifjs/
   - zip -r piexifjs.zip ./piexifjs
   - rm -rf piexifjs

@@ -5,7 +5,7 @@
     "noImplicitAny": true,
     "module": "ESNext",
     "target": "ESNext",
-    "allowJs": true
+    "declaration": true
   },
   "include": [
     "src/*"

@@ -1,11 +1,13 @@
 {
   "name": "piexifjs",
-  "version": "2.0.0-beta.005",
+  "version": "2.0.0-beta.006",
   "description": "Read and write exif.",
   "main": "dist/piexif.js",
+  "types": "dist/index.d.ts",
   "files": [
     "dist/piexif.js",
     "dist/piexif.js.map",
+    "dist/index.d.ts",
     "LICENSE.txt",
     "README.md",
     "package.json"
