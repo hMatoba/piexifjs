@@ -117,7 +117,7 @@ export const load = (binary:string) => {
         const pointer = exifIfd[40965];
         interopIfd = exifReader.getIfd(pointer, "Interop");
     }
-    if (firstIfdPointer != "\x00\x00\x00\x00") {
+    if (firstIfdPointer != "\x00\x00\x00\x00" && firstIfdPointer != null) {
         const pointer = _utils.unpack(exifReader.endianMark + "L",
                                firstIfdPointer)[0];
         firstIfd = exifReader.getIfd(pointer, "1st");
