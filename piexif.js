@@ -35,7 +35,7 @@ SOFTWARE.
             jpeg = atob(jpeg.split(",")[1]);
             b64 = true;
         } else {
-            throw ("Given data is not jpeg.");
+            throw new Error("Given data is not jpeg.");
         }
         
         var segments = splitIntoSegments(jpeg);
@@ -56,14 +56,14 @@ SOFTWARE.
     that.insert = function (exif, jpeg) {
         var b64 = false;
         if (exif.slice(0, 6) != "\x45\x78\x69\x66\x00\x00") {
-            throw ("Given data is not exif.");
+            throw new Error("Given data is not exif.");
         }
         if (jpeg.slice(0, 2) == "\xff\xd8") {
         } else if (jpeg.slice(0, 23) == "data:image/jpeg;base64," || jpeg.slice(0, 22) == "data:image/jpg;base64,") {
             jpeg = atob(jpeg.split(",")[1]);
             b64 = true;
         } else {
-            throw ("Given data is not jpeg.");
+            throw new Error("Given data is not jpeg.");
         }
 
         var exifStr = "\xff\xe1" + pack(">H", [exif.length + 2]) + exif;
@@ -87,10 +87,10 @@ SOFTWARE.
             } else if (data.slice(0, 4) == "Exif") {
                 input_data = data.slice(6);
             } else {
-                throw ("'load' gots invalid file data.");
+                throw new Error("'load' gots invalid file data.");
             }
         } else {
-            throw ("'load' gots invalid type argument.");
+            throw new Error("'load' gots invalid type argument.");
         }
 
         var exifDict = {};
@@ -238,7 +238,7 @@ SOFTWARE.
             first_set = _dict_to_bytes(first_ifd, "1st", offset);
             thumbnail = _get_thumbnail(exif_dict["thumbnail"]);
             if (thumbnail.length > 64000) {
-                throw ("Given thumbnail is too large. max 64kB");
+                throw new Error("Given thumbnail is too large. max 64kB");
             }
         }
 
@@ -488,7 +488,7 @@ SOFTWARE.
         } else if (data.slice(0, 4) == "Exif") { // Exif
             this.tiftag = data.slice(6);
         } else {
-            throw ("Given file is neither JPEG nor TIFF.");
+            throw new Error("Given file is neither JPEG nor TIFF.");
         }
     }
 
@@ -613,7 +613,7 @@ SOFTWARE.
                            ];
                 }
             } else {
-                throw ("Exif might be wrong. Got incorrect value " +
+                throw new Error("Exif might be wrong. Got incorrect value " +
                     "type to decode. type:" + t);
             }
 
@@ -724,10 +724,10 @@ SOFTWARE.
 
     function pack(mark, array) {
         if (!(array instanceof Array)) {
-            throw ("'pack' error. Got invalid type argument.");
+            throw new Error("'pack' error. Got invalid type argument.");
         }
         if ((mark.length - 1) != array.length) {
-            throw ("'pack' error. " + (mark.length - 1) + " marks, " + array.length + " elements.");
+            throw new Error("'pack' error. " + (mark.length - 1) + " marks, " + array.length + " elements.");
         }
 
         var littleEndian;
@@ -736,7 +736,7 @@ SOFTWARE.
         } else if (mark[0] == ">") {
             littleEndian = false;
         } else {
-            throw ("");
+            throw new Error("");
         }
         var packed = "";
         var p = 1;
@@ -751,14 +751,14 @@ SOFTWARE.
                     val += 0x100;
                 }
                 if ((val > 0xff) || (val < 0)) {
-                    throw ("'pack' error.");
+                    throw new Error("'pack' error.");
                 } else {
                     valStr = String.fromCharCode(val);
                 }
             } else if (c == "H") {
                 val = array[p - 1];
                 if ((val > 0xffff) || (val < 0)) {
-                    throw ("'pack' error.");
+                    throw new Error("'pack' error.");
                 } else {
                     valStr = String.fromCharCode(Math.floor((val % 0x10000) / 0x100)) +
                         String.fromCharCode(val % 0x100);
@@ -772,7 +772,7 @@ SOFTWARE.
                     val += 0x100000000;
                 }
                 if ((val > 0xffffffff) || (val < 0)) {
-                    throw ("'pack' error.");
+                    throw new Error("'pack' error.");
                 } else {
                     valStr = String.fromCharCode(Math.floor(val / 0x1000000)) +
                         String.fromCharCode(Math.floor((val % 0x1000000) / 0x10000)) +
@@ -783,7 +783,7 @@ SOFTWARE.
                     }
                 }
             } else {
-                throw ("'pack' error.");
+                throw new Error("'pack' error.");
             }
 
             packed += valStr;
@@ -795,7 +795,7 @@ SOFTWARE.
 
     function unpack(mark, str) {
         if (typeof (str) != "string") {
-            throw ("'unpack' error. Got invalid type argument.");
+            throw new Error("'unpack' error. Got invalid type argument.");
         }
         var l = 0;
         for (var markPointer = 1; markPointer < mark.length; markPointer++) {
@@ -806,12 +806,12 @@ SOFTWARE.
             } else if (mark[markPointer].toLowerCase() == "l") {
                 l += 4;
             } else {
-                throw ("'unpack' error. Got invalid mark.");
+                throw new Error("'unpack' error. Got invalid mark.");
             }
         }
 
         if (l != str.length) {
-            throw ("'unpack' error. Mismatch between symbol and string length. " + l + ":" + str.length);
+            throw new Error("'unpack' error. Mismatch between symbol and string length. " + l + ":" + str.length);
         }
 
         var littleEndian;
@@ -820,7 +820,7 @@ SOFTWARE.
         } else if (mark[0] == ">") {
             littleEndian = false;
         } else {
-            throw ("'unpack' error.");
+            throw new Error("'unpack' error.");
         }
         var unpacked = [];
         var strPointer = 0;
@@ -860,7 +860,7 @@ SOFTWARE.
                     val -= 0x100000000;
                 }
             } else {
-                throw ("'unpack' error. " + c);
+                throw new Error("'unpack' error. " + c);
             }
 
             unpacked.push(val);
@@ -881,7 +881,7 @@ SOFTWARE.
 
     function splitIntoSegments(data) {
         if (data.slice(0, 2) != "\xff\xd8") {
-            throw ("Given data isn't JPEG.");
+            throw new Error("Given data isn't JPEG.");
         }
 
         var head = 2;
@@ -898,7 +898,7 @@ SOFTWARE.
             }
 
             if (head >= data.length) {
-                throw ("Wrong JPEG data.");
+                throw new Error("Wrong JPEG data.");
             }
         }
         return segments;
