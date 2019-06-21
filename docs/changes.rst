@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.0.6
+-----
+
+- Support parsing `SLONG`.
+
 1.03
 ----
 
