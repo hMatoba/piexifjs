@@ -594,6 +594,15 @@ SOFTWARE.
                 } else {
                     data = value.slice(0, length);
                 }
+            } else if (t == 9) { // SLONG
+                if (length > 1) {
+                    pointer = unpack(this.endian_mark + "L", value)[0];
+                    data = unpack(this.endian_mark + nStr("l", length),
+                        this.tiftag.slice(pointer, pointer + length * 4));
+                } else {
+                    data = unpack(this.endian_mark + nStr("l", length),
+                        value);
+                }
             } else if (t == 10) { // SRATIONAL
                 pointer = unpack(this.endian_mark + "L", value)[0];
                 if (length > 1) {
