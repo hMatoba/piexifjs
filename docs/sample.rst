@@ -125,26 +125,26 @@ Generates Rotated JPEG
                     } else if (orientation == 5) {
                         canvas.width = image.height;
                         canvas.height = image.width;
-                        ctx.translate(canvas.width, canvas.height / canvas.width);
+                        ctx.translate(canvas.width, 0);
                         ctx.rotate(Math.PI / 2);
                         y = -canvas.width;
                         ctx.scale(1, -1);
                     } else if (orientation == 6) {
                         canvas.width = image.height;
                         canvas.height = image.width;
-                        ctx.translate(canvas.width, canvas.height / canvas.width);
+                        ctx.translate(canvas.width, 0);
                         ctx.rotate(Math.PI / 2);
                     } else if (orientation == 7) {
                         canvas.width = image.height;
                         canvas.height = image.width;
-                        ctx.translate(canvas.width, canvas.height / canvas.width);
+                        ctx.translate(canvas.width, 0);
                         ctx.rotate(Math.PI / 2);
                         x = -canvas.height;
                         ctx.scale(-1, 1);
                     } else if (orientation == 8) {
                         canvas.width = image.height;
                         canvas.height = image.width;
-                        ctx.translate(canvas.width, canvas.height / canvas.width);
+                        ctx.translate(canvas.width, 0);
                         ctx.rotate(Math.PI / 2);
                         x = -canvas.height;
                         y = -canvas.width;
