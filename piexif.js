@@ -1915,7 +1915,7 @@ SOFTWARE.
             },
             41729: {
                 'name': 'SceneType',
-                'type': 'Undefined'
+                'type': 'Short'
             },
             41730: {
                 'name': 'CFAPattern',
