@@ -23,27 +23,44 @@
     "browser"
   ],
   "scripts": {
-    "build": "rollup -c",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "lint": "eslint \"*/**/*.ts\"",
     "node-test": "jest --config=jest.node.config.js",
-    "browser-test": "jest --config=jest.puppeteer.config.js"
+    "browser-test": "jest --config=jest.puppeteer.config.js",
+    "test": "npm run node-test && npm run browser-test",
+    "build": "rollup -c",
+    "build:watch": "rollup -cw",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm test && npm run lint",
+    "preversion": "npm run lint",
+    "version": "npm run format && git add -A",
+    "postversion": "git push && git push --tags"
   },
-  "author": "hMatoba",
+  "author": "hMatoba, Joachim Holwech",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/hMatoba/piexifjs/issues"
   },
   "homepage": "https://github.com/hMatoba/piexifjs",
   "devDependencies": {
-    "chalk": "^2.4.1",
+    "@typescript-eslint/eslint-plugin": "^2.4.0",
+    "@typescript-eslint/parser": "^2.4.0",
+    "eslint": "^6.5.1",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-prettier": "^6.4.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-prettier": "^3.1.1",
     "jest": "^23.5.0",
     "jest-puppeteer": "^3.3.1",
     "jpeg-js": "^0.3.4",
-    "prettier": "^1.14.2",
+    "prettier": "^1.18.2",
     "puppeteer": "^1.4.0",
     "rimraf": "^2.6.2",
     "rollup": "^0.64.1",
+    "rollup-plugin-eslint": "^7.0.0",
     "rollup-plugin-typescript2": "^0.16.1",
     "ts-loader": "^4.5.0",
     "typescript": "^3.0.1"
-  }
+  },
+  "dependencies": {}
 }
