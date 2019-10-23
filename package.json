@@ -7,7 +7,7 @@
   "files": [
     "dist/piexif.js",
     "dist/piexif.js.map",
-    "dist/index.d.ts",
+    "dist/*.d.ts",
     "LICENSE.txt",
     "README.md",
     "package.json"
