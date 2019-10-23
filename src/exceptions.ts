@@ -1,3 +1,1 @@
-export class ValueConvertError extends Error {
-
-}
+export class ValueConvertError extends Error {}
