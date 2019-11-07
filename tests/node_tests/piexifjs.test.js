@@ -41,7 +41,7 @@ test('"dump" throws "ValueConvertError"" -- 1', () => {
   };
   expect(
     () => { piexif.dump(exifObj); }
-  ).toThrow(piexif.exceptions.ValueConvertError);
+  ).toThrow(piexif.ValueConvertError);
 });
 
 test('Compare "load" output with some correct values - BIG ENDIAN FILE - 1', () => {
