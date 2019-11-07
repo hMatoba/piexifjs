@@ -34,6 +34,7 @@ deploy:
     email: "${NPM_MYMAIL}"
     api_key: "${NPM_TOKEN}"
     skip_cleanup: true
+    tag: beta
     on:
       tags: true
       condition: $TRAVIS_NODE_VERSION = 10
