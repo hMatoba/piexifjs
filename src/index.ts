@@ -113,15 +113,15 @@ export const load = (binary: string): IExif => {
 
   if (zerothIfd !== null && 34665 in zerothIfd) {
     const pointer = zerothIfd[34665];
-    exifIfd = exifReader.getIfd(pointer, "Exif");
+    exifIfd = exifReader.getIfd(pointer as number, "Exif");
   }
   if (zerothIfd !== null && 34853 in zerothIfd) {
     const pointer = zerothIfd[34853];
-    gpsIfd = exifReader.getIfd(pointer, "GPS");
+    gpsIfd = exifReader.getIfd(pointer as number, "GPS");
   }
   if (exifIfd !== null && 40965 in exifIfd) {
     const pointer = exifIfd[40965];
-    interopIfd = exifReader.getIfd(pointer, "Interop");
+    interopIfd = exifReader.getIfd(pointer as number, "Interop");
   }
   if (firstIfdPointer != "\x00\x00\x00\x00") {
     const pointer = _utils.unpack(
@@ -130,8 +130,8 @@ export const load = (binary: string): IExif => {
     )[0];
     firstIfd = exifReader.getIfd(pointer, "1st");
     if (firstIfd !== null && 513 in firstIfd && 514 in firstIfd) {
-      const end = firstIfd[513] + firstIfd[514];
-      thumbnail = exifReader.tiftag.slice(firstIfd[513], end);
+      const end = (firstIfd[513] as number) + (firstIfd[514] as number);
+      thumbnail = exifReader.tiftag.slice(firstIfd[513] as number, end);
     }
   }
 
