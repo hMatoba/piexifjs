@@ -16,7 +16,7 @@ export interface IExif {
 }
 
 export interface IExifElement {
-  [key: number]: any;
+  [key: number]: object;
 }
 
 export interface ITypes {

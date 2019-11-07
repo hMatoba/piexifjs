@@ -2,6 +2,12 @@ import { Types, TagsFieldNames, IExifElement } from "./interfaces";
 import * as exceptions from "./exceptions";
 import { Tags } from "./constants";
 
+interface ValueSet {
+  type: number;
+  length: number;
+  value: string;
+}
+
 export const _nLoopStr = (ch: string, num: number): string => {
   let str = "";
   for (let i = 0; i < num; i++) {
@@ -227,27 +233,27 @@ export const getThumbnail = (jpeg: string): string => {
 };
 
 export const _valueToBytes = (
-  rawValue: any,
+  rawValue: string | number | number[] | number[][],
   valueType: number,
   offset: number
 ): ITagBinary => {
   let tagBinary;
   if (valueType == Types.Byte) {
-    tagBinary = _toByte(rawValue, offset);
+    tagBinary = _toByte(rawValue as number | number[], offset);
   } else if (valueType == Types.Ascii) {
-    tagBinary = _toAscii(rawValue, offset);
+    tagBinary = _toAscii(rawValue as string, offset);
   } else if (valueType == Types.Short) {
-    tagBinary = _toShort(rawValue, offset);
+    tagBinary = _toShort(rawValue as number | number[], offset);
   } else if (valueType == Types.Long) {
-    tagBinary = _toLong(rawValue, offset);
+    tagBinary = _toLong(rawValue as number | number[], offset);
   } else if (valueType == Types.Rational) {
-    tagBinary = _toRational(rawValue, offset);
+    tagBinary = _toRational(rawValue as number[] | number[][], offset);
   } else if (valueType == Types.Undefined) {
-    tagBinary = _toUndefined(rawValue, offset);
+    tagBinary = _toUndefined(rawValue as string, offset);
   } else if (valueType == Types.SLong) {
     throw new Error("Not implemented for SLong value");
   } else if (valueType == Types.SRational) {
-    tagBinary = _toSRational(rawValue, offset);
+    tagBinary = _toSRational(rawValue as number[] | number[][], offset);
   } else {
     throw new Error("Got unhandled exif value type.");
   }
@@ -262,7 +268,10 @@ interface ITagBinary {
   fourBytesOver: string;
 }
 
-export const _toByte = (rawValue: any, offset: number): ITagBinary => {
+export const _toByte = (
+  rawValue: number | number[],
+  offset: number
+): ITagBinary => {
   if (typeof rawValue == "number") {
     rawValue = [rawValue];
   } else if (Array.isArray(rawValue) && typeof rawValue[0] === "number") {
@@ -317,7 +326,10 @@ export const _toAscii = (rawValue: string, offset: number): ITagBinary => {
   return tagBinary;
 };
 
-export const _toShort = (rawValue: any, offset: number): ITagBinary => {
+export const _toShort = (
+  rawValue: number | number[],
+  offset: number
+): ITagBinary => {
   if (typeof rawValue == "number") {
     rawValue = [rawValue];
   } else if (Array.isArray(rawValue) && typeof rawValue[0] === "number") {
@@ -347,7 +359,10 @@ export const _toShort = (rawValue: any, offset: number): ITagBinary => {
   return tagBinary;
 };
 
-export const _toLong = (rawValue: any, offset: number): ITagBinary => {
+export const _toLong = (
+  rawValue: number | number[],
+  offset: number
+): ITagBinary => {
   if (typeof rawValue == "number") {
     rawValue = [rawValue];
   } else if (Array.isArray(rawValue) && typeof rawValue[0] === "number") {
@@ -377,19 +392,23 @@ export const _toLong = (rawValue: any, offset: number): ITagBinary => {
   return tagBinary;
 };
 
-export const _toRational = (rawValue: any, offset: number): ITagBinary => {
+export const _toRational = (
+  rawValue: number[] | number[][],
+  offset: number
+): ITagBinary => {
+  let value: number[][];
   if (
     Array.isArray(rawValue) &&
     typeof rawValue[0] === "number" &&
     rawValue.length === 2
   ) {
-    rawValue = [rawValue];
+    value = [rawValue as number[]];
   } else if (
     Array.isArray(rawValue) &&
     Array.isArray(rawValue[0]) &&
-    typeof rawValue[0][0] === "number"
+    typeof (rawValue as number[][])[0][0] === "number"
   ) {
-    // pass
+    value = rawValue as number[][];
   } else {
     let t = Array.isArray(rawValue) ? "Array" : typeof rawValue;
     t = t == "Array" ? `Array<${typeof rawValue[0]}>` : t;
@@ -403,11 +422,11 @@ export const _toRational = (rawValue: any, offset: number): ITagBinary => {
     lengthBinary: "",
     fourBytesOver: ""
   };
-  const length = rawValue.length;
+  const length = value.length;
   let newValue = "";
   for (let n = 0; n < length; n++) {
-    const num = rawValue[n][0];
-    const den = rawValue[n][1];
+    const num = value[n][0];
+    const den = value[n][1];
     newValue += pack(">L", [num]) + pack(">L", [den]);
   }
   tagBinary.lengthBinary = pack(">L", [length]);
@@ -440,17 +459,21 @@ export const _toUndefined = (rawValue: string, offset: number): ITagBinary => {
   return tagBinary;
 };
 
-export const _toSRational = (rawValue: any, offset: number): ITagBinary => {
+export const _toSRational = (
+  rawValue: number[] | number[][],
+  offset: number
+): ITagBinary => {
+  let value: number[][];
   if (
     Array.isArray(rawValue) &&
     typeof rawValue[0] === "number" &&
     rawValue.length === 2
   ) {
-    rawValue = [rawValue];
+    value = [rawValue as number[]];
   } else if (
     Array.isArray(rawValue) &&
     Array.isArray(rawValue[0]) &&
-    typeof rawValue[0][0] === "number"
+    typeof (rawValue as number[][])[0][0] === "number"
   ) {
     // pass
   } else {
@@ -466,11 +489,11 @@ export const _toSRational = (rawValue: any, offset: number): ITagBinary => {
     lengthBinary: "",
     fourBytesOver: ""
   };
-  const length = rawValue.length;
+  const length = value.length;
   let newValue = "";
   for (let n = 0; n < length; n++) {
-    const num = rawValue[n][0];
-    const den = rawValue[n][1];
+    const num = value[n][0];
+    const den = value[n][1];
     newValue += pack(">l", [num]) + pack(">l", [den]);
   }
   tagBinary.lengthBinary = pack(">L", [length]);
@@ -583,17 +606,21 @@ export class ExifReader {
         this.endianMark + "H",
         this.tiftag.slice(pointer, pointer + 2)
       )[0];
-      const valueType = unpack(
+      const type = unpack(
         this.endianMark + "H",
         this.tiftag.slice(pointer + 2, pointer + 4)
       )[0];
-      const valueNum = unpack(
+      const length = unpack(
         this.endianMark + "L",
         this.tiftag.slice(pointer + 4, pointer + 8)
       )[0];
       const value = this.tiftag.slice(pointer + 8, pointer + 12);
 
-      const valueSet = [valueType, valueNum, value];
+      const valueSet: ValueSet = {
+        type,
+        length,
+        value
+      };
       if (tag in Tags[t]) {
         ifdObj[tag] = this.convertValue(valueSet);
       }
@@ -620,11 +647,11 @@ export class ExifReader {
     return firstIfdPointer;
   };
 
-  convertValue = (val: any): any => {
+  convertValue = (val: ValueSet): string | number | number[] | number[][] => {
     let data = null;
-    const t = val[0];
-    const length = val[1];
-    const value = val[2];
+    const t = val.type;
+    const length = val.length;
+    const value = val.value;
     let pointer;
 
     if (t == 1) {
