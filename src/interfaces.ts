@@ -1,17 +1,17 @@
 export type ExifFieldNames =
-  | '0th'
-  | 'Exif'
-  | 'Interop'
-  | 'GPS'
-  | '1st'
-  | 'thumbnail';
+  | "0th"
+  | "Exif"
+  | "Interop"
+  | "GPS"
+  | "1st"
+  | "thumbnail";
 
 export interface IExif {
-  '0th'?: IExifElement;
+  "0th"?: IExifElement;
   Exif?: IExifElement;
   Interop?: IExifElement;
   GPS?: IExifElement;
-  '1st'?: IExifElement;
+  "1st"?: IExifElement;
   thumbnail?: string;
 }
 
@@ -31,12 +31,12 @@ export interface ITypes {
 }
 
 export type TagsFieldNames =
-  | 'Image'
-  | '0th'
-  | 'Exif'
-  | 'Interop'
-  | 'GPS'
-  | '1st';
+  | "Image"
+  | "0th"
+  | "Exif"
+  | "Interop"
+  | "GPS"
+  | "1st";
 
 export const Types: ITypes = {
   Byte: 1,
@@ -46,7 +46,7 @@ export const Types: ITypes = {
   Rational: 5,
   Undefined: 7,
   SLong: 9,
-  SRational: 10,
+  SRational: 10
 };
 
 export interface ITagsSubElement {
@@ -61,11 +61,11 @@ export interface ITagsElement {
 
 export interface ITags {
   Image: ITagsElement;
-  '0th': ITagsElement;
+  "0th": ITagsElement;
   Exif: ITagsElement;
   Interop: ITagsElement;
   GPS: ITagsElement;
-  '1st': ITagsElement;
+  "1st": ITagsElement;
 }
 
 export interface ITagValues {
