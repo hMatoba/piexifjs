@@ -16,7 +16,7 @@ export interface IExif {
 }
 
 export interface IExifElement {
-  [key: number]: {};
+  [key: number]: string | number | number[] | number[][];
 }
 
 export interface ITypes {
