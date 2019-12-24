@@ -214,5 +214,5 @@ Node.js
     var exifbytes = piexif.dump(exifObj);
 
     var newData = piexif.insert(exifbytes, data);
-    var newJpeg = new Buffer(newData, "binary");
+    var newJpeg = Buffer.from(newData, "binary");
     fs.writeFileSync(filename2, newJpeg);
