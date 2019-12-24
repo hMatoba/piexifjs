@@ -60,7 +60,7 @@
     "rollup-plugin-eslint": "^7.0.0",
     "rollup-plugin-typescript2": "^0.16.1",
     "ts-loader": "^4.5.0",
-    "typescript": "^3.0.1"
+    "typescript": "^3.7.2"
   },
   "dependencies": {}
 }
