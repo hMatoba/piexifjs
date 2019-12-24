@@ -2,13 +2,13 @@ import { Types, TagsFieldNames, IExifElement } from "./interfaces";
 import * as exceptions from "./exceptions";
 import { Tags } from "./constants";
 
-interface ValueSet {
+export interface ValueSet {
   type: number;
   length: number;
   value: string;
 }
 
-export const _nLoopStr = (ch: string, num: number): string => {
+export const nLoopStr = (ch: string, num: number): string => {
   let str = "";
   for (let i = 0; i < num; i++) {
     str += ch;
@@ -204,15 +204,15 @@ export const btoa: Function = _isBrowser
     };
 
 export const _packByte = (array: Array<number>): string => {
-  return pack(">" + _nLoopStr("B", array.length), array);
+  return pack(">" + nLoopStr("B", array.length), array);
 };
 
 export const _packShort = (array: Array<number>): string => {
-  return pack(">" + _nLoopStr("H", array.length), array);
+  return pack(">" + nLoopStr("H", array.length), array);
 };
 
 export const _packLong = (array: Array<number>): string => {
-  return pack(">" + _nLoopStr("L", array.length), array);
+  return pack(">" + nLoopStr("L", array.length), array);
 };
 
 export const copy = <T extends object>(obj: T): T => {
@@ -292,7 +292,7 @@ export const _toByte = (
     fourBytesOver: ""
   };
   if (length <= 4) {
-    tagBinary.value = _packByte(rawValue) + _nLoopStr("\x00", 4 - length);
+    tagBinary.value = _packByte(rawValue) + nLoopStr("\x00", 4 - length);
   } else {
     tagBinary.value = pack(">L", [offset]);
     tagBinary.fourBytesOver = _packByte(rawValue);
@@ -320,7 +320,7 @@ export const _toAscii = (rawValue: string, offset: number): ITagBinary => {
     tagBinary.value = pack(">L", [offset]);
     tagBinary.fourBytesOver = newValue;
   } else {
-    tagBinary.value = newValue + _nLoopStr("\x00", 4 - length);
+    tagBinary.value = newValue + nLoopStr("\x00", 4 - length);
   }
   tagBinary.lengthBinary = pack(">L", [length]);
   return tagBinary;
@@ -350,7 +350,7 @@ export const _toShort = (
     fourBytesOver: ""
   };
   if (length <= 2) {
-    tagBinary.value = _packShort(rawValue) + _nLoopStr("\x00\x00", 2 - length);
+    tagBinary.value = _packShort(rawValue) + nLoopStr("\x00\x00", 2 - length);
   } else {
     tagBinary.value = pack(">L", [offset]);
     tagBinary.fourBytesOver = _packShort(rawValue);
@@ -453,7 +453,7 @@ export const _toUndefined = (rawValue: string, offset: number): ITagBinary => {
     tagBinary.value = pack(">L", [offset]);
     tagBinary.fourBytesOver = rawValue;
   } else {
-    tagBinary.value = rawValue + _nLoopStr("\x00", 4 - length);
+    tagBinary.value = rawValue + nLoopStr("\x00", 4 - length);
   }
   tagBinary.lengthBinary = pack(">L", [length]);
   return tagBinary;
@@ -558,231 +558,6 @@ export const dictToBytes = (
   return [entryHeader + entries, values];
 };
 
-export class ExifReader {
-  tiftag: string;
-  endianMark: string;
-  constructor(exifBinary: string) {
-    let segments, app1;
-    if (exifBinary.slice(0, 2) == "\xff\xd8") {
-      // JPEG
-      segments = splitIntoSegments(exifBinary);
-      app1 = getExifSeg(segments);
-      if (app1) {
-        this.tiftag = app1.slice(10);
-      } else {
-        this.tiftag = null;
-      }
-    } else if (["\x49\x49", "\x4d\x4d"].indexOf(exifBinary.slice(0, 2)) > -1) {
-      // TIFF
-      this.tiftag = exifBinary;
-    } else if (exifBinary.slice(0, 4) == "Exif") {
-      // Exif
-      this.tiftag = exifBinary.slice(6);
-    } else {
-      throw new Error("Given file is neither JPEG nor TIFF.");
-    }
-  }
-
-  getIfd = (pointer: number, ifdName: TagsFieldNames): IExifElement => {
-    const tagCount = unpack(
-      this.endianMark + "H",
-      this.tiftag.slice(pointer, pointer + 2)
-    )[0];
-    if (tagCount == 0) {
-      return null;
-    }
-    const ifdObj: IExifElement = {};
-    const offset = pointer + 2;
-    let t: TagsFieldNames;
-    if (["0th", "1st"].indexOf(ifdName) > -1) {
-      t = "Image";
-    } else {
-      t = ifdName;
-    }
-
-    for (let x = 0; x < tagCount; x++) {
-      pointer = offset + 12 * x;
-      const tag = unpack(
-        this.endianMark + "H",
-        this.tiftag.slice(pointer, pointer + 2)
-      )[0];
-      const type = unpack(
-        this.endianMark + "H",
-        this.tiftag.slice(pointer + 2, pointer + 4)
-      )[0];
-      const length = unpack(
-        this.endianMark + "L",
-        this.tiftag.slice(pointer + 4, pointer + 8)
-      )[0];
-      const value = this.tiftag.slice(pointer + 8, pointer + 12);
-
-      const valueSet: ValueSet = {
-        type,
-        length,
-        value
-      };
-      if (tag in Tags[t]) {
-        ifdObj[tag] = this.convertValue(valueSet);
-      }
-    }
-
-    return ifdObj;
-  };
-
-  getFirstIfdPointer = (pointer: number, ifdName: TagsFieldNames): string => {
-    const tagCount = unpack(
-      this.endianMark + "H",
-      this.tiftag.slice(pointer, pointer + 2)
-    )[0];
-    if (tagCount == 0) {
-      return null;
-    }
-    const offset = pointer + 2;
-    let firstIfdPointer: string;
-    if (ifdName == "0th") {
-      pointer = offset + 12 * tagCount;
-      firstIfdPointer = this.tiftag.slice(pointer, pointer + 4);
-    }
-
-    return firstIfdPointer;
-  };
-
-  convertValue = (val: ValueSet): string | number | number[] | number[][] => {
-    let data = null;
-    const t = val.type;
-    const length = val.length;
-    const value = val.value;
-    let pointer;
-
-    if (t == 1) {
-      // BYTE
-      if (length > 4) {
-        pointer = unpack(this.endianMark + "L", value)[0];
-        data = unpack(
-          this.endianMark + _nLoopStr("B", length),
-          this.tiftag.slice(pointer, pointer + length)
-        );
-      } else {
-        data = unpack(
-          this.endianMark + _nLoopStr("B", length),
-          value.slice(0, length)
-        );
-      }
-    } else if (t == 2) {
-      // ASCII
-      if (length > 4) {
-        pointer = unpack(this.endianMark + "L", value)[0];
-        data = this.tiftag.slice(pointer, pointer + length - 1);
-      } else {
-        data = value.slice(0, length - 1);
-      }
-    } else if (t == 3) {
-      // SHORT
-      if (length > 2) {
-        pointer = unpack(this.endianMark + "L", value)[0];
-        data = unpack(
-          this.endianMark + _nLoopStr("H", length),
-          this.tiftag.slice(pointer, pointer + length * 2)
-        );
-      } else {
-        data = unpack(
-          this.endianMark + _nLoopStr("H", length),
-          value.slice(0, length * 2)
-        );
-      }
-    } else if (t == 4) {
-      // LONG
-      if (length > 1) {
-        pointer = unpack(this.endianMark + "L", value)[0];
-        data = unpack(
-          this.endianMark + _nLoopStr("L", length),
-          this.tiftag.slice(pointer, pointer + length * 4)
-        );
-      } else {
-        data = unpack(this.endianMark + _nLoopStr("L", length), value);
-      }
-    } else if (t == 5) {
-      // RATIONAL
-      pointer = unpack(this.endianMark + "L", value)[0];
-      if (length > 1) {
-        data = [];
-        for (let x = 0; x < length; x++) {
-          data.push([
-            unpack(
-              this.endianMark + "L",
-              this.tiftag.slice(pointer + x * 8, pointer + 4 + x * 8)
-            )[0],
-            unpack(
-              this.endianMark + "L",
-              this.tiftag.slice(pointer + 4 + x * 8, pointer + 8 + x * 8)
-            )[0]
-          ]);
-        }
-      } else {
-        data = [
-          unpack(
-            this.endianMark + "L",
-            this.tiftag.slice(pointer, pointer + 4)
-          )[0],
-          unpack(
-            this.endianMark + "L",
-            this.tiftag.slice(pointer + 4, pointer + 8)
-          )[0]
-        ];
-      }
-    } else if (t == 7) {
-      // UNDEFINED BYTES
-      if (length > 4) {
-        pointer = unpack(this.endianMark + "L", value)[0];
-        data = this.tiftag.slice(pointer, pointer + length);
-      } else {
-        data = value.slice(0, length);
-      }
-    } else if (t == 10) {
-      // SRATIONAL
-      pointer = unpack(this.endianMark + "L", value)[0];
-      if (length > 1) {
-        data = [];
-        for (let x = 0; x < length; x++) {
-          data.push([
-            unpack(
-              this.endianMark + "l",
-              this.tiftag.slice(pointer + x * 8, pointer + 4 + x * 8)
-            )[0],
-            unpack(
-              this.endianMark + "l",
-              this.tiftag.slice(pointer + 4 + x * 8, pointer + 8 + x * 8)
-            )[0]
-          ]);
-        }
-      } else {
-        data = [
-          unpack(
-            this.endianMark + "l",
-            this.tiftag.slice(pointer, pointer + 4)
-          )[0],
-          unpack(
-            this.endianMark + "l",
-            this.tiftag.slice(pointer + 4, pointer + 8)
-          )[0]
-        ];
-      }
-    } else {
-      throw new Error(
-        "Exif might be wrong. Got incorrect value " +
-          "type to decode. type:" +
-          t
-      );
-    }
-
-    if (data instanceof Array && data.length == 1) {
-      return data[0];
-    } else {
-      return data;
-    }
-  };
-}
-
 export const splitIntoSegments = (data: string): string[] => {
   if (data.slice(0, 2) != "\xff\xd8") {
     throw new Error("Given data isn't JPEG.");
@@ -808,7 +583,7 @@ export const splitIntoSegments = (data: string): string[] => {
   return segments;
 };
 
-const getExifSeg = (segments: Array<string>): string => {
+export const getExifSeg = (segments: Array<string>): string => {
   let seg;
   for (let i = 0; i < segments.length; i++) {
     seg = segments[i];
